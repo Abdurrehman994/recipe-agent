@@ -1,0 +1,20 @@
+{
+  "raw_rows": 507335,
+  "after_quality_filters": 87141,
+  "after_ingredient_parse": 86365,
+  "sampled": 5000,
+  "share_vegetarian": 0.439,
+  "share_vegan": 0.14,
+  "share_gluten_free": 0.536,
+  "share_dairy_free": 0.412,
+  "share_nut_free": 0.899,
+  "share_is_main": 0.6,
+  "duration_min_quantiles": {
+    "0.1": 15.0,
+    "0.25": 25.0,
+    "0.5": 40.0,
+    "0.75": 70.0,
+    "0.9": 135.0
+  },
+  "share_with_mushroom": 0.092
+}

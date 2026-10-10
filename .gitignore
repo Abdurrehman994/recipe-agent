@@ -1,1 +1,6 @@
-data/ 
+data/*
+!data/processed/
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
