@@ -55,7 +55,7 @@ Consequence for the agent: ingredient matching works on free-text ingredient lin
 5. ≥ 3 ratings (some community validation)
 6. ≥ 3 parseable ingredient lines
 
-→ 86,365 candidates. Stratified sample with seed 42: 60% main dishes (`main-dish` or
+→ 86,368 candidates. Stratified sample with seed 42: 60% main dishes (`main-dish` or
 `one-dish-meal` tag) and 40% other courses, giving **5,000 recipes**.
 
 ## 5. Ingredient normalization and aliases
@@ -67,33 +67,51 @@ There are 17k+ distinct raw ingredient strings in the full data. Normalization
 - removes descriptors (fresh, chopped, large, …), unit words (cloves, package, can, …) and numbers
 - applies an alias table (garbanzo beans → chickpeas, scallions → green onion, …)
 
-This leaves 5,926 distinct names in the 5,000-recipe set. The result is approximate, so
+This leaves 5,836 distinct names in the 5,000-recipe set. The result is approximate, so
 **constraints are not matched on these names alone**. "Avoid mushrooms" uses the keyword
 category `mushroom`, which also catches cremini, shiitake, porcini and cream of mushroom soup.
 
 ## 6. Dietary flags are derived from ingredients
 
 Categories (`meat, poultry, fish, shellfish, dairy, egg, gluten, nuts, honey, mushroom`) are
-assigned by word-boundary keyword matching with exception lists (eggplant ≠ egg,
-peanut butter ≠ dairy, rice flour ≠ gluten, vegetarian bacon ≠ meat, …). The flags follow
-from the categories:
+assigned by word-boundary keyword matching. Plurals are allowed, and exception lists handle
+look-alikes (eggplant ≠ egg, peanut butter ≠ dairy, rice flour ≠ gluten,
+vegetarian bacon ≠ meat, poultry seasoning ≠ poultry, …). Three data quirks shaped the rules:
+
+- **Ingredient in the quantity field.** Some raw entries look like `('each', '6 salmon fillets
+  about 6 oz')`, so categories are computed on the full line (quantity + text), not the text
+  alone. Before this fix, "Grilled Salmon With Horseradish Sauce" was flagged vegetarian.
+- **Main protein missing from the list.** "Honey-Mustard Tilapia" lists no fish at all. As a
+  conservative safety net, an animal word in the *title* also counts, unless the title marks
+  a non-dish or substitute (sauce, marinade, gravy, meatless, veggie, "-style", …).
+- **Parenthetical notes are ignored** ("white wine (or beef broth)", "(Regulate heat by
+  discarding the chile's ribs)"), so optional substitutions do not flip a flag.
+
+The flags follow from the categories:
 
 - vegetarian = no meat, poultry, fish or shellfish
 - pescatarian = no meat or poultry
 - vegan = vegetarian, no dairy, egg or honey
 - gluten_free / dairy_free / nut_free / egg_free
 
-Agreement with the HUMMUS `vegetarian` tag: of 729 tagged recipes, 715 (98%) are also derived
-vegetarian. The 14 disagreements are mostly real catches (chicken broth in lentil dishes,
-anchovy-containing Worcestershire sauce). 1,480 derived-vegetarian recipes carry no tag,
-because the tags are incomplete. Limitations: gluten detection is keyword-based (e.g., oats
-and generic "sauce" are not flagged), and an ingredient line offering a meat
-*alternative* is treated as non-vegetarian.
+Audit:
+
+- Agreement with the HUMMUS `vegetarian` tag: of 738 tagged recipes, 721 (97.7%) are also
+  derived vegetarian. The 17 disagreements are mostly real catches (chicken broth in lentil
+  dishes, anchovy-containing Worcestershire sauce).
+- 1,261 derived-vegetarian recipes carry no tag, because the tags are incomplete.
+- Of derived-vegetarian recipes whose title contains an animal word, all 39 remaining cases
+  were checked by hand and are correct: sauces *for* chicken or fish, goat cheese, scalloped
+  potatoes, veggie sausages.
+
+Limitations: gluten detection is keyword-based (oats and generic "sauce" are not flagged), and
+an ingredient line offering a meat *alternative* outside parentheses counts as non-vegetarian.
 
 ## 7. Resulting database (5,000 recipes)
 
-- vegetarian 43.9%, vegan 14.0%, gluten-free 53.6%, dairy-free 41.2%, nut-free 89.9%
-- duration: median 40 min (p10 = 15, p90 = 135)
-- calories per serving: median 352 kcal; protein median 17.4 g
-- example feasibility: vegetarian main dish ≤ 25 min → 163 recipes; without mushrooms → 147;
-  vegan + gluten-free main dish ≤ 15 min → 11 (useful for near-infeasible scenarios)
+- vegetarian 39.6%, vegan 10.3%, gluten-free 53.5%, dairy-free 39.8%, nut-free 89.8%
+- 60% main dishes; 9.6% contain mushrooms
+- duration: median 40 min (p10 = 15, p90 = 140)
+- calories per serving: median ≈ 350 kcal; protein median ≈ 17 g
+- example feasibility: vegetarian main dish ≤ 25 min → 128 recipes; without mushrooms → 116;
+  vegan + gluten-free main dish ≤ 15 min → 5 (useful for near-infeasible scenarios)

@@ -1,0 +1,62 @@
+{
+  "id": "dev_002",
+  "split": "dev",
+  "phenomena": ["persistent", "reset", "add"],
+  "notes": "The nut allergy is a standing preference and must survive the reset in turn 3; the dessert course and calorie limit must not.",
+  "turns": [
+    {
+      "user": "I'm allergic to nuts. Can you suggest a dessert?",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "diet", "target": "nut_free"}, "persistent": true},
+        {"op": "add", "constraint": {"kind": "course", "target": "desserts"}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "diet", "target": "nut_free", "source_turn": 1, "persistent": true},
+        {"kind": "course", "target": "desserts", "source_turn": 1, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "Something under 300 calories please.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "max", "target": "calories_kcal", "value": 300}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "diet", "target": "nut_free", "source_turn": 1, "persistent": true},
+        {"kind": "course", "target": "desserts", "source_turn": 1, "persistent": false},
+        {"kind": "max", "target": "calories_kcal", "value": 300, "source_turn": 2, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "Forget the dessert, I need a quick lunch instead, ready in 20 minutes.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "course", "target": "lunch"}, "persistent": false},
+        {"op": "add", "constraint": {"kind": "max", "target": "duration_min", "value": 20}, "persistent": false}
+      ], "objectives": [], "reset": true},
+      "active": [
+        {"kind": "diet", "target": "nut_free", "source_turn": 1, "persistent": true},
+        {"kind": "course", "target": "lunch", "source_turn": 3, "persistent": false},
+        {"kind": "max", "target": "duration_min", "value": 20, "source_turn": 3, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "Make sure it has at least 20 g of protein.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "min", "target": "protein_g", "value": 20}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "diet", "target": "nut_free", "source_turn": 1, "persistent": true},
+        {"kind": "course", "target": "lunch", "source_turn": 3, "persistent": false},
+        {"kind": "max", "target": "duration_min", "value": 20, "source_turn": 3, "persistent": false},
+        {"kind": "min", "target": "protein_g", "value": 20, "source_turn": 4, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    }
+  ]
+}

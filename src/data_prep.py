@@ -97,11 +97,16 @@ def normalize_ingredient(name: str) -> str:
 CATEGORIES = {
     "meat": r"beef|steak|pork|bacon|ham|sausages?|lamb|veal|venison|prosciutto|salami|pepperoni|"
             r"chorizo|pancetta|meatballs?|hot dogs?|bratwurst|ground chuck|sirloin|ribs?|brisket|"
-            r"lard|gelatin|beef broth|beef stock",
-    "poultry": r"chicken|turkey|duck|goose|cornish hens?|chicken broth|chicken stock",
+            r"lard|gelatin|beef broth|beef stock|hamburger|stew meat|ground round|meat|meatloaf|"
+            r"oxtails?|liver|rabbit|quail|bison|kielbasa|frankfurters?|wieners?|jerky|pastrami|"
+            r"giblets|bologna|spareribs|tenderloin|pot roast|rump roast|chuck roast|rib roast",
+    "poultry": r"chicken|turkey|duck|goose|cornish hens?|chicken broth|chicken stock|fryers?|"
+               r"broilers?|drumsticks?|poultry",
     "fish": r"fish|salmon|tuna|cod|tilapia|halibut|trout|anchov(y|ies)|sardines?|haddock|"
-            r"mackerel|catfish|snapper|swordfish|worcestershire sauce|fish sauce",
-    "shellfish": r"shrimps?|prawns?|crab|crabmeat|lobster|scallops?|clams?|mussels?|oysters?|squid",
+            r"mackerel|catfish|snapper|swordfish|mahi mahi|sea bass|bass|perch|pollock|sole|flounder|"
+            r"herring|eel|caviar|roe|bonito|worcestershire sauce|fish sauce",
+    "shellfish": r"shrimps?|prawns?|crab|crabmeat|lobster|scallops?|clams?|mussels?|oysters?|squid|"
+                 r"calamari|octopus|crawfish|crayfish|langoustines?|seafood",
     "dairy": r"milk|butter|cheese|cheddar|parmesan|mozzarella|cream|yogurt|yoghurt|ghee|"
              r"buttermilk|ricotta|feta|whey|half-and-half|sour cream",
     "egg": r"eggs?|egg whites?|egg yolks?|mayonnaise",
@@ -124,12 +129,14 @@ EXCEPTIONS = {
     "gluten": r"rice flour|almond flour|coconut flour|corn flour|cornflour|corn tortillas?|"
               r"rice noodles|gluten-free|tamari|buckwheat|chickpea flour|potato flour|tapioca flour|"
               r"breadfruit",
-    "meat": rf"celery ribs?|hot dog buns?|hamburger buns?|{_MEAT_SUBSTITUTE}",
-    "poultry": _MEAT_SUBSTITUTE,
+    "meat": rf"celery ribs?|hot dog buns?|hamburger buns?|coconut meat|crab ?meat|"
+            rf"meat tenderizer|{_MEAT_SUBSTITUTE}",
+    "poultry": rf"poultry seasoning|deep fryer|air fryer|{_MEAT_SUBSTITUTE}",
     "nuts": r"nutmeg|butternut|coconut|doughnuts?|donuts?|water chestnuts?",
     "fish": r"fish sauce substitute",
 }
-_CAT_RE = {k: re.compile(rf"\b({v})\b") for k, v in CATEGORIES.items()}
+# (s|es)? lets every keyword also match its plural: chickens, steaks, lobsters
+_CAT_RE = {k: re.compile(rf"\b({v})(s|es)?\b") for k, v in CATEGORIES.items()}
 _EXC_RE = {k: re.compile(rf"\b({v})\b") for k, v in EXCEPTIONS.items()}
 
 
@@ -143,9 +150,22 @@ def ingredient_categories(name: str) -> set[str]:
     return cats
 
 
+ANIMAL = {"meat", "poultry", "fish", "shellfish"}
+_NOT_A_DISH = re.compile(r"\b(sauce|gravy|seasoning|rub|marinade|dressing|glaze|meatless|vegetarian|"
+                         r"vegan|veggie|mock|faux|style|steakhouse|substitute|clone|copycat|spice|"
+                         r"mix|butter|dip|salsa|chutney|relish|blend|scallop|scalloped)\b", re.I)
+
+
+def title_animal_categories(title: str) -> set[str]:
+    """Safety net: some recipes omit the main protein from the ingredient list
+    ('Honey-Mustard Tilapia'). A meat/fish word in the title of an actual dish counts too."""
+    if _NOT_A_DISH.search(title):
+        return set()
+    return ingredient_categories(title) & ANIMAL
+
+
 def diet_flags(categories: set[str]) -> dict[str, bool]:
-    animal = {"meat", "poultry", "fish", "shellfish"}
-    vegetarian = not (categories & animal)
+    vegetarian = not (categories & ANIMAL)
     return {
         "vegetarian": vegetarian,
         "pescatarian": not (categories & {"meat", "poultry"}),
@@ -172,7 +192,8 @@ def safe_list(s):
 def parse_ingredients(s):
     """Raw `ingredients` column: {'section': [(text, 'qty time(s) unit'), ...]} -> [(text, qty)]."""
     try:
-        sections = ast.literal_eval(s.replace("nan", "''"))
+        # the raw file contains bare `nan` tokens in place of strings
+        sections = ast.literal_eval(re.sub(r"(?<=[(\[,]) ?nan(?= ?[,)\]])", "''", s))
     except (ValueError, SyntaxError, TypeError, AttributeError):
         return []
     out = []
@@ -224,8 +245,11 @@ def enrich(df):
     df = df[df["ingredient_texts"].map(len) >= 3]
     df["ingredients"] = df["ingredient_texts"].map(
         lambda xs: sorted({normalize_ingredient(x) for x in xs} - {"", "or", "and", "each"}))
-    df["ingredient_categories"] = df["ingredient_texts"].map(
-        lambda xs: sorted(set().union(*(ingredient_categories(x) for x in xs))))
+    # categories use the full line: the raw data sometimes puts the ingredient in the
+    # quantity field, e.g. ('each', '6 salmon fillets about 6 oz')
+    df["ingredient_categories"] = [
+        sorted(set().union(*(ingredient_categories(x) for x in xs), title_animal_categories(t)))
+        for xs, t in zip(df["ingredients_with_quantities"], df["title"])]
     flags = df["ingredient_categories"].map(lambda c: diet_flags(set(c)))
     df = pd.concat([df, pd.DataFrame(flags.tolist(), index=df.index)], axis=1)
     df["courses"] = df["tags"].map(lambda t: [c for c in COURSE_TAGS if c in t])

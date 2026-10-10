@@ -1,0 +1,62 @@
+{
+  "id": "dev_001",
+  "split": "dev",
+  "phenomena": ["add", "replace"],
+  "notes": "Example from the project spec. Turn 4 replaces the turn-2 time limit.",
+  "turns": [
+    {
+      "user": "Suggest a vegetarian dinner.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "diet", "target": "vegetarian"}, "persistent": false},
+        {"op": "add", "constraint": {"kind": "course", "target": "main-dish"}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "diet", "target": "vegetarian", "source_turn": 1, "persistent": false},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "It should take under 25 minutes.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "max", "target": "duration_min", "value": 25}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "diet", "target": "vegetarian", "source_turn": 1, "persistent": false},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false},
+        {"kind": "max", "target": "duration_min", "value": 25, "source_turn": 2, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "And please avoid mushrooms.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "exclude", "target": "mushroom"}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "diet", "target": "vegetarian", "source_turn": 1, "persistent": false},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false},
+        {"kind": "max", "target": "duration_min", "value": 25, "source_turn": 2, "persistent": false},
+        {"kind": "exclude", "target": "mushroom", "source_turn": 3, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "Actually, up to 30 minutes is fine.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "max", "target": "duration_min", "value": 30}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "diet", "target": "vegetarian", "source_turn": 1, "persistent": false},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false},
+        {"kind": "max", "target": "duration_min", "value": 30, "source_turn": 4, "persistent": false},
+        {"kind": "exclude", "target": "mushroom", "source_turn": 3, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    }
+  ]
+}

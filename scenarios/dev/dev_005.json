@@ -1,0 +1,55 @@
+{
+  "id": "dev_005",
+  "split": "dev",
+  "phenomena": ["clarify", "add", "replace_include"],
+  "notes": "'Healthy' is vague: the agent should ask what the user means. Turn 2 is the scripted answer. Turn 4 swaps the required ingredient.",
+  "turns": [
+    {
+      "user": "Suggest something healthy.",
+      "gold": {"updates": [], "objectives": [], "reset": false},
+      "active": [],
+      "active_objectives": [],
+      "expected_action": "clarify"
+    },
+    {
+      "user": "I mean under 400 calories and less than 500 mg of sodium.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "max", "target": "calories_kcal", "value": 400}, "persistent": false},
+        {"op": "add", "constraint": {"kind": "max", "target": "sodium_mg", "value": 500}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "max", "target": "calories_kcal", "value": 400, "source_turn": 2, "persistent": false},
+        {"kind": "max", "target": "sodium_mg", "value": 500, "source_turn": 2, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "It should contain salmon.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "include", "target": "salmon"}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "max", "target": "calories_kcal", "value": 400, "source_turn": 2, "persistent": false},
+        {"kind": "max", "target": "sodium_mg", "value": 500, "source_turn": 2, "persistent": false},
+        {"kind": "include", "target": "salmon", "source_turn": 3, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "Actually, make it shrimp instead of salmon.",
+      "gold": {"updates": [
+        {"op": "remove", "constraint": {"kind": "include", "target": "salmon"}, "persistent": false},
+        {"op": "add", "constraint": {"kind": "include", "target": "shrimp"}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "max", "target": "calories_kcal", "value": 400, "source_turn": 2, "persistent": false},
+        {"kind": "max", "target": "sodium_mg", "value": 500, "source_turn": 2, "persistent": false},
+        {"kind": "include", "target": "shrimp", "source_turn": 4, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    }
+  ]
+}

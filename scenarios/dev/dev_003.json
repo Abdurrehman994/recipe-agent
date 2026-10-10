@@ -1,0 +1,65 @@
+{
+  "id": "dev_003",
+  "split": "dev",
+  "phenomena": ["persistent", "infeasible", "remove", "replace"],
+  "notes": "Turn 3 is infeasible: the agent must say so (ideally citing the closest options) and must not silently drop a constraint. Turn 4 relaxes explicitly.",
+  "turns": [
+    {
+      "user": "I'm vegan. What main dish could I make?",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "diet", "target": "vegan"}, "persistent": true},
+        {"op": "add", "constraint": {"kind": "course", "target": "main-dish"}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "diet", "target": "vegan", "source_turn": 1, "persistent": true},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "It also has to be gluten-free.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "diet", "target": "gluten_free"}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "diet", "target": "vegan", "source_turn": 1, "persistent": true},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false},
+        {"kind": "diet", "target": "gluten_free", "source_turn": 2, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "And ready in 10 minutes, with at least 30 g of protein.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "max", "target": "duration_min", "value": 10}, "persistent": false},
+        {"op": "add", "constraint": {"kind": "min", "target": "protein_g", "value": 30}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "diet", "target": "vegan", "source_turn": 1, "persistent": true},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false},
+        {"kind": "diet", "target": "gluten_free", "source_turn": 2, "persistent": false},
+        {"kind": "max", "target": "duration_min", "value": 10, "source_turn": 3, "persistent": false},
+        {"kind": "min", "target": "protein_g", "value": 30, "source_turn": 3, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "report_infeasible"
+    },
+    {
+      "user": "OK, then forget the protein requirement and allow 30 minutes.",
+      "gold": {"updates": [
+        {"op": "remove", "constraint": {"kind": "min", "target": "protein_g", "value": 30}, "persistent": false},
+        {"op": "add", "constraint": {"kind": "max", "target": "duration_min", "value": 30}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "diet", "target": "vegan", "source_turn": 1, "persistent": true},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false},
+        {"kind": "diet", "target": "gluten_free", "source_turn": 2, "persistent": false},
+        {"kind": "max", "target": "duration_min", "value": 30, "source_turn": 4, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    }
+  ]
+}

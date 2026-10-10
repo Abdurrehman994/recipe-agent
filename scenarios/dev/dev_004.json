@@ -1,0 +1,68 @@
+{
+  "id": "dev_004",
+  "split": "dev",
+  "phenomena": ["include", "tradeoff", "add"],
+  "notes": "Turn 3 asks for competing objectives: the answer should contrast the quickest option with the highest-protein option.",
+  "turns": [
+    {
+      "user": "I'd like a chicken dinner.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "include", "target": "chicken"}, "persistent": false},
+        {"op": "add", "constraint": {"kind": "course", "target": "main-dish"}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "include", "target": "chicken", "source_turn": 1, "persistent": false},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "No dairy, please.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "diet", "target": "dairy_free"}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "include", "target": "chicken", "source_turn": 1, "persistent": false},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false},
+        {"kind": "diet", "target": "dairy_free", "source_turn": 2, "persistent": false}
+      ],
+      "active_objectives": [],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "I want something quick but also high in protein. What are my options?",
+      "gold": {"updates": [], "objectives": [
+        {"target": "duration_min", "direction": "min"},
+        {"target": "protein_g", "direction": "max"}
+      ], "reset": false},
+      "active": [
+        {"kind": "include", "target": "chicken", "source_turn": 1, "persistent": false},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false},
+        {"kind": "diet", "target": "dairy_free", "source_turn": 2, "persistent": false}
+      ],
+      "active_objectives": [
+        {"target": "duration_min", "direction": "min"},
+        {"target": "protein_g", "direction": "max"}
+      ],
+      "expected_action": "recommend"
+    },
+    {
+      "user": "Keep it under 600 calories.",
+      "gold": {"updates": [
+        {"op": "add", "constraint": {"kind": "max", "target": "calories_kcal", "value": 600}, "persistent": false}
+      ], "objectives": [], "reset": false},
+      "active": [
+        {"kind": "include", "target": "chicken", "source_turn": 1, "persistent": false},
+        {"kind": "course", "target": "main-dish", "source_turn": 1, "persistent": false},
+        {"kind": "diet", "target": "dairy_free", "source_turn": 2, "persistent": false},
+        {"kind": "max", "target": "calories_kcal", "value": 600, "source_turn": 4, "persistent": false}
+      ],
+      "active_objectives": [
+        {"target": "duration_min", "direction": "min"},
+        {"target": "protein_g", "direction": "max"}
+      ],
+      "expected_action": "recommend"
+    }
+  ]
+}
