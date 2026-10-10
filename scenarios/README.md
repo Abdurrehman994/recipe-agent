@@ -60,7 +60,8 @@ See [dev/dev_001.json](dev/dev_001.json) and the docstring in `src/scenarios.py`
   (`calories_kcal` min). Only explicit numbers become constraints.
 
 **Replacement vs addition**
-- `max`, `min` and `course` hold one value per field: a new value replaces the old one
+- `max` and `min` hold one value per field, and there is one `course` at a time: a new
+  value replaces the old one
   (`add` with the new value; the validator drops the old one). `source_turn` becomes the
   new turn.
 - `diet`, `include` and `exclude` accumulate. Lifting one needs an explicit `remove`

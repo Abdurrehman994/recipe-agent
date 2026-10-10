@@ -61,6 +61,8 @@ class DialogueState:
 
             def replaced(a: ActiveConstraint) -> bool:
                 old = a.constraint
+                if c.kind == "course" and old.kind == "course":  # one course at a time
+                    return u.op == "add" or old.target == c.target
                 if old.slot == c.slot:
                     return c.kind in SINGLE_VALUE_KINDS or u.op == "remove" or old.value == c.value
                 return u.op == "add" and flip is not None and old.slot == (flip, c.target)

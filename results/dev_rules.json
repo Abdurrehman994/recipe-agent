@@ -1,26 +1,26 @@
 {
   "extractor": "rules",
   "memory": true,
-  "n_scenarios": 5,
-  "n_turns": 20,
+  "n_scenarios": 30,
+  "n_turns": 108,
   "extraction": {
     "precision": 1.0,
     "recall": 1.0,
     "f1": 1.0,
-    "tp": 30,
+    "tp": 154,
     "fp": 0,
     "fn": 0,
-    "persistence_accuracy": 1.0
+    "persistence_accuracy": 0.9924
   },
   "state": {
     "exact_match": 1.0,
     "precision": 1.0,
     "recall": 1.0,
     "f1": 1.0,
-    "tp": 59,
+    "tp": 294,
     "fp": 0,
     "fn": 0,
-    "provenance_accuracy": 1.0
+    "provenance_accuracy": 0.9898
   },
   "per_turn": [
     {
@@ -291,6 +291,1156 @@
       "scenario": "dev_005",
       "turn": 4,
       "user": "Actually, make it shrimp instead of salmon.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 1,
+      "user": "What can I make for breakfast with eggs?",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 2,
+      "user": "Nothing that takes more than 20 minutes.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 3,
+      "user": "Hmm, make that 15 minutes max.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 4,
+      "user": "And I'd prefer something high in protein.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [
+        [
+          "protein_g",
+          "max"
+        ]
+      ],
+      "objectives_pred": [
+        [
+          "protein_g",
+          "max"
+        ]
+      ]
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 1,
+      "user": "I'm pescatarian. Any ideas for dinner tonight?",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 2,
+      "user": "Something with salmon would be nice.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 3,
+      "user": "Under 500 calories per serving, please.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 4,
+      "user": "Actually, the calorie limit doesn't matter.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_008",
+      "turn": 1,
+      "user": "I need a dessert that's vegan.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_008",
+      "turn": 2,
+      "user": "It should be ready in 10 minutes and have at least 15 g of protein.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_008",
+      "turn": 3,
+      "user": "Fine, drop the protein requirement.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 1,
+      "user": "Give me a soup recipe without any onions.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 2,
+      "user": "Low in sodium, under 600 mg.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 3,
+      "user": "Can it be under 400 mg instead?",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 4,
+      "user": "And no more than an hour of cooking.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 1,
+      "user": "I'm hungry, what should I cook?",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 2,
+      "user": "A main course, nothing fancy, under 45 minutes.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 3,
+      "user": "With beef.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 4,
+      "user": "No tomatoes though.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_011",
+      "turn": 1,
+      "user": "My daughter has a gluten intolerance, so everything has to be gluten-free.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_011",
+      "turn": 2,
+      "user": "Can you suggest a side dish?",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_011",
+      "turn": 3,
+      "user": "Something with potatoes.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_011",
+      "turn": 4,
+      "user": "Never mind the side, let's find a dessert instead.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_012",
+      "turn": 1,
+      "user": "I want a vegetarian lunch.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_012",
+      "turn": 2,
+      "user": "Show me the quickest options, but I also care about protein.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [
+        [
+          "duration_min",
+          "min"
+        ],
+        [
+          "protein_g",
+          "max"
+        ]
+      ],
+      "objectives_pred": [
+        [
+          "duration_min",
+          "min"
+        ],
+        [
+          "protein_g",
+          "max"
+        ]
+      ]
+    },
+    {
+      "scenario": "dev_012",
+      "turn": 3,
+      "user": "No eggs.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [
+        [
+          "duration_min",
+          "min"
+        ],
+        [
+          "protein_g",
+          "max"
+        ]
+      ],
+      "objectives_pred": [
+        [
+          "duration_min",
+          "min"
+        ],
+        [
+          "protein_g",
+          "max"
+        ]
+      ]
+    },
+    {
+      "scenario": "dev_013",
+      "turn": 1,
+      "user": "I'm looking for a breakfast with less than 300 calories.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_013",
+      "turn": 2,
+      "user": "At least 15 grams of protein too.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_013",
+      "turn": 3,
+      "user": "And dairy-free.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_014",
+      "turn": 1,
+      "user": "I'd like a pasta dish for dinner.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_014",
+      "turn": 2,
+      "user": "No cheese please.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_014",
+      "turn": 3,
+      "user": "Actually, cheese is fine.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_014",
+      "turn": 4,
+      "user": "Keep it under 30 minutes.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_015",
+      "turn": 1,
+      "user": "I'm vegan and I can't eat gluten.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_015",
+      "turn": 2,
+      "user": "Give me a dessert under 50 calories that takes 5 minutes.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_015",
+      "turn": 3,
+      "user": "OK, 30 minutes and 200 calories is fine.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_016",
+      "turn": 1,
+      "user": "Something with chickpeas for lunch?",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_016",
+      "turn": 2,
+      "user": "Oh wait, I meant dinner.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_016",
+      "turn": 3,
+      "user": "Under 500 calories.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_017",
+      "turn": 1,
+      "user": "I don't eat pork or shellfish.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_017",
+      "turn": 2,
+      "user": "What's a good main dish with rice?",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_017",
+      "turn": 3,
+      "user": "Ready within 40 minutes.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_017",
+      "turn": 4,
+      "user": "Something different: a salad.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_018",
+      "turn": 1,
+      "user": "Something light for tonight.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_018",
+      "turn": 2,
+      "user": "Under 350 calories, and a main dish.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_018",
+      "turn": 3,
+      "user": "Which is faster and which has more protein?",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [
+        [
+          "duration_min",
+          "min"
+        ],
+        [
+          "protein_g",
+          "max"
+        ]
+      ],
+      "objectives_pred": [
+        [
+          "duration_min",
+          "min"
+        ],
+        [
+          "protein_g",
+          "max"
+        ]
+      ]
+    },
+    {
+      "scenario": "dev_019",
+      "turn": 1,
+      "user": "High protein dinner, at least 40 g.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_019",
+      "turn": 2,
+      "user": "And less than 15 g of fat.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_019",
+      "turn": 3,
+      "user": "That's too strict, let's say 30 g of protein.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_020",
+      "turn": 1,
+      "user": "A vegetarian soup, please.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_020",
+      "turn": 2,
+      "user": "With lentils.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_020",
+      "turn": 3,
+      "user": "Actually it doesn't need to be vegetarian, my guests eat meat.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_020",
+      "turn": 4,
+      "user": "But no more than 50 minutes.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_021",
+      "turn": 1,
+      "user": "I want a vegetarian dinner.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_021",
+      "turn": 2,
+      "user": "With chicken in it.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_021",
+      "turn": 3,
+      "user": "Oh right, sorry. Make it tofu instead.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_022",
+      "turn": 1,
+      "user": "A dessert with less than 20 g of sugar.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_022",
+      "turn": 2,
+      "user": "And under 250 calories.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_022",
+      "turn": 3,
+      "user": "Make it 10 g of sugar max.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_022",
+      "turn": 4,
+      "user": "With chocolate.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_023",
+      "turn": 1,
+      "user": "I'm allergic to eggs.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_023",
+      "turn": 2,
+      "user": "Breakfast ideas?",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_023",
+      "turn": 3,
+      "user": "Under 15 minutes please.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_023",
+      "turn": 4,
+      "user": "Let's start over, I want to bake bread.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_024",
+      "turn": 1,
+      "user": "I need an appetizer for a party.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_024",
+      "turn": 2,
+      "user": "Nothing with shellfish.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_024",
+      "turn": 3,
+      "user": "And it should be vegetarian.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_024",
+      "turn": 4,
+      "user": "Less than 200 calories per serving.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_025",
+      "turn": 1,
+      "user": "A low-carb dinner, under 20 g of carbs.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_025",
+      "turn": 2,
+      "user": "With at least 30 g of protein.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_025",
+      "turn": 3,
+      "user": "No beef.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_026",
+      "turn": 1,
+      "user": "I want a nut-free, dairy-free, gluten-free dessert.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_026",
+      "turn": 2,
+      "user": "Under 5 minutes, with at least 5 g of protein.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_026",
+      "turn": 3,
+      "user": "Then forget the protein, up to 20 minutes is ok.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_027",
+      "turn": 1,
+      "user": "Dinner with chicken and broccoli.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_027",
+      "turn": 2,
+      "user": "Swap broccoli for spinach.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_027",
+      "turn": 3,
+      "user": "Within 35 minutes.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_028",
+      "turn": 1,
+      "user": "Can you find me a curry?",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_028",
+      "turn": 2,
+      "user": "By the way, I'm vegetarian.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_028",
+      "turn": 3,
+      "user": "Make it under 45 minutes.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_028",
+      "turn": 4,
+      "user": "Without coconut.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_029",
+      "turn": 1,
+      "user": "Something quick and healthy.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [
+        [
+          "duration_min",
+          "min"
+        ]
+      ],
+      "objectives_pred": [
+        [
+          "duration_min",
+          "min"
+        ]
+      ]
+    },
+    {
+      "scenario": "dev_029",
+      "turn": 2,
+      "user": "Under 300 calories, ready in 10 minutes, and a main dish.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [
+        [
+          "duration_min",
+          "min"
+        ]
+      ],
+      "objectives_pred": [
+        [
+          "duration_min",
+          "min"
+        ]
+      ]
+    },
+    {
+      "scenario": "dev_029",
+      "turn": 3,
+      "user": "With at least 40 g of protein.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [
+        [
+          "duration_min",
+          "min"
+        ]
+      ],
+      "objectives_pred": [
+        [
+          "duration_min",
+          "min"
+        ]
+      ]
+    },
+    {
+      "scenario": "dev_030",
+      "turn": 1,
+      "user": "I'm on a low-sodium diet, under 400 mg per serving.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_030",
+      "turn": 2,
+      "user": "What could I have for lunch?",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_030",
+      "turn": 3,
+      "user": "Something with turkey.",
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
+      "objectives_gold": [],
+      "objectives_pred": []
+    },
+    {
+      "scenario": "dev_030",
+      "turn": 4,
+      "user": "Forget that, show me dinner ideas instead.",
       "extraction_missed": [],
       "extraction_spurious": [],
       "state_exact": true,

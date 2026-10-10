@@ -32,6 +32,14 @@ def updates(ext):
     ("Actually, make it shrimp instead of salmon.",
      {("add", "contains shrimp", False), ("remove", "contains salmon", False)}),
     ("Suggest something healthy.", set()),
+    ("Nothing that takes more than 20 minutes.", {("add", "time at most 20 min", False)}),
+    ("Low in sodium, under 600 mg.", {("add", "sodium at most 600 mg", False)}),
+    ("High protein dinner, at least 40 g.",
+     {("add", "protein at least 40 g", False), ("add", "course: main-dish", False)}),
+    ("I'm vegan and I can't eat gluten.", {("add", "vegan", True), ("add", "gluten-free", True)}),
+    ("No eggs.", {("add", "egg-free", False)}),
+    ("Swap broccoli for spinach.", {("add", "contains spinach", False), ("remove", "contains broccoli", False)}),
+    ("Let's start over, I want to bake bread.", {("add", "course: breads", False)}),
 ])
 def test_updates(ex, utterance, expected):
     assert updates(ex.extract(utterance)) == expected

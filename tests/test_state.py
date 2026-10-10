@@ -16,6 +16,13 @@ def test_replacement_keeps_provenance_of_new_turn():
     assert ("replaced", "time at most 25 min") in s.history[-1]["changes"]
 
 
+def test_new_course_replaces_old_course():
+    s = DialogueState()
+    s.apply(ext(("add", ("course", "lunch"), False), ("add", ("include", "chickpea"), False)), 1)
+    s.apply(ext(("add", ("course", "main-dish"), False)), 2)
+    assert {(a.constraint.target, a.source_turn) for a in s.active} == {("chickpea", 1), ("main-dish", 2)}
+
+
 def test_persistent_survives_reset_objectives_do_not():
     s = DialogueState()
     s.apply(ext(("add", ("diet", "vegan"), True), ("add", ("course", "desserts"), False),

@@ -23,14 +23,15 @@ DIET_PATTERNS = {
     "vegetarian": r"\bvegetarian\b|\bveggie\b|\bmeat[- ]?free\b|\bmeatless\b",
     "pescatarian": r"\bpesc[ae]tarian\b",
     "gluten_free": r"\bgluten[- ]free\b|\bno gluten\b|\bwithout gluten\b|\bc[o]?eliac\b|"
-                   r"\bavoid(ing)? gluten\b|\bgluten (intolerance|allergy)\b",
+                   r"\bavoid(ing)? gluten\b|\bgluten (intolerance|allergy)\b|"
+                   r"\b(can'?t|cannot|don'?t|do not|never) (eat|have|tolerate) gluten\b",
     "dairy_free": r"\bdairy[- ]free\b|\bno dairy\b|\bwithout dairy\b|\bnon[- ]dairy\b|"
                   r"\blactose\b|\bavoid(ing)? dairy\b|\bdairy (intolerance|allergy)\b|"
-                  r"\b(can't|cannot|don't) (eat|have) dairy\b",
+                  r"\b(can'?t|cannot|don'?t|do not|never) (eat|have|tolerate) dairy\b",
     "nut_free": r"\bnut[- ]free\b|\bno nuts\b|\bwithout nuts\b|\bnut allergy\b|"
-                r"\ballergic to (pea)?nuts\b|\bavoid(ing)? nuts\b|\b(can't|cannot|don't) (eat|have) nuts\b",
+                r"\ballergic to (pea)?nuts\b|\bavoid(ing)? nuts\b|\b(can'?t|cannot|don'?t|do not|never) (eat|have) nuts\b",
     "egg_free": r"\begg[- ]free\b|\bno eggs?\b|\bwithout eggs?\b|\begg allergy\b|"
-                r"\ballergic to eggs?\b|\bavoid(ing)? eggs?\b",
+                r"\ballergic to eggs?\b|\bavoid(ing)? eggs?\b|\b(can'?t|cannot|don'?t) (eat|have) eggs?\b",
 }
 # diet words that may appear in "X is fine now" style removals
 DIET_WORDS = {"vegan": "vegan", "vegetarian": "vegetarian", "pescatarian": "pescatarian",
@@ -47,6 +48,7 @@ COURSE_PATTERNS = [  # order matters: first match wins
     ("soups-stews", r"\bsoups?\b|\bstews?\b"),
     ("salads", r"\bsalads?\b"),
     ("snacks", r"\bsnacks?\b"),
+    ("breads", r"\bbake (some |a )?bread\b|\bbread recipe\b|\bloaf\b|\bhomemade bread\b"),
     ("main-dish", r"\bdinner\b|\bsupper\b|\bmain( (course|dish|meal))?\b|\bentr[ée]e\b"),
 ]
 
@@ -72,12 +74,24 @@ MAX_WORDS = r"(under|less than|fewer than|below|at most|no more than|not more th
             r"max(imum)?|within|lower than|in|allow|only|takes?|ready in)"
 MIN_WORDS = r"(at least|more than|over|above|minimum|min|no less than|not less than|higher than)"
 NUM = r"(\d+(?:\.\d+)?)"
+NEGATION = re.compile(r"\b(no|not|nothing|never|don'?t want|do not want)\b[^.,;]{0,25}$")
+
+
+def _direction(cmp: str, before: str, default: str) -> str:
+    """'more than 20 min' is a minimum, but 'nothing that takes more than 20 min' is a maximum."""
+    if not cmp:
+        return default
+    kind = "min" if re.fullmatch(MIN_WORDS, cmp) else "max"
+    if kind == "min" and NEGATION.search(before):
+        kind = "max"
+    return kind
 
 OBJECTIVES = [
     (Objective("duration_min", "min"), r"\b(quick(est|er|ly)?|fast(est|er)?|speedy|in a hurry|"
                                        r"short on time|as soon as possible)\b"),
     (Objective("protein_g", "max"), r"\b(high(er)?[- ]protein|high(er)? in protein|protein[- ]rich|"
-                                    r"(most|more|lots of|plenty of) protein)\b"),
+                                    r"(most|more|lots of|plenty of|enough|good amount of) protein|"
+                                    r"care about protein|protein (is important|matters))\b"),
     (Objective("calories_kcal", "min"), r"\b(low(er)?[- ]cal(orie)?s?|low(er)? in calories|"
                                         r"fewest calories|(less|fewer) calories)\b"),
     (Objective("sodium_mg", "min"), r"\b(low(er)?[- ](sodium|salt)|less (salt|sodium))\b"),
@@ -139,18 +153,18 @@ def _parse_duration(text: str) -> list[tuple[str, float, int, int]]:
               rf"(min(ute)?s?|hours?|hrs?|h)\b"
     for m in re.finditer(pattern, t):
         value = float(re.findall(NUM, m.group(0))[-1])  # for ranges "20-30 min" take the upper end
-        unit = m.group(m.lastindex - 1) or ""
         unit = re.search(r"(min(ute)?s?|hours?|hrs?|h)$", m.group(0)).group(0)
         if unit.startswith("h"):
             value *= 60
-        kind = "min" if re.match(MIN_WORDS, m.group(0).strip()) else "max"
+        cmp = re.match(rf"{MIN_WORDS}|{MAX_WORDS}", m.group(0).strip())
+        kind = _direction(cmp.group(0) if cmp else "", t[:m.start()], "max")
         found.append((kind, value, m.start(), m.end()))
     return found
 
 
 def _parse_nutrients(text: str) -> list[tuple[str, str, float]]:
     """Find numeric nutrient limits in either order: 'under 500 calories', 'protein over 30 g'."""
-    found = []
+    found, covered = [], []
     for word, (field, unit, default) in sorted(NUTRIENTS.items(), key=lambda x: -len(x[0])):
         w = word.replace(" ", r"\s+")
         unit_word = rf"{unit}?\s*(of\s+)?{w}" if field != "calories_kcal" else rf"({w}|kcal|cal)\b"
@@ -166,11 +180,26 @@ def _parse_nutrients(text: str) -> list[tuple[str, str, float]]:
                 if field == "calories_kcal" and "cal" not in m.group(0) and "calorie" not in word:
                     continue
                 cmp = (m.group("cmp") or "").strip()
-                kind = "min" if cmp and re.fullmatch(MIN_WORDS, cmp) else \
-                       "max" if cmp else default
-                found.append((kind, field, float(nums[-1])))
+                found.append((_direction(cmp, text[:m.start()], default), field, float(nums[-1])))
+                covered.append(m.span())
         # "saturated fat" must not also count as "fat"
         text = re.sub(rf"\b{w}\b", " ", text) if word == "saturated fat" else text
+    # bare amounts: "low in sodium, under 600 mg", "high protein dinner, at least 40 g"
+    for m in re.finditer(rf"(?P<cmp>{MIN_WORDS}|{MAX_WORDS})?\s*(?P<num>\d+(?:\.\d+)?)\s*"
+                         rf"(?P<unit>mg|milligrams?|g|grams?)\b", text):
+        if any(a <= m.start("num") < b for a, b in covered):
+            continue
+        mg = m.group("unit").startswith("m")
+        named = [NUTRIENTS[w] for w in NUTRIENTS if re.search(rf"\b{w}\b", text)
+                 and NUTRIENTS[w][1].startswith("(mg" if mg else "(g")]
+        if named:
+            field, _, default = named[0]
+        elif mg:
+            field, default = "sodium_mg", "max"
+        else:
+            continue
+        cmp = (m.group("cmp") or "").strip()
+        found.append((_direction(cmp, text[:m.start()], default), field, float(m.group("num"))))
     unique = []
     for f in found:
         if f[1] not in [u[1] for u in unique]:
@@ -248,12 +277,12 @@ class RuleExtractor:
                 updates.append(ConstraintUpdate("add", Constraint(kind, field, value), persistent))
 
             # ingredients
-            updates += self._ingredients(sent, persistent, updates)
+            updates += self._ingredients(sent, persistent, state)
 
         objectives = self._objectives(text, updates)
         return TurnExtraction(_dedupe(updates), objectives, reset)
 
-    def _ingredients(self, sent: str, persistent: bool, so_far) -> list[ConstraintUpdate]:
+    def _ingredients(self, sent: str, persistent: bool, state: DialogueState) -> list[ConstraintUpdate]:
         out = []
         diet_spans = [m.span() for pat in DIET_PATTERNS.values() for m in re.finditer(pat, sent)]
         excluded = set()
@@ -267,13 +296,25 @@ class RuleExtractor:
                         continue
                     excluded.add(term)
                     out.append(ConstraintUpdate("add", Constraint("exclude", term), persistent))
-        instead = re.search(r"(\w+(?: \w+)?) instead of (?:the )?(\w+(?: \w+)?)", sent)
-        if instead:
-            new, old = self.find_terms(instead.group(1)), self.find_terms(instead.group(2))
+        # substitutions: "shrimp instead of salmon", "swap broccoli for spinach"
+        swap = re.search(r"(?P<new>\w+(?: \w+)?) (instead of|rather than) (?:the )?(?P<old>\w+(?: \w+)?)", sent) \
+            or re.search(r"\b(swap|replace|switch|change)\s+(?:the\s+)?(?P<old>\w+(?: \w+)?)\s+"
+                         r"(for|with|to)\s+(?:some\s+)?(?P<new>\w+(?: \w+)?)", sent)
+        if swap:
+            new, old = self.find_terms(swap.group("new")), self.find_terms(swap.group("old"))
             if new:
                 out.append(ConstraintUpdate("add", Constraint("include", new[-1]), persistent))
             if old:
                 out.append(ConstraintUpdate("remove", Constraint("include", old[-1]), False))
+            return out
+        # "make it tofu instead": replaces the single included ingredient, if there is one
+        swap = re.search(r"\b(make it|go with|use|switch to|try)\s+(?:some\s+)?(\w+(?: \w+)?)\s+instead\b", sent)
+        if swap and self.find_terms(swap.group(2)):
+            out.append(ConstraintUpdate("add", Constraint("include", self.find_terms(swap.group(2))[-1]),
+                                        persistent))
+            includes = state.find("include") if state else []
+            if len(includes) == 1:
+                out.append(ConstraintUpdate("remove", includes[0].constraint, False))
             return out
         candidates = []
         for m in INCLUDE_TRIGGER.finditer(sent):
@@ -283,7 +324,9 @@ class RuleExtractor:
         for m in re.finditer(rf"\b([a-z]+(?: [a-z]+)?)\s+{DISH_WORDS}\b", sent):
             candidates += self.find_terms(m.group(1))[-1:]
         # staples that name the dish itself: "pasta in under 30 minutes", "a rice bowl"
-        candidates += [t for t in self.find_terms(sent) if t in STAPLES]
+        # (but not inside a diet phrase such as "no eggs" or "allergic to eggs")
+        diet_terms = {t for a, b in diet_spans for t in self.find_terms(sent[a:b])}
+        candidates += [t for t in self.find_terms(sent) if t in STAPLES and t not in diet_terms]
         for term in candidates:
             if term not in excluded and term not in ("dairy", "gluten", "lactose"):
                 out.append(ConstraintUpdate("add", Constraint("include", term), persistent))
@@ -303,6 +346,21 @@ class RuleExtractor:
                     out.append(ConstraintUpdate("remove", c, False))
                 elif not field and c.kind == "diet" and m.group(5).strip() in c.target:
                     out.append(ConstraintUpdate("remove", c, False))
+        # "the calorie limit doesn't matter", "forget the protein", "drop the time"
+        fields = []
+        for m in re.finditer(r"\b(the\s+)?([a-z]+)\s+(limit|requirement|restriction|constraint)s?\s+"
+                             r"(doesn'?t|does not|no longer) (matter|apply)|\b([a-z]+)\s+(doesn'?t|does not) matter",
+                             sent):
+            fields.append(m.group(2) or m.group(6))
+        for m in re.finditer(r"\b(forget|drop|ignore|lift|skip|don'?t (care|worry) about)\s+(about\s+)?"
+                             r"(the\s+|my\s+|that\s+)?([a-z]+)\b(?!\s+(requirement|limit|restriction|constraint))",
+                             sent):
+            fields.append(m.group(5))
+        for word in fields:
+            field = FIELD_WORDS.get(word) or FIELD_WORDS.get(word.rstrip("s"))
+            for a in state.active:
+                if field and a.constraint.target == field and a.constraint.kind in ("max", "min"):
+                    out.append(ConstraintUpdate("remove", a.constraint, False))
         # "mushrooms are fine after all", "dairy is ok now", "I can have nuts again"
         for m in re.finditer(r"([a-z]+(?: [a-z]+)?)\s+(is|are)\s+(fine|ok(ay)?|allowed|alright|good)",
                              sent):
