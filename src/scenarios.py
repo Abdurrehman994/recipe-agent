@@ -25,7 +25,8 @@ import json
 import sys
 from pathlib import Path
 
-from src.schema import SINGLE_VALUE_KINDS, Constraint, TurnExtraction
+from src.schema import Constraint, TurnExtraction
+from src.state import DialogueState
 
 SCENARIO_DIR = Path(__file__).resolve().parents[1] / "scenarios"
 ACTIONS = {"recommend", "clarify", "report_infeasible"}
@@ -37,23 +38,8 @@ def load_scenarios(split: str) -> list[dict]:
 
 
 def apply_extraction(active: list[dict], ext: TurnExtraction, turn: int) -> list[dict]:
-    """Reference state update used to check annotations:
-    reset drops temporary constraints, add replaces the same slot (max/min/course) or an
-    identical constraint, remove drops by slot. Provenance = turn of the latest change."""
-    state = [a for a in active if a["persistent"]] if ext.reset else list(active)
-    for u in ext.updates:
-        c = u.constraint
-        def same(a):
-            if (a["kind"], a["target"]) != c.slot:
-                return False
-            return c.kind in SINGLE_VALUE_KINDS or u.op == "remove" or a.get("value") == c.value
-        # include/exclude of the same ingredient are mutually exclusive
-        flip = {"include": "exclude", "exclude": "include"}.get(c.kind)
-        state = [a for a in state if not same(a)
-                 and not (u.op == "add" and flip and (a["kind"], a["target"]) == (flip, c.target))]
-        if u.op == "add":
-            state.append({**c.to_dict(), "source_turn": turn, "persistent": u.persistent})
-    return state
+    """Replay one turn of gold updates with the same rules the system's memory uses."""
+    return DialogueState.from_active(active).apply(ext, turn).to_active()
 
 
 def as_set(active: list[dict]) -> set[Constraint]:
@@ -63,22 +49,24 @@ def as_set(active: list[dict]) -> set[Constraint]:
 def validate(scenario: dict, db=None) -> list[str]:
     """Return a list of annotation problems (empty = OK). With a db, also checks feasibility."""
     from src.tools import search_recipes  # local import: loading the db is optional
-    errors, state = [], []
+    errors, state = [], DialogueState()
+    key = lambda a: (a["kind"], a["target"], a.get("value") or 0)
     for i, turn in enumerate(scenario["turns"], start=1):
         where = f"{scenario['id']} turn {i}"
         try:
-            ext = TurnExtraction.from_dict(turn["gold"])
-            state = apply_extraction(state, ext, i)
-            gold = [{**Constraint.from_dict(a).to_dict(), "source_turn": a["source_turn"],
-                     "persistent": a["persistent"]} for a in turn["active"]]
-        except (KeyError, ValueError) as e:
-            errors.append(f"{where}: bad annotation: {e}")
+            state.apply(TurnExtraction.from_dict(turn["gold"]), i)
+            gold = sorted(DialogueState.from_active(turn["active"]).to_active(), key=key)
+            gold_obj = sorted((o["target"], o["direction"]) for o in turn["active_objectives"])
+        except (KeyError, ValueError, TypeError) as e:
+            errors.append(f"{where}: bad annotation: {e!r}")
             continue
-        key = lambda a: (a["kind"], a["target"], a.get("value") or 0)
-        if sorted(gold, key=key) != sorted(state, key=key):
+        replayed = sorted(state.to_active(), key=key)
+        replayed_obj = sorted((o.target, o.direction) for o in state.objectives)
+        if gold != replayed or gold_obj != replayed_obj:
             errors.append(f"{where}: 'active' does not match replayed updates\n"
-                          f"   annotated: {sorted(gold, key=key)}\n   replayed:  {sorted(state, key=key)}")
-            state = gold  # continue from the annotation to avoid cascading errors
+                          f"   annotated: {gold} {gold_obj}\n   replayed:  {replayed} {replayed_obj}")
+            # continue from the annotation to avoid cascading errors
+            state = DialogueState.from_active(turn["active"], turn["active_objectives"])
         if turn["expected_action"] not in ACTIONS:
             errors.append(f"{where}: unknown expected_action {turn['expected_action']}")
         if db is not None:

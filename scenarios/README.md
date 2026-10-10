@@ -46,6 +46,9 @@ See [dev/dev_001.json](dev/dev_001.json) and the docstring in `src/scenarios.py`
 - Use the singular base noun: "avoid mushrooms" → `exclude mushroom`; "with salmon" → `include salmon`.
 - A category word that is not a diet (mushroom, shellfish, fish, meat) → `exclude <category>`.
 - "Instead of X, Y" → `remove include X` + `add include Y`.
+- Staples that name the dish (pasta, rice, noodles, tofu, lentils, potatoes, eggs) →
+  `include`: "pasta in under 30 minutes" → `include pasta`. Other dish types (curry, soup,
+  stir-fry) are not constraints unless they are a course (soup → `soups-stews`).
 
 **Numbers → `max` / `min`** (nutrients are per serving)
 - "under / less than / at most / no more than / up to N" → `max`. Treat "under 25 minutes"
