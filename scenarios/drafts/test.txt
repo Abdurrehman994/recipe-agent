@@ -1,0 +1,118 @@
+# Held-out scenarios 001-010. Convert with:
+#   python -m src.author scenarios/drafts/test.txt
+# Do not tune the parser, prompts or agent policy on these (see scenarios/README.md).
+
+## test_001 | add, replace, exclude
+> Can you recommend a vegetarian main course?
++ diet vegetarian
++ course main-dish
+> I don't have more than 40 minutes.
++ max duration_min 40
+> Please leave out the eggplant.
++ exclude eggplant
+> Hmm, let's say 25 minutes at most.
++ max duration_min 25
+> And under 450 calories a serving.
++ max calories_kcal 450
+
+## test_002 | persistent, reset, include
+> I never eat pork.
++ exclude pork P
+> What could I make for dinner with beef?
++ course main-dish
++ include beef
+> It needs to be done within 30 minutes.
++ max duration_min 30
+> Scratch that, I'd rather have a soup.
+reset
++ course soups-stews
+
+## test_003 | persistent, infeasible, relax
+> I'm vegan.
++ diet vegan P
+> I'd like a breakfast with at least 25 g of protein that takes under 15 minutes.
++ course breakfast
++ min protein_g 25
++ max duration_min 15
+= report_infeasible
+> All right, 5 g of protein is enough.
++ min protein_g 5
+
+## test_004 | clarify, numeric, exclude
+> I want to eat better this week, any suggestions?
+= clarify
+> Mainly low sugar, under 10 g, and at least 5 g of fiber.
++ max sugar_g 10
++ min fiber_g 5
+> For lunch.
++ course lunch
+> No beans please.
++ exclude bean
+
+## test_005 | tradeoff, include, numeric
+> Something with shrimp for dinner.
++ include shrimp
++ course main-dish
+> No more than 500 calories.
++ max calories_kcal 500
+> Which one is the fastest, and which one is lowest in fat?
+obj min duration_min
+obj min fat_g
+
+## test_006 | exclude, remove, diet
+> A gluten-free dessert, please.
++ diet gluten_free
++ course desserts
+> No chocolate.
++ exclude chocolate
+> Under 300 calories.
++ max calories_kcal 300
+> On second thought, chocolate is OK.
+- exclude chocolate
+
+## test_007 | include, replace_include, objective
+> I have some leftover rice, what can I make?
++ include rice
+> I'd want it as a side dish.
++ course side-dishes
+> Actually use quinoa instead of rice.
+- include rice
++ include quinoa
+> Something quick, if possible.
+obj min duration_min
+
+## test_008 | infeasible, contradiction, replace_include, add
+> I'd like a pescatarian dinner.
++ diet pescatarian
++ course main-dish
+> It should contain bacon.
++ include bacon
+= report_infeasible
+> You're right, skip the bacon. Use tuna.
+- include bacon
++ include tuna
+> Ready in 20 minutes.
++ max duration_min 20
+
+## test_009 | persistent_numeric, include, reset
+> My doctor says I need to keep cholesterol under 100 mg per serving.
++ max cholesterol_mg 100 P
+> Got any ideas for a salad?
++ course salads
+> I want chicken in it.
++ include chicken
+> It should take 20 minutes or less.
++ max duration_min 20
+> Never mind, show me some appetizers instead.
+reset
++ course appetizers
+
+## test_010 | exclude_category, diet, replace_course
+> I'm planning brunch for some friends.
++ course brunch
+> Nothing with fish, one of them hates it.
++ exclude fish
+> Make it dairy-free too.
++ diet dairy_free
+> Actually, let's call it breakfast instead.
++ course breakfast
