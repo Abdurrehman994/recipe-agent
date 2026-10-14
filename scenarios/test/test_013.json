@@ -1,0 +1,156 @@
+{
+  "id": "test_013",
+  "split": "test",
+  "phenomena": [
+    "persistent",
+    "infeasible",
+    "relax",
+    "objective"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I'm allergic to peanuts and tree nuts.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "nut_free"
+            },
+            "persistent": true
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "nut_free",
+          "source_turn": 1,
+          "persistent": true
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Could you find me a snack that takes under 5 minutes with at least 20 g of protein?",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "snacks"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 5.0
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "min",
+              "target": "protein_g",
+              "value": 20.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "report_infeasible",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "nut_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "snacks",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 5.0,
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 20.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Okay, forget the protein, just something quick.",
+      "gold": {
+        "updates": [
+          {
+            "op": "remove",
+            "constraint": {
+              "kind": "min",
+              "target": "protein_g",
+              "value": 0.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [
+          {
+            "target": "duration_min",
+            "direction": "min"
+          }
+        ],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "nut_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "snacks",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 5.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        }
+      ]
+    }
+  ]
+}

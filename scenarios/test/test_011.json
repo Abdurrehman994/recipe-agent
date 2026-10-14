@@ -1,0 +1,183 @@
+{
+  "id": "test_011",
+  "split": "test",
+  "phenomena": [
+    "include",
+    "replace",
+    "numeric"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I'd love a salmon dish for dinner.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "salmon"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "salmon",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Under 400 calories please.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 400.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "salmon",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 400.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Hmm, let's go up to 550 calories.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 550.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "salmon",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 550.0,
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "And it has to be ready within 45 minutes.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 45.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "salmon",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 550.0,
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 45.0,
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

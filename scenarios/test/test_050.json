@@ -1,0 +1,125 @@
+{
+  "id": "test_050",
+  "split": "test",
+  "phenomena": [
+    "infeasible",
+    "contradiction",
+    "remove_diet"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "A pescatarian main course, please.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "pescatarian"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "pescatarian",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "With sausage.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "sausage"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "report_infeasible",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "pescatarian",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "sausage",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Okay, then drop the pescatarian part.",
+      "gold": {
+        "updates": [
+          {
+            "op": "remove",
+            "constraint": {
+              "kind": "diet",
+              "target": "pescatarian"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "sausage",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

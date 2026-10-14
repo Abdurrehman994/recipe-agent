@@ -1,0 +1,131 @@
+{
+  "id": "test_034",
+  "split": "test",
+  "phenomena": [
+    "replace_min",
+    "numeric"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I want a lunch with at least 20 g of protein.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "lunch"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "min",
+              "target": "protein_g",
+              "value": 20.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "lunch",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 20.0,
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Bump it up to 30 g.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "min",
+              "target": "protein_g",
+              "value": 30.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "lunch",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 30.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "And keep the fat below 15 g.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "fat_g",
+              "value": 15.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "lunch",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 30.0,
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "fat_g",
+          "value": 15.0,
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

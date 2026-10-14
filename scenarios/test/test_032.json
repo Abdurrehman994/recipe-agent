@@ -1,0 +1,158 @@
+{
+  "id": "test_032",
+  "split": "test",
+  "phenomena": [
+    "persistent",
+    "reset",
+    "include"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "My son has an egg allergy.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "egg_free"
+            },
+            "persistent": true
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "egg_free",
+          "source_turn": 1,
+          "persistent": true
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Let's bake some bread.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "breads"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "egg_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "breads",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "With cheese in it.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "cheese"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "egg_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "breads",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "cheese",
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Forget the bread. A main dish with turkey.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "turkey"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": true
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "egg_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 4,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "turkey",
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

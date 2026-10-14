@@ -1,0 +1,171 @@
+{
+  "id": "test_064",
+  "split": "test",
+  "phenomena": [
+    "diet",
+    "tradeoff",
+    "numeric"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "A dairy-free and egg-free dessert.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "dairy_free"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "egg_free"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "desserts"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "dairy_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "diet",
+          "target": "egg_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "desserts",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "What's the lowest-sugar option and what's the quickest?",
+      "gold": {
+        "updates": [],
+        "objectives": [
+          {
+            "target": "sugar_g",
+            "direction": "min"
+          },
+          {
+            "target": "duration_min",
+            "direction": "min"
+          }
+        ],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "dairy_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "diet",
+          "target": "egg_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "desserts",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "sugar_g",
+          "direction": "min"
+        },
+        {
+          "target": "duration_min",
+          "direction": "min"
+        }
+      ]
+    },
+    {
+      "user": "Under 250 calories.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 250.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "dairy_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "diet",
+          "target": "egg_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "desserts",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 250.0,
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "sugar_g",
+          "direction": "min"
+        },
+        {
+          "target": "duration_min",
+          "direction": "min"
+        }
+      ]
+    }
+  ]
+}

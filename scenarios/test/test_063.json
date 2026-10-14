@@ -1,0 +1,160 @@
+{
+  "id": "test_063",
+  "split": "test",
+  "phenomena": [
+    "infeasible",
+    "relax",
+    "exclude_category"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "An appetizer under 50 calories with at least 10 g of protein.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "appetizers"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 50.0
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "min",
+              "target": "protein_g",
+              "value": 10.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "report_infeasible",
+      "active": [
+        {
+          "kind": "course",
+          "target": "appetizers",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 50.0,
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 10.0,
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Allow 200 calories.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 200.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "appetizers",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 10.0,
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 200.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "And no shellfish.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "exclude",
+              "target": "shellfish"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "appetizers",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 10.0,
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 200.0,
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "shellfish",
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

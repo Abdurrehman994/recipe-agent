@@ -1,0 +1,130 @@
+{
+  "id": "test_048",
+  "split": "test",
+  "phenomena": [
+    "replace_course",
+    "numeric"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "Dessert ideas under 30 minutes?",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "desserts"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 30.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "desserts",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 30.0,
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Oh, actually, I meant a snack.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "snacks"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 30.0,
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "snacks",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Less than 10 g of sugar.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "sugar_g",
+              "value": 10.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 30.0,
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "snacks",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "sugar_g",
+          "value": 10.0,
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

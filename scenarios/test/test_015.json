@@ -1,0 +1,252 @@
+{
+  "id": "test_015",
+  "split": "test",
+  "phenomena": [
+    "tradeoff",
+    "diet",
+    "exclude",
+    "replace"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I'm looking for a gluten-free dinner.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "gluten_free"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Nothing over 600 calories.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 600.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 600.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "No mushrooms.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "exclude",
+              "target": "mushroom"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 600.0,
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "mushroom",
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Show me the lowest-calorie option and the one with the most protein.",
+      "gold": {
+        "updates": [],
+        "objectives": [
+          {
+            "target": "calories_kcal",
+            "direction": "min"
+          },
+          {
+            "target": "protein_g",
+            "direction": "max"
+          }
+        ],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 600.0,
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "mushroom",
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "calories_kcal",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        }
+      ]
+    },
+    {
+      "user": "Actually 500 calories is my limit.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 500.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "mushroom",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 5,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "calories_kcal",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        }
+      ]
+    }
+  ]
+}

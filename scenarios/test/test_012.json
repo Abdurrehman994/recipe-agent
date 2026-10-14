@@ -1,0 +1,143 @@
+{
+  "id": "test_012",
+  "split": "test",
+  "phenomena": [
+    "clarify",
+    "numeric",
+    "replace_min"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "Can you give me something good to eat?",
+      "gold": {
+        "updates": [],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "clarify",
+      "active": [],
+      "active_objectives": []
+    },
+    {
+      "user": "I'm after a dinner with at least 35 g of protein.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "min",
+              "target": "protein_g",
+              "value": 35.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 35.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Lower the protein to 25 g, that's plenty.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "min",
+              "target": "protein_g",
+              "value": 25.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 25.0,
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Make it under 30 minutes too.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 30.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 25.0,
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 30.0,
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

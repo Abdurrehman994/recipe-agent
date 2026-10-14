@@ -1,0 +1,125 @@
+{
+  "id": "test_033",
+  "split": "test",
+  "phenomena": [
+    "infeasible",
+    "contradiction",
+    "remove"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I need a dairy-free dessert.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "dairy_free"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "desserts"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "dairy_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "desserts",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "It should have cheese in it.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "cheese"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "report_infeasible",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "dairy_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "desserts",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "cheese",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Never mind the cheese.",
+      "gold": {
+        "updates": [
+          {
+            "op": "remove",
+            "constraint": {
+              "kind": "include",
+              "target": "cheese"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "dairy_free",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "desserts",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

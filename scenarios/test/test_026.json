@@ -1,0 +1,168 @@
+{
+  "id": "test_026",
+  "split": "test",
+  "phenomena": [
+    "include",
+    "replace_course",
+    "replace_include"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "Something with spinach for lunch.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "spinach"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "lunch"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "lunch",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Actually make it a side dish.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "side-dishes"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "side-dishes",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Use kale instead of spinach.",
+      "gold": {
+        "updates": [
+          {
+            "op": "remove",
+            "constraint": {
+              "kind": "include",
+              "target": "spinach"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "kale"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "side-dishes",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "kale",
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Under 30 minutes.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 30.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "side-dishes",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "kale",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 30.0,
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

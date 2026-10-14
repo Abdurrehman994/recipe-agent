@@ -1,0 +1,146 @@
+{
+  "id": "test_055",
+  "split": "test",
+  "phenomena": [
+    "numeric",
+    "remove",
+    "include"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "A dinner with under 20 g of fat and under 600 mg of sodium.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "fat_g",
+              "value": 20.0
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "sodium_mg",
+              "value": 600.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "fat_g",
+          "value": 20.0,
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 600.0,
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Forget the sodium limit.",
+      "gold": {
+        "updates": [
+          {
+            "op": "remove",
+            "constraint": {
+              "kind": "max",
+              "target": "sodium_mg",
+              "value": 0.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "fat_g",
+          "value": 20.0,
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "With pork.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "pork"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "fat_g",
+          "value": 20.0,
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "pork",
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

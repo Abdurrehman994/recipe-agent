@@ -1,7 +1,7 @@
 # Dialogue scenarios: format and annotation guidelines
 
 - `dev/`: 30 scenarios for building and tuning (prompts, parser rules, policy).
-- `test/`: 70 held-out scenarios. Do not look at system outputs on these until the final runs.
+- `test/`: 70 held-out scenarios.
 
 Each scenario has 3–5 scripted user turns. Turns are fixed: the next user turn is the same
 whatever the agent says, so runs are reproducible. Check a split with:
@@ -36,6 +36,9 @@ See [dev/dev_001.json](dev/dev_001.json) and the docstring in `src/scenarios.py`
 - breakfast → `breakfast`; lunch → `lunch`; brunch → `brunch`
 - side, side dish → `side-dishes`; starter, appetizer → `appetizers`
 - soup, stew → `soups-stews`; salad → `salads`
+- bread → `breads`; snack → `snacks`; drink, beverage → `beverages`
+- "What about X instead?" / "I meant X" with no "forget" / "never mind" is a course
+  replacement, not a reset.
 - No meal word → no course constraint.
 
 **Diets → `diet`** (use the diet flag, not `exclude`, for these)

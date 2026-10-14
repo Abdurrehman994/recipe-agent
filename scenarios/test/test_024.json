@@ -1,0 +1,220 @@
+{
+  "id": "test_024",
+  "split": "test",
+  "phenomena": [
+    "persistent",
+    "exclude_category",
+    "reset"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I don't eat red meat.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "exclude",
+              "target": "meat"
+            },
+            "persistent": true
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "exclude",
+          "target": "meat",
+          "source_turn": 1,
+          "persistent": true
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "I'd like a lunch with beans.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "lunch"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "bean"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "exclude",
+          "target": "meat",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "lunch",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "bean",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Less than 45 minutes.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 45.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "exclude",
+          "target": "meat",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "lunch",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "bean",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 45.0,
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "And low fat, under 10 g.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "fat_g",
+              "value": 10.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "exclude",
+          "target": "meat",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "lunch",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "bean",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 45.0,
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "fat_g",
+          "value": 10.0,
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Start over: I want a dessert.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "desserts"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": true
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "exclude",
+          "target": "meat",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "desserts",
+          "source_turn": 5,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

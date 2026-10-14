@@ -1,0 +1,144 @@
+{
+  "id": "test_052",
+  "split": "test",
+  "phenomena": [
+    "persistent",
+    "exclude_category",
+    "reset"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I avoid all poultry.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "exclude",
+              "target": "poultry"
+            },
+            "persistent": true
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "exclude",
+          "target": "poultry",
+          "source_turn": 1,
+          "persistent": true
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Suggest a salad.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "salads"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "exclude",
+          "target": "poultry",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "salads",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Without fish too.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "exclude",
+              "target": "fish"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "exclude",
+          "target": "poultry",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "salads",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "fish",
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Never mind the salad, a soup instead.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "soups-stews"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": true
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "exclude",
+          "target": "poultry",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "soups-stews",
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

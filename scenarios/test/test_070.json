@@ -1,0 +1,197 @@
+{
+  "id": "test_070",
+  "split": "test",
+  "phenomena": [
+    "persistent_numeric",
+    "infeasible",
+    "relax",
+    "include"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I'm keeping carbs under 15 g per serving.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "carbs_g",
+              "value": 15.0
+            },
+            "persistent": true
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "carbs_g",
+          "value": 15.0,
+          "source_turn": 1,
+          "persistent": true
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "A dessert with at least 15 g of protein that takes under 10 minutes.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "desserts"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "min",
+              "target": "protein_g",
+              "value": 15.0
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 10.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "report_infeasible",
+      "active": [
+        {
+          "kind": "max",
+          "target": "carbs_g",
+          "value": 15.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "desserts",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 15.0,
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 10.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Fine, forget the protein.",
+      "gold": {
+        "updates": [
+          {
+            "op": "remove",
+            "constraint": {
+              "kind": "min",
+              "target": "protein_g",
+              "value": 0.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "carbs_g",
+          "value": 15.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "desserts",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 10.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "With strawberries.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "strawberry"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "carbs_g",
+          "value": 15.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "desserts",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 10.0,
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "strawberry",
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

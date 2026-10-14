@@ -1,0 +1,227 @@
+{
+  "id": "test_037",
+  "split": "test",
+  "phenomena": [
+    "diet",
+    "exclude",
+    "tradeoff",
+    "replace"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "A vegan dinner under 500 calories.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "vegan"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 500.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "No tofu.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "exclude",
+              "target": "tofu"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "tofu",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "What's the fastest one, and which one has the most protein?",
+      "gold": {
+        "updates": [],
+        "objectives": [
+          {
+            "target": "duration_min",
+            "direction": "min"
+          },
+          {
+            "target": "protein_g",
+            "direction": "max"
+          }
+        ],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "tofu",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        }
+      ]
+    },
+    {
+      "user": "Actually 600 calories is fine.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 600.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "tofu",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 600.0,
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        }
+      ]
+    }
+  ]
+}

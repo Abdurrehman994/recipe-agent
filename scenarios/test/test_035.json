@@ -1,0 +1,194 @@
+{
+  "id": "test_035",
+  "split": "test",
+  "phenomena": [
+    "clarify",
+    "include",
+    "replace"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "What's good today?",
+      "gold": {
+        "updates": [],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "clarify",
+      "active": [],
+      "active_objectives": []
+    },
+    {
+      "user": "Something with ground beef for dinner.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "beef"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "beef",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "No longer than 50 minutes.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 50.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "beef",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 50.0,
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Make that 40.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 40.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "beef",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 40.0,
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "And under 700 calories.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 700.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "beef",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 40.0,
+          "source_turn": 4,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 700.0,
+          "source_turn": 5,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

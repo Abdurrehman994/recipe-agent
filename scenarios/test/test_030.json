@@ -1,0 +1,114 @@
+{
+  "id": "test_030",
+  "split": "test",
+  "phenomena": [
+    "persistent",
+    "include",
+    "tradeoff"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I'm pescatarian.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "pescatarian"
+            },
+            "persistent": true
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "pescatarian",
+          "source_turn": 1,
+          "persistent": true
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Something with cod.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "cod"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "pescatarian",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "include",
+          "target": "cod",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Compare the quickest dish with the one lowest in calories.",
+      "gold": {
+        "updates": [],
+        "objectives": [
+          {
+            "target": "duration_min",
+            "direction": "min"
+          },
+          {
+            "target": "calories_kcal",
+            "direction": "min"
+          }
+        ],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "pescatarian",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "include",
+          "target": "cod",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "calories_kcal",
+          "direction": "min"
+        }
+      ]
+    }
+  ]
+}

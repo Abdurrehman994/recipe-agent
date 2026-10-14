@@ -1,0 +1,251 @@
+{
+  "id": "test_069",
+  "split": "test",
+  "phenomena": [
+    "include",
+    "numeric",
+    "tradeoff",
+    "replace"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "A pork dinner.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "pork"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "pork",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Under 700 calories.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 700.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "pork",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 700.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Quickest versus highest protein?",
+      "gold": {
+        "updates": [],
+        "objectives": [
+          {
+            "target": "duration_min",
+            "direction": "min"
+          },
+          {
+            "target": "protein_g",
+            "direction": "max"
+          }
+        ],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "pork",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 700.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        }
+      ]
+    },
+    {
+      "user": "Lower the calories to 500.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 500.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "pork",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        }
+      ]
+    },
+    {
+      "user": "And under 800 mg of sodium.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "sodium_mg",
+              "value": 800.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "pork",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 4,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 800.0,
+          "source_turn": 5,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        }
+      ]
+    }
+  ]
+}

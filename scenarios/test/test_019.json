@@ -1,0 +1,106 @@
+{
+  "id": "test_019",
+  "split": "test",
+  "phenomena": [
+    "clarify",
+    "tradeoff",
+    "diet"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "Something comforting for a rainy day.",
+      "gold": {
+        "updates": [],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "clarify",
+      "active": [],
+      "active_objectives": []
+    },
+    {
+      "user": "A soup or stew, I mean. Vegetarian.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "soups-stews"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "vegetarian"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "soups-stews",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "diet",
+          "target": "vegetarian",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Which ones are quickest, and which have the most fiber?",
+      "gold": {
+        "updates": [],
+        "objectives": [
+          {
+            "target": "duration_min",
+            "direction": "min"
+          },
+          {
+            "target": "fiber_g",
+            "direction": "max"
+          }
+        ],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "soups-stews",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "diet",
+          "target": "vegetarian",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "fiber_g",
+          "direction": "max"
+        }
+      ]
+    }
+  ]
+}

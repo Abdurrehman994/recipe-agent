@@ -1,0 +1,123 @@
+{
+  "id": "test_036",
+  "split": "test",
+  "phenomena": [
+    "persistent_numeric",
+    "infeasible",
+    "reset"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I'm on a strict low-sodium diet: no more than 140 mg per serving.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "sodium_mg",
+              "value": 140.0
+            },
+            "persistent": true
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 140.0,
+          "source_turn": 1,
+          "persistent": true
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "A soup with ham.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "soups-stews"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "ham"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "report_infeasible",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 140.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "soups-stews",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "ham",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Fine, forget that, I'll have a salad instead.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "salads"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": true
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 140.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "salads",
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

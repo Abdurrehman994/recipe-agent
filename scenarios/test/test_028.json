@@ -1,0 +1,169 @@
+{
+  "id": "test_028",
+  "split": "test",
+  "phenomena": [
+    "include",
+    "numeric",
+    "remove"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "A breakfast with oats.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "breakfast"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "oat"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "breakfast",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "oat",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "At least 6 g of fiber.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "min",
+              "target": "fiber_g",
+              "value": 6.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "breakfast",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "oat",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "fiber_g",
+          "value": 6.0,
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Drop the fiber requirement.",
+      "gold": {
+        "updates": [
+          {
+            "op": "remove",
+            "constraint": {
+              "kind": "min",
+              "target": "fiber_g",
+              "value": 0.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "breakfast",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "oat",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Less than 15 g of sugar.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "sugar_g",
+              "value": 15.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "breakfast",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "oat",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "sugar_g",
+          "value": 15.0,
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

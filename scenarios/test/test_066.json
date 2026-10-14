@@ -1,0 +1,146 @@
+{
+  "id": "test_066",
+  "split": "test",
+  "phenomena": [
+    "clarify",
+    "exclude",
+    "replace"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "Got any suggestions?",
+      "gold": {
+        "updates": [],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "clarify",
+      "active": [],
+      "active_objectives": []
+    },
+    {
+      "user": "A salad without onions.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "salads"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "exclude",
+              "target": "onion"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "salads",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "onion",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Under 300 calories.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 300.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "salads",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "onion",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 300.0,
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Raise it to 400.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 400.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "salads",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "onion",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 400.0,
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

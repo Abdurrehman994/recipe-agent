@@ -1,0 +1,143 @@
+{
+  "id": "test_047",
+  "split": "test",
+  "phenomena": [
+    "include",
+    "tradeoff",
+    "diet"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "Something for brunch with spinach.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "brunch"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "spinach"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "brunch",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "I'd like to see the quickest one and the one with the least sodium.",
+      "gold": {
+        "updates": [],
+        "objectives": [
+          {
+            "target": "duration_min",
+            "direction": "min"
+          },
+          {
+            "target": "sodium_mg",
+            "direction": "min"
+          }
+        ],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "brunch",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "sodium_mg",
+          "direction": "min"
+        }
+      ]
+    },
+    {
+      "user": "Dairy-free, please.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "dairy_free"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "course",
+          "target": "brunch",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "diet",
+          "target": "dairy_free",
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "sodium_mg",
+          "direction": "min"
+        }
+      ]
+    }
+  ]
+}
