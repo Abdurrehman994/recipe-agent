@@ -116,9 +116,12 @@ def get_extractor(name: str):
     if name == "rules":
         from src.extract_rules import RuleExtractor
         return RuleExtractor()
+    if name == "llm":
+        from src.extract_llm import LLMExtractor
+        return LLMExtractor()
     if name == "gold":  # upper bound / sanity check: replays the annotations
         return GoldExtractor()
-    raise ValueError(f"unknown extractor {name} (LLM extractor not implemented yet)")
+    raise ValueError(f"unknown extractor {name}")
 
 
 class GoldExtractor:
@@ -154,12 +157,17 @@ def main():
     ap.add_argument("--errors", action="store_true", help="print turns with mistakes")
     args = ap.parse_args()
 
-    res = run(get_extractor(args.extractor), load_scenarios(args.split), memory=not args.no_memory)
+    extractor = get_extractor(args.extractor)
+    res = run(extractor, load_scenarios(args.split), memory=not args.no_memory)
+    if hasattr(extractor, "dropped"):  # LLM outputs that failed schema validation
+        res["dropped"] = extractor.dropped
     RESULTS_DIR.mkdir(exist_ok=True)
     suffix = "_nomem" if args.no_memory else ""
     out = RESULTS_DIR / f"{args.split}_{args.extractor}{suffix}.json"
     out.write_text(json.dumps(res, indent=2), encoding="utf-8")
     print_summary(res)
+    if res.get("dropped"):
+        print(f"  dropped {len(res['dropped'])} invalid LLM items (see 'dropped' in the results file)")
     if args.errors:
         for t in res["per_turn"]:
             if t["extraction_missed"] or t["extraction_spurious"] or not t["state_exact"]:
