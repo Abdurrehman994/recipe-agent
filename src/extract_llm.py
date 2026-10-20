@@ -246,9 +246,28 @@ class LLMExtractor:
         return self._call_anthropic(user)
 
     def _call_groq(self, user: str) -> dict:
+        """One Groq call. The free tier is capped per day in tokens (200k for gpt-oss-120b);
+        when the API answers 429 after the SDK's own retries, wait the time it asks for and
+        try again, so a long evaluation run resumes by itself instead of crashing."""
+        import re
+        import groq
         kwargs = {}
         if "gpt-oss" in self.model:  # only the gpt-oss models accept a reasoning effort
             kwargs["reasoning_effort"] = self.effort
+        while True:
+            try:
+                return self._groq_request(user, kwargs)
+            except groq.RateLimitError as e:
+                m = re.search(r"try again in (?:(\d+)h)?(?:(\d+)m)?(?:([\d.]+)s)?", str(e))
+                wait = 60.0
+                if m and any(m.groups()):
+                    h, mi, sec = (float(x) if x else 0.0 for x in m.groups())
+                    wait = h * 3600 + mi * 60 + sec + 5
+                wait = min(max(wait, 10.0), 1800.0)
+                print(f"  groq rate limit: waiting {wait:.0f}s before retrying", flush=True)
+                time.sleep(wait)
+
+    def _groq_request(self, user: str, kwargs: dict) -> dict:
         response = self.client.chat.completions.create(
             model=self.model,
             messages=[{"role": "system", "content": SYSTEM_PROMPT},
