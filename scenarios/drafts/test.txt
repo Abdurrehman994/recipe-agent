@@ -1,4 +1,4 @@
-# Held-out scenarios 001-010. Convert with:
+# Held-out scenarios 001-070. Convert with:
 #   python -m src.author scenarios/drafts/test.txt
 # Do not tune the parser, prompts or agent policy on these (see scenarios/README.md).
 
@@ -116,3 +116,683 @@ reset
 + diet dairy_free
 > Actually, let's call it breakfast instead.
 + course breakfast
+
+
+## test_011 | add, replace, numeric
+> What's a good chicken dish for dinner?
++ include chicken
++ course main-dish
+> Keep it under 600 calories per serving.
++ max calories_kcal 600
+> And ready in half an hour.
++ max duration_min 30
+> Actually, 45 minutes is okay.
++ max duration_min 45
+
+## test_012 | clarify, diet, include
+> I need some inspiration, I'm out of ideas.
+= clarify
+> Something vegetarian with lentils for dinner.
++ diet vegetarian
++ include lentil
++ course main-dish
+> Under 40 minutes would be ideal.
++ max duration_min 40
+
+## test_013 | infeasible, relax, include
+> I'd like a salmon main course.
++ include salmon
++ course main-dish
+> Under 300 calories and at least 50 g of protein.
++ max calories_kcal 300
++ min protein_g 50
+= report_infeasible
+> Okay, 25 g of protein will do.
++ min protein_g 25
+
+## test_014 | persistent, reset, exclude
+> I'm allergic to shellfish.
++ exclude shellfish P
+> Can I get a soup recipe?
++ course soups-stews
+> Without cream.
++ exclude cream
+> Forget the soup, I'll make a salad instead.
+reset
++ course salads
+
+## test_015 | tradeoff, diet
+> A gluten-free lunch, please.
++ diet gluten_free
++ course lunch
+> I'm torn between quick and low in calories, show me both.
+obj min duration_min
+obj min calories_kcal
+> And nothing with mushrooms.
++ exclude mushroom
+
+## test_016 | remove, numeric, exclude
+> Breakfast ideas under 400 calories?
++ course breakfast
++ max calories_kcal 400
+> No bananas.
++ exclude banana
+> At least 10 g of protein.
++ min protein_g 10
+> Drop the calorie limit, I'll be running later.
+- max calories_kcal
+
+## test_017 | persistent_numeric, replace_course, include
+> I have to stay under 500 mg of sodium per serving, doctor's orders.
++ max sodium_mg 500 P
+> What about a rice dish for lunch?
++ include rice
++ course lunch
+> Let's make it dinner instead.
++ course main-dish
+> And under 20 minutes.
++ max duration_min 20
+
+## test_018 | infeasible, contradiction, remove_diet
+> I want a vegan dinner.
++ diet vegan
++ course main-dish
+> With cheese on top.
++ include cheese
+= report_infeasible
+> Fine, it doesn't have to be vegan then. Vegetarian is enough.
+- diet vegan
++ diet vegetarian
+
+## test_019 | clarify, numeric, objective
+> Help me decide what to cook tonight.
+= clarify
+> Something with beef, under 700 calories.
++ include beef
++ max calories_kcal 700
+> Preferably quick.
+obj min duration_min
+> And no more than 800 mg sodium.
++ max sodium_mg 800
+
+## test_020 | exclude_category, add, replace
+> Any vegetarian appetizers?
++ diet vegetarian
++ course appetizers
+> No mushrooms.
++ exclude mushroom
+> They must be ready in 15 minutes.
++ max duration_min 15
+> Make that 25 minutes, I have a bit more time.
++ max duration_min 25
+
+## test_021 | persistent, infeasible, relax
+> I'm lactose intolerant.
++ diet dairy_free P
+> Show me a dessert with under 100 calories.
++ course desserts
++ max calories_kcal 100
+> And at least 10 g of protein.
++ min protein_g 10
+= report_infeasible
+> Okay, forget the protein requirement.
+- min protein_g
+
+## test_022 | include, replace_include, numeric
+> Dinner with pasta tonight.
++ course main-dish
++ include pasta
+> Under 500 calories.
++ max calories_kcal 500
+> Swap the pasta for rice.
+- include pasta
++ include rice
+> And at least 15 g of protein.
++ min protein_g 15
+
+## test_023 | tradeoff, exclude, persistent
+> I can't stand cilantro.
++ exclude cilantro P
+> A chicken salad would be nice.
++ include chicken
++ course salads
+> Which is the quickest and which has the fewest calories?
+obj min duration_min
+obj min calories_kcal
+
+## test_024 | reset, persistent_mid_dialogue, diet
+> Something sweet for after dinner.
++ course desserts
+> Under 250 calories.
++ max calories_kcal 250
+> Oh, I should mention I'm gluten intolerant.
++ diet gluten_free P
+> Never mind the dessert, what about a snack?
+reset
++ course snacks
+
+## test_025 | infeasible, relax, exclude
+> A quick breakfast, say 10 minutes.
++ course breakfast
++ max duration_min 10
+> With at least 40 g of protein.
++ min protein_g 40
+= report_infeasible
+> Alright, 15 g of protein is enough.
++ min protein_g 15
+> And no sausage.
++ exclude sausage
+
+## test_026 | clarify, diet, replace_course
+> I want to cook something nice this weekend.
+= clarify
+> A vegan brunch.
++ diet vegan
++ course brunch
+> Hmm, make it lunch rather than brunch.
++ course lunch
+> Within an hour.
++ max duration_min 60
+
+## test_027 | remove, exclude, numeric
+> Pork dishes under 40 minutes?
++ include pork
++ max duration_min 40
+> Nothing with apples.
++ exclude apple
+> And under 20 g of fat.
++ max fat_g 20
+> Apples are fine after all.
+- exclude apple
+
+## test_028 | persistent, reset, include, replace
+> I never eat beef.
++ exclude beef P
+> Looking for a turkey dinner.
++ include turkey
++ course main-dish
+> In under 45 minutes.
++ max duration_min 45
+> Let's say 30 minutes instead.
++ max duration_min 30
+> Change of plans, show me some bread recipes.
+reset
++ course breads
+
+## test_029 | infeasible, contradiction, replace_include
+> A pescatarian lunch.
++ diet pescatarian
++ course lunch
+> Put some ham in it.
++ include ham
+= report_infeasible
+> Oh right. Tuna instead of ham.
+- include ham
++ include tuna
+
+## test_030 | tradeoff, numeric, add
+> A soup with under 300 calories.
++ course soups-stews
++ max calories_kcal 300
+> Compare the fastest one with the one highest in fiber.
+obj min duration_min
+obj max fiber_g
+> Also keep sodium under 700 mg.
++ max sodium_mg 700
+
+## test_031 | add, remove_diet, diet
+> A dairy-free main course.
++ diet dairy_free
++ course main-dish
+> Gluten-free as well.
++ diet gluten_free
+> With shrimp.
++ include shrimp
+> It doesn't need to be gluten-free anymore.
+- diet gluten_free
+
+## test_032 | clarify, infeasible, relax
+> Any suggestions? I'm hungry.
+= clarify
+> A vegan main dish with at least 40 g of protein in 15 minutes.
++ diet vegan
++ course main-dish
++ min protein_g 40
++ max duration_min 15
+= report_infeasible
+> Okay, 10 g of protein is enough.
++ min protein_g 10
+
+## test_033 | persistent_numeric, exclude, replace
+> I keep my cholesterol under 80 mg per serving.
++ max cholesterol_mg 80 P
+> What's a good side dish?
++ course side-dishes
+> No potatoes.
++ exclude potato
+> Actually under 50 mg would be better.
++ max cholesterol_mg 50 P
+
+## test_034 | include, numeric, objective
+> A spinach dish.
++ include spinach
+> Under 350 calories.
++ max calories_kcal 350
+> High in protein if possible.
+obj max protein_g
+> And vegetarian.
++ diet vegetarian
+
+## test_035 | infeasible, relax, diet
+> A dinner with at least 50 g of protein.
++ course main-dish
++ min protein_g 50
+> Make it vegetarian.
++ diet vegetarian
+> Under 20 minutes.
++ max duration_min 20
+= report_infeasible
+> Fine, 20 g of protein then.
++ min protein_g 20
+
+## test_036 | reset, persistent, clarify
+> I'm vegetarian, by the way.
++ diet vegetarian P
+> What should I cook?
+= clarify
+> A soup under 200 calories.
++ course soups-stews
++ max calories_kcal 200
+> Scratch that, I'd prefer a salad.
+reset
++ course salads
+
+## test_037 | add, replace, numeric, exclude
+> A beef stew.
++ include beef
++ course soups-stews
+> Under 60 minutes.
++ max duration_min 60
+> Without carrots.
++ exclude carrot
+> Make it 90 minutes, stews take time.
++ max duration_min 90
+
+## test_038 | tradeoff, persistent, diet
+> I'm allergic to nuts.
++ diet nut_free P
+> A vegetarian main dish.
++ diet vegetarian
++ course main-dish
+> What's the lowest-fat option and what's the highest-protein option?
+obj min fat_g
+obj max protein_g
+
+## test_039 | infeasible, relax, include
+> Something with tofu for dinner.
++ include tofu
++ course main-dish
+> Under 200 calories per serving.
++ max calories_kcal 200
+> And at least 20 g of protein.
++ min protein_g 20
+= report_infeasible
+> Make it 400 calories then.
++ max calories_kcal 400
+
+## test_040 | clarify, exclude, numeric, remove
+> I'm bored with my usual cooking.
+= clarify
+> Let's try a lamb dish, under 800 mg of sodium.
++ include lamb
++ max sodium_mg 800
+> No garlic.
++ exclude garlic
+> Garlic is okay actually.
+- exclude garlic
+
+## test_041 | persistent, reset, replace_course
+> No eggs for me, I'm allergic.
++ diet egg_free P
+> Breakfast suggestions?
++ course breakfast
+> Under 15 minutes.
++ max duration_min 15
+> Forget breakfast, let's do brunch.
+reset
++ course brunch
+
+## test_042 | add, numeric, replace_min
+> I want a high-protein lunch, at least 20 g.
++ course lunch
++ min protein_g 20
+> Under 500 calories.
++ max calories_kcal 500
+> Let's raise that to 30 g of protein.
++ min protein_g 30
+> No more than 1000 mg sodium.
++ max sodium_mg 1000
+
+## test_043 | infeasible, contradiction, remove
+> A vegetarian dinner with bacon.
++ diet vegetarian
++ course main-dish
++ include bacon
+= report_infeasible
+> Drop the bacon.
+- include bacon
+> Under 30 minutes.
++ max duration_min 30
+
+## test_044 | tradeoff, include, exclude
+> A shrimp appetizer.
++ include shrimp
++ course appetizers
+> No cream.
++ exclude cream
+> Show me the quickest and the one with the least sodium.
+obj min duration_min
+obj min sodium_mg
+
+## test_045 | persistent_numeric, diet, infeasible, relax
+> I'm on a diet: under 300 calories per serving for everything.
++ max calories_kcal 300 P
+> A gluten-free dessert.
++ diet gluten_free
++ course desserts
+> With at least 15 g of protein.
++ min protein_g 15
+= report_infeasible
+> 5 g of protein would be fine.
++ min protein_g 5
+
+## test_046 | reset, include, objective
+> I have leftover chicken.
++ include chicken
+> Make it a soup.
++ course soups-stews
+> Quick, please.
+obj min duration_min
+> Different idea: a chicken salad instead.
+reset
++ include chicken
++ course salads
+
+## test_047 | clarify, diet, numeric
+> Could you recommend something?
+= clarify
+> A dairy-free breakfast under 300 calories.
++ diet dairy_free
++ course breakfast
++ max calories_kcal 300
+> With at least 3 g of fiber.
++ min fiber_g 3
+
+## test_048 | add, replace, remove, exclude
+> Dinner with potatoes.
++ course main-dish
++ include potato
+> Under 50 minutes.
++ max duration_min 50
+> No onions.
++ exclude onion
+> Let's say 35 minutes.
++ max duration_min 35
+> Onions are fine, forget I said that.
+- exclude onion
+
+## test_049 | infeasible, relax, persistent
+> I'm vegan.
++ diet vegan P
+> A snack under 100 calories.
++ course snacks
++ max calories_kcal 100
+> With at least 10 g of protein.
++ min protein_g 10
+= report_infeasible
+> Okay, forget the protein requirement.
+- min protein_g
+
+## test_050 | tradeoff, numeric, diet
+> A pescatarian main course.
++ diet pescatarian
++ course main-dish
+> Under 600 calories.
++ max calories_kcal 600
+> What's the fastest option versus the one with the most protein?
+obj min duration_min
+obj max protein_g
+
+## test_051 | exclude_category, remove, add
+> Lunch ideas without any fish or seafood.
++ course lunch
++ exclude fish
++ exclude shellfish
+> Under 30 minutes.
++ max duration_min 30
+> Seafood is fine again, just no fish.
+- exclude shellfish
+> Under 600 calories as well.
++ max calories_kcal 600
+
+## test_052 | persistent_mid_dialogue, replace, include
+> A rice dish for dinner.
++ include rice
++ course main-dish
+> Under 40 minutes.
++ max duration_min 40
+> I forgot to say, I'm allergic to nuts.
++ diet nut_free P
+> Let's say 25 minutes.
++ max duration_min 25
+
+## test_053 | infeasible, relax, diet
+> A gluten-free bread.
++ diet gluten_free
++ course breads
+> Vegan too.
++ diet vegan
+> Under 10 minutes.
++ max duration_min 10
+= report_infeasible
+> Okay, 20 minutes then.
++ max duration_min 20
+
+## test_054 | clarify, tradeoff
+> Recommend me something tasty.
+= clarify
+> A chicken dinner under 40 minutes.
++ include chicken
++ course main-dish
++ max duration_min 40
+> Which has the least fat and which the most fiber?
+obj min fat_g
+obj max fiber_g
+
+## test_055 | add, numeric, replace, diet
+> A dessert with chocolate.
++ course desserts
++ include chocolate
+> Under 400 calories.
++ max calories_kcal 400
+> No nuts in it.
++ diet nut_free
+> Hmm, 300 calories max.
++ max calories_kcal 300
+
+## test_056 | persistent, reset, infeasible
+> I don't eat pork, ever.
++ exclude pork P
+> A quick sausage dish, under 15 minutes.
++ include sausage
++ max duration_min 15
+> With at least 50 g of protein.
++ min protein_g 50
+= report_infeasible
+> Never mind, show me a dessert.
+reset
++ course desserts
+
+## test_057 | include, replace_include, numeric, objective
+> Something with salmon.
++ include salmon
+> Under 450 calories.
++ max calories_kcal 450
+> Actually, make it tuna instead of salmon.
+- include salmon
++ include tuna
+> Low sodium if possible.
+obj min sodium_mg
+
+## test_058 | infeasible, relax, exclude
+> A breakfast under 150 calories.
++ course breakfast
++ max calories_kcal 150
+> With at least 20 g of protein.
++ min protein_g 20
+= report_infeasible
+> Then 10 g of protein is fine.
++ min protein_g 10
+> No bacon though.
++ exclude bacon
+
+## test_059 | tradeoff, exclude, persistent
+> I'm allergic to shellfish.
++ exclude shellfish P
+> A fish main course.
++ include fish
++ course main-dish
+> Which is the quickest and which is lowest in calories?
+obj min duration_min
+obj min calories_kcal
+> Also no more than 800 mg sodium.
++ max sodium_mg 800
+
+## test_060 | clarify, add, remove
+> I want to impress some guests this weekend.
+= clarify
+> An appetizer with cheese, under 30 minutes.
++ course appetizers
++ include cheese
++ max duration_min 30
+> Nothing with olives.
++ exclude olive
+> Olives are fine, one of them changed their mind.
+- exclude olive
+
+## test_061 | persistent_numeric, replace, reset
+> I need to keep sugar under 10 g per serving, always.
++ max sugar_g 10 P
+> A breakfast.
++ course breakfast
+> Under 20 minutes.
++ max duration_min 20
+> Make that 10 minutes.
++ max duration_min 10
+> Forget breakfast, a lunch idea instead.
+reset
++ course lunch
+
+## test_062 | infeasible, contradiction, replace_include
+> A vegan dessert.
++ diet vegan
++ course desserts
+> With honey.
++ include honey
+= report_infeasible
+> Oh, honey isn't vegan, right. Something with coconut instead.
+- include honey
++ include coconut
+
+## test_063 | add, numeric, exclude, replace
+> A low-sodium soup, under 400 mg.
++ course soups-stews
++ max sodium_mg 400
+> Without celery.
++ exclude celery
+> Under 45 minutes.
++ max duration_min 45
+> Sorry, I meant under 600 mg of sodium.
++ max sodium_mg 600
+
+## test_064 | tradeoff, persistent, numeric
+> I'm gluten intolerant.
++ diet gluten_free P
+> A side dish under 200 calories.
++ course side-dishes
++ max calories_kcal 200
+> Which is the quickest, and which has the most fiber?
+obj min duration_min
+obj max fiber_g
+
+## test_065 | clarify, persistent, infeasible, relax
+> I'm pescatarian.
++ diet pescatarian P
+> Not sure what to make, any thoughts?
+= clarify
+> A dinner under 200 calories with at least 40 g of protein.
++ course main-dish
++ max calories_kcal 200
++ min protein_g 40
+= report_infeasible
+> Okay, 400 calories.
++ max calories_kcal 400
+
+## test_066 | include, exclude, remove, add
+> A pumpkin dish.
++ include pumpkin
+> Not a dessert, a soup.
++ course soups-stews
+> Without cinnamon.
++ exclude cinnamon
+> Cinnamon is fine actually.
+- exclude cinnamon
+
+## test_067 | persistent, replace_course, numeric
+> I can't have dairy.
++ diet dairy_free P
+> A lunch under 400 calories.
++ course lunch
++ max calories_kcal 400
+> Actually I'll have it for dinner.
++ course main-dish
+> At least 25 g of protein.
++ min protein_g 25
+
+## test_068 | infeasible, relax, exclude_category
+> A dinner without any meat.
++ course main-dish
++ exclude meat
+> Under 10 minutes and under 250 calories, with at least 45 g of protein.
++ max duration_min 10
++ max calories_kcal 250
++ min protein_g 45
+= report_infeasible
+> OK, forget the calorie limit.
+- max calories_kcal
+
+## test_069 | tradeoff, remove, diet
+> An egg-free breakfast.
++ diet egg_free
++ course breakfast
+> Under 20 minutes.
++ max duration_min 20
+> Which one is lowest in sugar, and which has the most protein?
+obj min sugar_g
+obj max protein_g
+> Never mind the time limit.
+- max duration_min
+
+## test_070 | reset, persistent, clarify, add
+> I'm allergic to peanuts.
++ exclude peanut P
+> A Thai-style curry for dinner.
++ course main-dish
+> Under 40 minutes.
++ max duration_min 40
+> Forget that. What else could I make?
+reset
+= clarify
+> A quick salad, under 15 minutes.
++ course salads
++ max duration_min 15
