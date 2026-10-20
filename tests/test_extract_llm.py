@@ -60,3 +60,47 @@ def test_extract_calls_model_once_then_uses_cache(tmp_path):
     assert first.updates == second.updates
     assert first.updates[0].persistent and len(client.calls) == 1
     assert client.calls[0]["output_config"]["format"]["type"] == "json_schema"
+
+
+class FakeGroqClient:
+    """Mimics groq.Groq().chat.completions.create."""
+
+    def __init__(self, outputs):
+        self.outputs, self.calls = list(outputs), []
+        self.chat = SimpleNamespace(completions=SimpleNamespace(create=self.create))
+
+    def create(self, **kwargs):
+        self.calls.append(kwargs)
+        text = json.dumps(self.outputs.pop(0))
+        return SimpleNamespace(choices=[SimpleNamespace(
+            finish_reason="stop", message=SimpleNamespace(content=text))])
+
+
+def test_groq_provider_uses_chat_completions_with_json_schema(tmp_path):
+    out = {"updates": [upd("add", "exclude", "mushrooms"), upd("add", "max", "duration_min", 25)],
+           "objectives": [], "reset": False}
+    client = FakeGroqClient([out])
+    ex = LLMExtractor(provider="groq", client=client, cache_dir=tmp_path, min_interval_s=0)
+    ext = ex.extract("Under 25 minutes and no mushrooms.")
+    assert [u.constraint for u in ext.updates] == [
+        Constraint("exclude", "mushroom"), Constraint("max", "duration_min", 25)]
+    call = client.calls[0]
+    assert call["model"] == "openai/gpt-oss-120b"
+    assert call["response_format"]["type"] == "json_schema"
+    assert call["messages"][0]["role"] == "system" and call["reasoning_effort"] == "medium"
+    assert ex.name == "llm-groq-gpt-oss-120b"
+
+
+def test_provider_caches_are_separate(tmp_path):
+    out = {"updates": [upd("add", "diet", "vegan")], "objectives": [], "reset": False}
+    LLMExtractor(provider="groq", client=FakeGroqClient([out]), cache_dir=tmp_path,
+                 min_interval_s=0).extract("Vegan please.")
+    anthropic_client = FakeClient([out])
+    LLMExtractor(client=anthropic_client, cache_dir=tmp_path).extract("Vegan please.")
+    assert len(anthropic_client.calls) == 1  # groq's cached answer was not reused for Claude
+
+
+def test_unknown_provider_is_rejected():
+    import pytest
+    with pytest.raises(ValueError):
+        LLMExtractor(provider="openai")

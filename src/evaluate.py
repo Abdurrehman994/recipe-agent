@@ -112,13 +112,14 @@ def run(extractor, scenarios: list[dict], memory: bool = True) -> dict:
     }
 
 
-def get_extractor(name: str):
+def get_extractor(name: str, provider: str = "anthropic", model: str | None = None,
+                  effort: str = "medium"):
     if name == "rules":
         from src.extract_rules import RuleExtractor
         return RuleExtractor()
     if name == "llm":
         from src.extract_llm import LLMExtractor
-        return LLMExtractor()
+        return LLMExtractor(provider=provider, model=model, effort=effort)
     if name == "gold":  # upper bound / sanity check: replays the annotations
         return GoldExtractor()
     raise ValueError(f"unknown extractor {name}")
@@ -152,18 +153,21 @@ def print_summary(res: dict):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", default="dev")
-    ap.add_argument("--extractor", default="rules")
+    ap.add_argument("--extractor", default="rules", help="rules | llm | gold")
+    ap.add_argument("--provider", default="anthropic", help="llm only: anthropic | groq")
+    ap.add_argument("--model", default=None, help="llm only: override the provider's default model")
+    ap.add_argument("--effort", default="medium", help="llm only: reasoning effort")
     ap.add_argument("--no-memory", action="store_true")
     ap.add_argument("--errors", action="store_true", help="print turns with mistakes")
     args = ap.parse_args()
 
-    extractor = get_extractor(args.extractor)
+    extractor = get_extractor(args.extractor, args.provider, args.model, args.effort)
     res = run(extractor, load_scenarios(args.split), memory=not args.no_memory)
     if hasattr(extractor, "dropped"):  # LLM outputs that failed schema validation
         res["dropped"] = extractor.dropped
     RESULTS_DIR.mkdir(exist_ok=True)
     suffix = "_nomem" if args.no_memory else ""
-    out = RESULTS_DIR / f"{args.split}_{args.extractor}{suffix}.json"
+    out = RESULTS_DIR / f"{args.split}_{extractor.name}{suffix}.json"
     out.write_text(json.dumps(res, indent=2), encoding="utf-8")
     print_summary(res)
     if res.get("dropped"):

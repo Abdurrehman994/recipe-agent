@@ -1,6 +1,7 @@
-"""LLM-based constraint extraction with Claude (compared against the rule baseline).
+"""LLM-based constraint extraction (compared against the rule baseline).
 
-    extractor = LLMExtractor()
+    extractor = LLMExtractor()                      # Claude, needs ANTHROPIC_API_KEY
+    extractor = LLMExtractor(provider="groq")       # free tier, needs GROQ_API_KEY
     extraction = extractor.extract("Vegetarian dinner under 25 minutes, no mushrooms", state)
 
 The model sees the system prompt (schema + the mapping rules from scenarios/README.md), the
@@ -8,16 +9,23 @@ current dialogue state and the new user turn, and returns JSON constrained by a 
 (structured outputs). The JSON is validated against src/schema.py; invalid items are dropped
 and logged in `self.dropped` rather than crashing the evaluation.
 
-Responses are cached on disk (.cache/llm/) keyed by model, prompt version, state and
-utterance, so re-running the evaluation is free and reproducible. Bump PROMPT_VERSION
-whenever SYSTEM_PROMPT changes.
+Providers
+  anthropic  Claude via the `anthropic` SDK (default model claude-opus-5-5).
+  groq       open-weight models on Groq's free tier via the `groq` SDK (default model
+             openai/gpt-oss-120b, which supports JSON-schema output). The free tier allows
+             30 requests/min and ~1,000/day per organisation (see
+             console.groq.com/settings/limits), so calls are paced to stay under the
+             per-minute limit and 429s are retried by the SDK.
 
-Needs `pip install anthropic` and credentials (ANTHROPIC_API_KEY or `ant auth login`).
+Responses are cached on disk (.cache/llm/) keyed by provider, model, effort, prompt version,
+state and utterance, so re-running the evaluation is free and reproducible. Bump
+PROMPT_VERSION whenever SYSTEM_PROMPT changes.
 """
 from __future__ import annotations
 
 import hashlib
 import json
+import time
 from pathlib import Path
 
 from src.schema import (COURSES, DIETS, KINDS, NUMERIC_FIELDS, Constraint, ConstraintUpdate,
@@ -25,7 +33,9 @@ from src.schema import (COURSES, DIETS, KINDS, NUMERIC_FIELDS, Constraint, Const
 from src.state import DialogueState
 from src.tools import stem
 
-MODEL = "claude-opus-5-5"
+DEFAULT_MODELS = {"anthropic": "claude-opus-5-5", "groq": "openai/gpt-oss-120b"}
+MODEL = DEFAULT_MODELS["anthropic"]
+GROQ_MIN_INTERVAL_S = 2.1  # 30 requests/min on the free tier
 PROMPT_VERSION = 1
 CACHE_DIR = Path(__file__).resolve().parents[1] / ".cache" / "llm"
 CANONICAL = {"seafood": "shellfish"}
@@ -156,20 +166,36 @@ def render_state(state: DialogueState) -> str:
 
 
 class LLMExtractor:
-    name = "llm"
-
-    def __init__(self, model: str = MODEL, effort: str = "medium", client=None,
-                 cache_dir: Path | None = CACHE_DIR):
-        self.model, self.effort = model, effort
+    def __init__(self, model: str | None = None, effort: str = "medium", client=None,
+                 cache_dir: Path | None = CACHE_DIR, provider: str = "anthropic",
+                 min_interval_s: float | None = None):
+        if provider not in DEFAULT_MODELS:
+            raise ValueError(f"unknown provider {provider!r}; choose from {sorted(DEFAULT_MODELS)}")
+        self.provider = provider
+        self.model = model or DEFAULT_MODELS[provider]
+        self.effort = effort
         self.cache_dir = cache_dir
         self._client = client
+        if min_interval_s is None:
+            min_interval_s = GROQ_MIN_INTERVAL_S if provider == "groq" else 0.0
+        self.min_interval_s = min_interval_s
+        self._last_call = 0.0
         self.dropped: list[str] = []  # schema violations, for error analysis
+
+    @property
+    def name(self) -> str:
+        """Used in result file names: llm-<provider>-<model>."""
+        return f"llm-{self.provider}-{self.model.split('/')[-1]}"
 
     @property
     def client(self):
         if self._client is None:
-            import anthropic
-            self._client = anthropic.Anthropic()
+            if self.provider == "groq":
+                import groq
+                self._client = groq.Groq(max_retries=5)  # retries 429s using retry-after
+            else:
+                import anthropic
+                self._client = anthropic.Anthropic()
         return self._client
 
     def extract(self, utterance: str, state: DialogueState | None = None) -> TurnExtraction:
@@ -182,7 +208,7 @@ class LLMExtractor:
 
     def _cached_call(self, user: str) -> dict:
         key = hashlib.sha256(json.dumps(
-            [self.model, self.effort, PROMPT_VERSION, user]).encode()).hexdigest()[:24]
+            [self.provider, self.model, self.effort, PROMPT_VERSION, user]).encode()).hexdigest()[:24]
         path = self.cache_dir / f"{key}.json" if self.cache_dir else None
         if path and path.exists():
             return json.loads(path.read_text(encoding="utf-8"))
@@ -193,6 +219,35 @@ class LLMExtractor:
         return data
 
     def _call(self, user: str) -> dict:
+        if self.min_interval_s:  # pace requests for rate-limited free tiers
+            wait = self._last_call + self.min_interval_s - time.monotonic()
+            if wait > 0:
+                time.sleep(wait)
+            self._last_call = time.monotonic()
+        if self.provider == "groq":
+            return self._call_groq(user)
+        return self._call_anthropic(user)
+
+    def _call_groq(self, user: str) -> dict:
+        kwargs = {}
+        if "gpt-oss" in self.model:  # only the gpt-oss models accept a reasoning effort
+            kwargs["reasoning_effort"] = self.effort
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "system", "content": SYSTEM_PROMPT},
+                      {"role": "user", "content": user}],
+            response_format={"type": "json_schema",
+                             "json_schema": {"name": "turn_extraction", "schema": SCHEMA}},
+            temperature=0,
+            max_completion_tokens=4000,
+            **kwargs,
+        )
+        choice = response.choices[0]
+        if choice.finish_reason == "length":
+            raise RuntimeError("groq output truncated (max_completion_tokens)")
+        return json.loads(choice.message.content)
+
+    def _call_anthropic(self, user: str) -> dict:
         response = self.client.beta.messages.create(
             model=self.model,
             max_tokens=16000,
