@@ -28,6 +28,8 @@ import json
 import time
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from src.schema import (COURSES, DIETS, KINDS, NUMERIC_FIELDS, Constraint, ConstraintUpdate,
                         Objective, TurnExtraction)
 from src.state import DialogueState
@@ -38,6 +40,7 @@ MODEL = DEFAULT_MODELS["anthropic"]
 GROQ_MIN_INTERVAL_S = 2.1  # 30 requests/min on the free tier
 PROMPT_VERSION = 1
 CACHE_DIR = Path(__file__).resolve().parents[1] / ".cache" / "llm"
+load_dotenv(Path(__file__).resolve().parents[1] / ".env")  # GROQ_API_KEY / ANTHROPIC_API_KEY
 CANONICAL = {"seafood": "shellfish"}
 
 SYSTEM_PROMPT = f"""You convert one user turn of a recipe-recommendation dialogue into structured \
