@@ -4,23 +4,23 @@
   "n_scenarios": 30,
   "n_turns": 108,
   "extraction": {
-    "precision": 0.9548,
-    "recall": 0.961,
-    "f1": 0.9579,
-    "tp": 148,
-    "fp": 7,
-    "fn": 6,
-    "persistence_accuracy": 0.9923
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 154,
+    "fp": 0,
+    "fn": 0,
+    "persistence_accuracy": 1.0
   },
   "state": {
-    "exact_match": 0.9167,
-    "precision": 0.9732,
-    "recall": 0.9864,
-    "f1": 0.9797,
-    "tp": 290,
-    "fp": 8,
-    "fn": 4,
-    "provenance_accuracy": 0.9793
+    "exact_match": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 294,
+    "fp": 0,
+    "fn": 0,
+    "provenance_accuracy": 1.0
   },
   "per_turn": [
     {
@@ -99,17 +99,11 @@
       "scenario": "dev_002",
       "turn": 3,
       "user": "Forget the dessert, I need a quick lunch instead, ready in 20 minutes.",
-      "extraction_missed": [
-        "('reset',)"
-      ],
-      "extraction_spurious": [
-        "('remove', 'course', 'desserts')"
-      ],
-      "state_exact": false,
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
       "state_missing": [],
-      "state_spurious": [
-        "('max', 'calories_kcal', 300.0)"
-      ],
+      "state_spurious": [],
       "objectives_gold": [],
       "objectives_pred": []
     },
@@ -119,11 +113,9 @@
       "user": "Make sure it has at least 20 g of protein.",
       "extraction_missed": [],
       "extraction_spurious": [],
-      "state_exact": false,
+      "state_exact": true,
       "state_missing": [],
-      "state_spurious": [
-        "('max', 'calories_kcal', 300.0)"
-      ],
+      "state_spurious": [],
       "objectives_gold": [],
       "objectives_pred": []
     },
@@ -585,17 +577,11 @@
       "scenario": "dev_011",
       "turn": 4,
       "user": "Never mind the side, let's find a dessert instead.",
-      "extraction_missed": [
-        "('reset',)"
-      ],
-      "extraction_spurious": [
-        "('remove', 'course', 'side-dishes')"
-      ],
-      "state_exact": false,
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
       "state_missing": [],
-      "state_spurious": [
-        "('include', 'potato', None)"
-      ],
+      "state_spurious": [],
       "objectives_gold": [],
       "objectives_pred": []
     },
@@ -808,9 +794,7 @@
       "turn": 2,
       "user": "Oh wait, I meant dinner.",
       "extraction_missed": [],
-      "extraction_spurious": [
-        "('remove', 'course', 'lunch')"
-      ],
+      "extraction_spurious": [],
       "state_exact": true,
       "state_missing": [],
       "state_spurious": [],
@@ -882,14 +866,10 @@
       "turn": 1,
       "user": "Something light for tonight.",
       "extraction_missed": [],
-      "extraction_spurious": [
-        "('add', 'course', 'main-dish', None)"
-      ],
-      "state_exact": false,
+      "extraction_spurious": [],
+      "state_exact": true,
       "state_missing": [],
-      "state_spurious": [
-        "('course', 'main-dish', None)"
-      ],
+      "state_spurious": [],
       "objectives_gold": [],
       "objectives_pred": []
     },
@@ -897,9 +877,7 @@
       "scenario": "dev_018",
       "turn": 2,
       "user": "Under 350 calories, and a main dish.",
-      "extraction_missed": [
-        "('add', 'course', 'main-dish', None)"
-      ],
+      "extraction_missed": [],
       "extraction_spurious": [],
       "state_exact": true,
       "state_missing": [],
@@ -911,12 +889,9 @@
       "scenario": "dev_018",
       "turn": 3,
       "user": "Which is faster and which has more protein?",
-      "extraction_missed": [
-        "('objective', 'duration_min', 'min')",
-        "('objective', 'protein_g', 'max')"
-      ],
+      "extraction_missed": [],
       "extraction_spurious": [],
-      "state_exact": false,
+      "state_exact": true,
       "state_missing": [],
       "state_spurious": [],
       "objectives_gold": [
@@ -929,7 +904,16 @@
           "max"
         ]
       ],
-      "objectives_pred": []
+      "objectives_pred": [
+        [
+          "duration_min",
+          "min"
+        ],
+        [
+          "protein_g",
+          "max"
+        ]
+      ]
     },
     {
       "scenario": "dev_019",
@@ -1103,19 +1087,11 @@
       "scenario": "dev_023",
       "turn": 1,
       "user": "I'm allergic to eggs.",
-      "extraction_missed": [
-        "('add', 'diet', 'egg_free', None)"
-      ],
-      "extraction_spurious": [
-        "('add', 'exclude', 'egg', None)"
-      ],
-      "state_exact": false,
-      "state_missing": [
-        "('diet', 'egg_free', None)"
-      ],
-      "state_spurious": [
-        "('exclude', 'egg', None)"
-      ],
+      "extraction_missed": [],
+      "extraction_spurious": [],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
       "objectives_gold": [],
       "objectives_pred": []
     },
@@ -1125,13 +1101,9 @@
       "user": "Breakfast ideas?",
       "extraction_missed": [],
       "extraction_spurious": [],
-      "state_exact": false,
-      "state_missing": [
-        "('diet', 'egg_free', None)"
-      ],
-      "state_spurious": [
-        "('exclude', 'egg', None)"
-      ],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
       "objectives_gold": [],
       "objectives_pred": []
     },
@@ -1141,13 +1113,9 @@
       "user": "Under 15 minutes please.",
       "extraction_missed": [],
       "extraction_spurious": [],
-      "state_exact": false,
-      "state_missing": [
-        "('diet', 'egg_free', None)"
-      ],
-      "state_spurious": [
-        "('exclude', 'egg', None)"
-      ],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
       "objectives_gold": [],
       "objectives_pred": []
     },
@@ -1157,13 +1125,9 @@
       "user": "Let's start over, I want to bake bread.",
       "extraction_missed": [],
       "extraction_spurious": [],
-      "state_exact": false,
-      "state_missing": [
-        "('diet', 'egg_free', None)"
-      ],
-      "state_spurious": [
-        "('exclude', 'egg', None)"
-      ],
+      "state_exact": true,
+      "state_missing": [],
+      "state_spurious": [],
       "objectives_gold": [],
       "objectives_pred": []
     },
@@ -1478,10 +1442,7 @@
       "turn": 4,
       "user": "Forget that, show me dinner ideas instead.",
       "extraction_missed": [],
-      "extraction_spurious": [
-        "('remove', 'course', 'lunch')",
-        "('remove', 'include', 'turkey')"
-      ],
+      "extraction_spurious": [],
       "state_exact": true,
       "state_missing": [],
       "state_spurious": [],

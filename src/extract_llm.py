@@ -38,7 +38,7 @@ from src.tools import stem
 DEFAULT_MODELS = {"anthropic": "claude-opus-5-5", "groq": "openai/gpt-oss-120b"}
 MODEL = DEFAULT_MODELS["anthropic"]
 GROQ_MIN_INTERVAL_S = 2.1  # 30 requests/min on the free tier
-PROMPT_VERSION = 1
+PROMPT_VERSION = 2
 CACHE_DIR = Path(__file__).resolve().parents[1] / ".cache" / "llm"
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")  # GROQ_API_KEY / ANTHROPIC_API_KEY
 CANONICAL = {"seafood": "shellfish"}
@@ -64,21 +64,34 @@ about the current dish are false ("a vegetarian dinner", "it has to be gluten-fr
 - objectives: soft ranking goals introduced in this turn, {{target, direction}} with direction \
 "min" or "max": "quick" -> duration_min min; "high protein" -> protein_g max; "low calorie" -> \
 calories_kcal min; "low sodium/salt" -> sodium_mg min; "low fat" -> fat_g min; "low sugar" -> \
-sugar_g min. Only when no explicit number is given; an explicit number is a max/min constraint.
-- reset: true when the user abandons the current request ("forget that, ...", "something \
-different: ...", "new question"). Reset drops temporary constraints and keeps persistent ones; \
-still list the constraints of the new request as adds.
+sugar_g min. Only when no explicit number is given; an explicit number is a max/min constraint. \
+Comparative questions about the candidates introduce one objective per compared attribute: \
+"which is faster and which has more protein?" -> duration_min min + protein_g max; "what's \
+the quickest?" -> duration_min min.
+- reset: true when the user abandons the current request ("forget that, ...", "forget the \
+dessert, ...", "never mind the side, ...", "something different: ...", "let's start over", "new \
+question"). Reset itself drops every temporary constraint and objective and keeps persistent \
+ones, so with reset: true emit NO remove updates; list only the adds of the new request. \
+"Forget the dessert, I need a quick lunch instead" -> reset true, add course lunch, objective \
+duration_min min. Use remove only when the user lifts one constraint while the request \
+continues ("mushrooms are fine after all").
 
 ## Mapping rules
 Meals -> course: dinner, supper, main course, a meal -> main-dish; dessert, something sweet \
 after dinner -> desserts; breakfast -> breakfast; lunch -> lunch; brunch -> brunch; side, side \
 dish -> side-dishes; starter, appetizer -> appetizers; soup, stew -> soups-stews; salad -> \
-salads. No meal word -> no course. Only one course is active at a time: a new meal word is an \
-add that replaces the old course.
+salads. No meal word -> no course; "tonight", "today", "this evening", "for the kids" are not \
+meal words. Only one course is active at a time: a new meal word is an add that replaces the \
+old course, so never emit a remove for the previous course ("oh wait, I meant dinner" -> add \
+course main-dish only). The same holds for max/min: a new number is an add, with no remove.
 
 Diets: vegetarian, vegan, pescatarian, gluten-free, dairy-free / no dairy / lactose-free, \
-nut-free / nut allergy, egg-free / no eggs are diet constraints, never exclude. Vegan implies \
-vegetarian: output only vegan.
+nut-free / nut allergy, egg-free / no eggs are diet constraints, never exclude. Allergies and \
+intolerances to these categories are diets: "I'm allergic to eggs" -> diet egg_free \
+persistent; "nut allergy" -> diet nut_free persistent; "lactose intolerant" -> diet \
+dairy_free persistent. Only an allergy to a single ingredient outside these categories is an \
+exclude ("allergic to shellfish" -> exclude shellfish persistent). Vegan implies vegetarian: \
+output only vegan.
 
 Ingredients: "avoid mushrooms" -> exclude mushroom; "with salmon" -> include salmon. A category \
 that is not a diet (mushroom, shellfish, fish, meat) -> exclude <category>; seafood -> \
@@ -95,8 +108,9 @@ Removals: "mushrooms are fine after all" -> remove exclude mushroom; "forget the
 limit" -> remove the active calories_kcal constraint; "it doesn't have to be vegetarian" -> \
 remove diet vegetarian. Only remove constraints that are in the active list.
 
-Vague requests that cannot be turned into constraints ("something healthy", "a nice meal") \
-produce no updates and no objectives."""
+Vague requests that cannot be turned into constraints ("something healthy", "something light \
+for tonight", "a nice meal") produce no updates and no objectives. When a later turn then names \
+a course or number that is not yet active, it is an add even if it seems implied earlier."""
 
 SCHEMA = {
     "type": "object",
