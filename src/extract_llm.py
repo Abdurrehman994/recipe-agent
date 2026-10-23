@@ -306,12 +306,20 @@ class LLMExtractor:
         while True:
             try:
                 return self._chat_request(user, kwargs)
-            except OutputTruncated:
+            except OutputTruncated as e:
                 if kwargs.get("reasoning_effort") not in (None, "low"):
-                    print("  output truncated; retrying this turn with reasoning_effort=low", flush=True)
+                    print(f"  {e}; retrying this turn with reasoning_effort=low", flush=True)
                     kwargs["reasoning_effort"] = "low"
                     continue
-                raise
+                if self.output_mode == "json_schema":
+                    print(f"  {e}; retrying this turn in json_object mode", flush=True)
+                    self.output_mode = "json_object"
+                    continue
+                # give up on this turn: an empty extraction, recorded as a failure
+                print(f"  {e}; giving up on this turn (empty extraction)", flush=True)
+                self.usage["failed_calls"] = self.usage.get("failed_calls", 0) + 1
+                self.dropped.append(f"model failure: {e}")
+                return {"updates": [], "objectives": [], "reset": False}, getattr(e, "usage", None)
             except Exception as e:  # SDK-specific classes: match by name to cover both SDKs
                 name = type(e).__name__
                 if name == "BadRequestError" and self.output_mode == "json_schema":
@@ -352,14 +360,26 @@ class LLMExtractor:
             **kwargs,
         )
         choice = response.choices[0]
-        if choice.finish_reason == "length" or choice.message.content is None:
-            raise OutputTruncated("output truncated (max_completion_tokens)")
         u = getattr(response, "usage", None)
         usage = None if u is None else {
             "prompt_tokens": getattr(u, "prompt_tokens", 0),
             "completion_tokens": getattr(u, "completion_tokens", 0),
             "total_tokens": getattr(u, "total_tokens", 0)}
-        return json.loads(choice.message.content), usage
+        content = choice.message.content
+        if choice.finish_reason == "length" or not content:
+            err = OutputTruncated(
+                f"no usable output (finish_reason={choice.finish_reason!r}, "
+                f"content={'empty' if not content else len(content)} chars, "
+                f"completion_tokens={usage['completion_tokens'] if usage else '?'}, "
+                f"mode={self.output_mode}, effort={kwargs.get('reasoning_effort')})")
+            err.usage = usage
+            raise err
+        try:
+            return json.loads(content), usage
+        except json.JSONDecodeError as e:
+            err = OutputTruncated(f"invalid JSON from model ({e.msg}): {content[:120]!r}")
+            err.usage = usage
+            raise err
 
     def _call_anthropic(self, user: str) -> tuple[dict, dict | None]:
         response = self.client.beta.messages.create(
