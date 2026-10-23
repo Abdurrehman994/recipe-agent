@@ -189,6 +189,10 @@ def render_state(state: DialogueState) -> str:
     return json.dumps({"active_constraints": active, "active_objectives": objectives})
 
 
+class OutputTruncated(RuntimeError):
+    """The model hit max_completion_tokens before finishing the JSON (long reasoning)."""
+
+
 class LLMExtractor:
     def __init__(self, model: str | None = None, effort: str = "medium", client=None,
                  cache_dir: Path | None = CACHE_DIR, provider: str = "anthropic",
@@ -228,8 +232,10 @@ class LLMExtractor:
 
     @property
     def name(self) -> str:
-        """Used in result file names: llm-<provider>-<model>."""
-        return f"llm-{self.provider}-{self.model.split('/')[-1]}"
+        """Used in result file names: llm-<provider>-<model>. Lehmus exposes models under opaque
+        ids, so LEHMUS_MODEL_LABEL (e.g. gpt-oss-120b) can give the file name a readable one."""
+        label = os.environ.get("LEHMUS_MODEL_LABEL") if self.provider == "lehmus" else None
+        return f"llm-{self.provider}-{(label or self.model).split('/')[-1]}"
 
     @property
     def client(self):
@@ -300,6 +306,12 @@ class LLMExtractor:
         while True:
             try:
                 return self._chat_request(user, kwargs)
+            except OutputTruncated:
+                if kwargs.get("reasoning_effort") not in (None, "low"):
+                    print("  output truncated; retrying this turn with reasoning_effort=low", flush=True)
+                    kwargs["reasoning_effort"] = "low"
+                    continue
+                raise
             except Exception as e:  # SDK-specific classes: match by name to cover both SDKs
                 name = type(e).__name__
                 if name == "BadRequestError" and self.output_mode == "json_schema":
@@ -336,12 +348,12 @@ class LLMExtractor:
                       {"role": "user", "content": user}],
             response_format=response_format,
             temperature=0,
-            max_completion_tokens=4000,
+            max_completion_tokens=16000,
             **kwargs,
         )
         choice = response.choices[0]
-        if choice.finish_reason == "length":
-            raise RuntimeError("output truncated (max_completion_tokens)")
+        if choice.finish_reason == "length" or choice.message.content is None:
+            raise OutputTruncated("output truncated (max_completion_tokens)")
         u = getattr(response, "usage", None)
         usage = None if u is None else {
             "prompt_tokens": getattr(u, "prompt_tokens", 0),

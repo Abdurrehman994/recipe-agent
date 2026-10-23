@@ -18,6 +18,7 @@
   "tool_calls": {
     "search_recipes": 289
   },
+  "llm_usage": null,
   "per_turn": [
     {
       "scenario": "test_001",

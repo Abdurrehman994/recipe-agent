@@ -21,6 +21,7 @@
     "search_recipes": 263,
     "validate_constraints": 685
   },
+  "llm_usage": null,
   "per_turn": [
     {
       "scenario": "test_001",
