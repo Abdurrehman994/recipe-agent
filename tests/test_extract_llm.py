@@ -104,3 +104,47 @@ def test_unknown_provider_is_rejected():
     import pytest
     with pytest.raises(ValueError):
         LLMExtractor(provider="openai")
+
+
+class FakeGroqClientWithUsage(FakeGroqClient):
+    def create(self, **kwargs):
+        resp = super().create(**kwargs)
+        resp.usage = SimpleNamespace(prompt_tokens=1000, completion_tokens=50, total_tokens=1050)
+        return resp
+
+
+def test_usage_is_counted_and_cached_answers_keep_their_usage(tmp_path):
+    out = {"updates": [upd("add", "diet", "vegan")], "objectives": [], "reset": False}
+    first = LLMExtractor(provider="groq", client=FakeGroqClientWithUsage([out]), cache_dir=tmp_path,
+                         min_interval_s=0)
+    first.extract("Vegan please.")
+    u = first.usage_summary()
+    assert u["api_calls"] == 1 and u["cached_calls"] == 0 and u["total_tokens"] == 1050
+    assert u["tokens_per_call"] == 1050.0
+    second = LLMExtractor(provider="groq", client=FakeGroqClientWithUsage([]), cache_dir=tmp_path,
+                          min_interval_s=0)
+    second.extract("Vegan please.")
+    u2 = second.usage_summary()
+    assert u2["api_calls"] == 0 and u2["cached_calls"] == 1 and u2["total_tokens"] == 1050
+
+
+def test_fresh_ignores_cache_and_old_cache_format_still_reads(tmp_path):
+    import hashlib
+    from src.extract_llm import PROMPT_VERSION
+    out = {"updates": [upd("add", "diet", "vegan")], "objectives": [], "reset": False}
+    client = FakeGroqClientWithUsage([out, out])
+    ex = LLMExtractor(provider="groq", client=client, cache_dir=tmp_path, min_interval_s=0, fresh=True)
+    ex.extract("Vegan please.")
+    ex.extract("Vegan please.")
+    assert len(client.calls) == 2 and ex.usage_summary()["api_calls"] == 2
+    # an entry in the old bare format (no usage) is still accepted and counted as unmeasured
+    user = ex._user_message("Old format.") if hasattr(ex, "_user_message") else None
+    old = LLMExtractor(provider="groq", client=FakeGroqClientWithUsage([]), cache_dir=tmp_path,
+                       min_interval_s=0)
+    from src.extract_llm import render_state
+    from src.state import DialogueState
+    msg = f"Current state:\n{render_state(DialogueState())}\n\nUser message:\nOld format."
+    key = hashlib.sha256(json.dumps(["groq", old.model, "medium", PROMPT_VERSION, msg]).encode()).hexdigest()[:24]
+    (tmp_path / f"{key}.json").write_text(json.dumps(out), encoding="utf-8")
+    ext = old.extract("Old format.")
+    assert ext.updates and old.usage_summary()["unmeasured_calls"] == 1

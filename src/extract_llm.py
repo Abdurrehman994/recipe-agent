@@ -185,7 +185,7 @@ def render_state(state: DialogueState) -> str:
 class LLMExtractor:
     def __init__(self, model: str | None = None, effort: str = "medium", client=None,
                  cache_dir: Path | None = CACHE_DIR, provider: str = "anthropic",
-                 min_interval_s: float | None = None):
+                 min_interval_s: float | None = None, fresh: bool = False):
         if provider not in DEFAULT_MODELS:
             raise ValueError(f"unknown provider {provider!r}; choose from {sorted(DEFAULT_MODELS)}")
         self.provider = provider
@@ -198,6 +198,24 @@ class LLMExtractor:
         self.min_interval_s = min_interval_s
         self._last_call = 0.0
         self.dropped: list[str] = []  # schema violations, for error analysis
+        self.fresh = fresh  # ignore cached answers (still writes them): measure real usage
+        # call / token accounting; cached answers carry the usage recorded when they were made
+        self.usage = {"calls": 0, "api_calls": 0, "cached_calls": 0, "unmeasured_calls": 0,
+                      "prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
+
+    def _account(self, usage: dict | None, cached: bool) -> None:
+        self.usage["calls"] += 1
+        self.usage["cached_calls" if cached else "api_calls"] += 1
+        if not usage:
+            self.usage["unmeasured_calls"] += 1
+            return
+        for k in ("prompt_tokens", "completion_tokens", "total_tokens"):
+            self.usage[k] += int(usage.get(k) or 0)
+
+    def usage_summary(self) -> dict:
+        measured = self.usage["calls"] - self.usage["unmeasured_calls"]
+        return {**self.usage, "provider": self.provider, "model": self.model,
+                "tokens_per_call": round(self.usage["total_tokens"] / measured, 1) if measured else None}
 
     @property
     def name(self) -> str:
@@ -227,15 +245,22 @@ class LLMExtractor:
         key = hashlib.sha256(json.dumps(
             [self.provider, self.model, self.effort, PROMPT_VERSION, user]).encode()).hexdigest()[:24]
         path = self.cache_dir / f"{key}.json" if self.cache_dir else None
-        if path and path.exists():
-            return json.loads(path.read_text(encoding="utf-8"))
-        data = self._call(user)
+        if path and path.exists() and not self.fresh:
+            entry = json.loads(path.read_text(encoding="utf-8"))
+            if "data" in entry:  # current format: {"data": ..., "usage": ...}
+                self._account(entry.get("usage"), cached=True)
+                return entry["data"]
+            self._account(None, cached=True)  # old format: bare model output, no usage
+            return entry
+        data, usage = self._call(user)
+        self._account(usage, cached=False)
         if path:
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps(data), encoding="utf-8")
+            path.write_text(json.dumps({"data": data, "usage": usage}), encoding="utf-8")
         return data
 
-    def _call(self, user: str) -> dict:
+    def _call(self, user: str) -> tuple[dict, dict | None]:
+        """Returns (model output, usage) where usage has prompt/completion/total_tokens."""
         if self.min_interval_s:  # pace requests for rate-limited free tiers
             wait = self._last_call + self.min_interval_s - time.monotonic()
             if wait > 0:
@@ -267,7 +292,7 @@ class LLMExtractor:
                 print(f"  groq rate limit: waiting {wait:.0f}s before retrying", flush=True)
                 time.sleep(wait)
 
-    def _groq_request(self, user: str, kwargs: dict) -> dict:
+    def _groq_request(self, user: str, kwargs: dict) -> tuple[dict, dict | None]:
         response = self.client.chat.completions.create(
             model=self.model,
             messages=[{"role": "system", "content": SYSTEM_PROMPT},
@@ -281,9 +306,14 @@ class LLMExtractor:
         choice = response.choices[0]
         if choice.finish_reason == "length":
             raise RuntimeError("groq output truncated (max_completion_tokens)")
-        return json.loads(choice.message.content)
+        u = getattr(response, "usage", None)
+        usage = None if u is None else {
+            "prompt_tokens": getattr(u, "prompt_tokens", 0),
+            "completion_tokens": getattr(u, "completion_tokens", 0),
+            "total_tokens": getattr(u, "total_tokens", 0)}
+        return json.loads(choice.message.content), usage
 
-    def _call_anthropic(self, user: str) -> dict:
+    def _call_anthropic(self, user: str) -> tuple[dict, dict | None]:
         response = self.client.beta.messages.create(
             model=self.model,
             max_tokens=16000,
@@ -298,4 +328,11 @@ class LLMExtractor:
         if response.stop_reason == "refusal":
             raise RuntimeError(f"model refused: {response.stop_details}")
         text = next(b.text for b in response.content if b.type == "text")
-        return json.loads(text)
+        u = getattr(response, "usage", None)
+        usage = None
+        if u is not None:
+            prompt = (getattr(u, "input_tokens", 0) + (getattr(u, "cache_read_input_tokens", 0) or 0)
+                      + (getattr(u, "cache_creation_input_tokens", 0) or 0))
+            usage = {"prompt_tokens": prompt, "completion_tokens": getattr(u, "output_tokens", 0),
+                     "total_tokens": prompt + getattr(u, "output_tokens", 0)}
+        return json.loads(text), usage

@@ -1,0 +1,759 @@
+{
+  "config": "agent_nomem",
+  "extractor": "llm-groq-gpt-oss-120b",
+  "n_scenarios": 10,
+  "n_turns": 39,
+  "action_accuracy": 0.8462,
+  "clarify_recall": 1.0,
+  "infeasible_recall": 0.0,
+  "recommend_recall": 0.8857,
+  "silent_relaxation_rate": 0.6667,
+  "silent_relaxations": 22,
+  "constraint_satisfaction": 0.3838,
+  "turn_all_satisfied": 0.3333,
+  "unsupported_claim_rate": 0.0,
+  "n_claims": 435,
+  "state_exact_match": 0.3077,
+  "tool_calls_per_turn": 5.92,
+  "tool_calls": {
+    "get_recipe_details": 99,
+    "search_recipes": 33,
+    "validate_constraints": 99
+  },
+  "llm_usage": {
+    "calls": 39,
+    "api_calls": 17,
+    "cached_calls": 22,
+    "unmeasured_calls": 0,
+    "prompt_tokens": 65392,
+    "completion_tokens": 10139,
+    "total_tokens": 75531,
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "tokens_per_call": 1936.7
+  },
+  "per_turn": [
+    {
+      "scenario": "dev_001",
+      "turn": 1,
+      "user": "Suggest a vegetarian dinner.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Easy Peezy Pizza Dough (Bread Machine Pizza Dough)",
+        "Baked Stuffed Pasta Shells",
+        "Quinoa Black Bean Salad"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_001",
+      "turn": 2,
+      "user": "It should take under 25 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Denny's-Style French Toast",
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)",
+        "Strawberry Julius"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Denny's-Style French Toast",
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)",
+        "Strawberry Julius"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_001",
+      "turn": 3,
+      "user": "And please avoid mushrooms.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Jo Mama's World Famous Spaghetti",
+        "Chicken Tortilla Soup II"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Jo Mama's World Famous Spaghetti",
+        "Chicken Tortilla Soup II"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_001",
+      "turn": 4,
+      "user": "Actually, up to 30 minutes is fine.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Denny's-Style French Toast",
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)",
+        "Tortellini Tomato Spinach Soup"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Denny's-Style French Toast",
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)",
+        "Tortellini Tomato Spinach Soup"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_002",
+      "turn": 1,
+      "user": "I'm allergic to nuts. Can you suggest a dessert?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Strawberry Julius",
+        "Vanilla Sugar Cookies",
+        "Best Lemon Blueberry Bundt Cake"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_002",
+      "turn": 2,
+      "user": "Something under 300 calories please.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Denny's-Style French Toast",
+        "Perfect Chocolate Brownies",
+        "Bev's Sauteed Yellow Squash"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Denny's-Style French Toast",
+        "Perfect Chocolate Brownies",
+        "Bev's Sauteed Yellow Squash"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_002",
+      "turn": 3,
+      "user": "Forget the dessert, I need a quick lunch instead, ready in 20 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Cranberry Feta Pinwheels",
+        "Ham Salad for Sandwiches",
+        "Stolen Garlic Chicken Livers"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_002",
+      "turn": 4,
+      "user": "Make sure it has at least 20 g of protein.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Jo Mama's World Famous Spaghetti",
+        "Chicken Tortilla Soup II"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Jo Mama's World Famous Spaghetti",
+        "Chicken Tortilla Soup II"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_003",
+      "turn": 1,
+      "user": "I'm vegan. What main dish could I make?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Easy Peezy Pizza Dough (Bread Machine Pizza Dough)",
+        "Quinoa Black Bean Salad",
+        "Carol's Dal Curry (curried lentils)"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_003",
+      "turn": 2,
+      "user": "It also has to be gluten-free.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Kittencal's Best Blasted Rapid-Roast Whole Chicken",
+        "Tortellini Tomato Spinach Soup",
+        "Bev's Sauteed Yellow Squash"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Kittencal's Best Blasted Rapid-Roast Whole Chicken",
+        "Tortellini Tomato Spinach Soup",
+        "Bev's Sauteed Yellow Squash"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_003",
+      "turn": 3,
+      "user": "And ready in 10 minutes, with at least 30 g of protein.",
+      "expected_action": "report_infeasible",
+      "action": "recommend",
+      "recommendations": [
+        "Stolen Garlic Chicken Livers",
+        "Quick & Simple Pesto (Classic Pesto Recipe) Sauce",
+        "Roast Beef Sandwich with Spicy Mayo and Avocado"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Stolen Garlic Chicken Livers",
+        "Quick & Simple Pesto (Classic Pesto Recipe) Sauce",
+        "Roast Beef Sandwich with Spicy Mayo and Avocado"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_003",
+      "turn": 4,
+      "user": "OK, then forget the protein requirement and allow 30 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Denny's-Style French Toast",
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)",
+        "Tortellini Tomato Spinach Soup"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Denny's-Style French Toast",
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)",
+        "Tortellini Tomato Spinach Soup"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_004",
+      "turn": 1,
+      "user": "I'd like a chicken dinner.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Kittencal's Best Blasted Rapid-Roast Whole Chicken",
+        "Oven-Fried Garlic Chicken",
+        "Chicken Legs Grilled"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_004",
+      "turn": 2,
+      "user": "No dairy, please.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Kittencal's Best Blasted Rapid-Roast Whole Chicken",
+        "Perfect Chocolate Brownies",
+        "Easy Peezy Pizza Dough (Bread Machine Pizza Dough)"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Perfect Chocolate Brownies",
+        "Easy Peezy Pizza Dough (Bread Machine Pizza Dough)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_004",
+      "turn": 3,
+      "user": "I want something quick but also high in protein. What are my options?",
+      "expected_action": "recommend",
+      "action": "clarify",
+      "recommendations": [],
+      "all_satisfied": false,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 0
+    },
+    {
+      "scenario": "dev_004",
+      "turn": 4,
+      "user": "Keep it under 600 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Jo Mama's World Famous Spaghetti",
+        "Chicken Tortilla Soup II"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Jo Mama's World Famous Spaghetti",
+        "Chicken Tortilla Soup II"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_005",
+      "turn": 1,
+      "user": "Suggest something healthy.",
+      "expected_action": "clarify",
+      "action": "clarify",
+      "recommendations": [],
+      "all_satisfied": false,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 0
+    },
+    {
+      "scenario": "dev_005",
+      "turn": 2,
+      "user": "I mean under 400 calories and less than 500 mg of sodium.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Denny's-Style French Toast",
+        "Oven Crisp Chicken Wings",
+        "Perfect Chocolate Brownies"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_005",
+      "turn": 3,
+      "user": "It should contain salmon.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Crispy Salmon Cakes With Lemon- Caper Mayonnaise",
+        "Maple & Mustard Glazed Salmon (3 Ingredients)",
+        "Potato'n Salmon Cakes"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Crispy Salmon Cakes With Lemon- Caper Mayonnaise",
+        "Maple & Mustard Glazed Salmon (3 Ingredients)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_005",
+      "turn": 4,
+      "user": "Actually, make it shrimp instead of salmon.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chili's Spicy Garlic & Lime Shrimp",
+        "Grilled Shrimp -- Mmmmmm",
+        "Cheesy Shrimp & Grits Casserole"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Chili's Spicy Garlic & Lime Shrimp",
+        "Grilled Shrimp -- Mmmmmm",
+        "Cheesy Shrimp & Grits Casserole"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 1,
+      "user": "What can I make for breakfast with eggs?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Denny's-Style French Toast",
+        "French Toast Sticks (oamc)",
+        "Pear Coffee Cake with Ginger Pecan Crunch Topping"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 2,
+      "user": "Nothing that takes more than 20 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)",
+        "Strawberry Julius",
+        "Chili's Spicy Garlic & Lime Shrimp"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)",
+        "Strawberry Julius",
+        "Chili's Spicy Garlic & Lime Shrimp"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 3,
+      "user": "Hmm, make that 15 minutes max.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)",
+        "Strawberry Julius",
+        "Cranberry Feta Pinwheels"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)",
+        "Strawberry Julius",
+        "Cranberry Feta Pinwheels"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 4,
+      "user": "And I'd prefer something high in protein.",
+      "expected_action": "recommend",
+      "action": "clarify",
+      "recommendations": [],
+      "all_satisfied": false,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 0
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 1,
+      "user": "I'm pescatarian. Any ideas for dinner tonight?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Easy Peezy Pizza Dough (Bread Machine Pizza Dough)",
+        "Baked Stuffed Pasta Shells",
+        "Fish Tacos and Cilantro Coleslaw, 20 Minutes Max"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 2,
+      "user": "Something with salmon would be nice.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Crispy Salmon Cakes With Lemon- Caper Mayonnaise",
+        "Maple & Mustard Glazed Salmon (3 Ingredients)",
+        "Potato'n Salmon Cakes"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Potato'n Salmon Cakes"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 3,
+      "user": "Under 500 calories per serving, please.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Chicken Tortilla Soup II",
+        "Denny's-Style French Toast"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Chicken Tortilla Soup II",
+        "Denny's-Style French Toast"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 4,
+      "user": "Actually, the calorie limit doesn't matter.",
+      "expected_action": "recommend",
+      "action": "clarify",
+      "recommendations": [],
+      "all_satisfied": false,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 0
+    },
+    {
+      "scenario": "dev_008",
+      "turn": 1,
+      "user": "I need a dessert that's vegan.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Eggless Vegan Carrot Cake Cupcakes",
+        "Sugar and Spice Almonds",
+        "Bourbon (or Rum) Balls"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_008",
+      "turn": 2,
+      "user": "It should be ready in 10 minutes and have at least 15 g of protein.",
+      "expected_action": "report_infeasible",
+      "action": "recommend",
+      "recommendations": [
+        "Ham Salad for Sandwiches",
+        "Stolen Garlic Chicken Livers",
+        "Quick & Simple Pesto (Classic Pesto Recipe) Sauce"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Ham Salad for Sandwiches",
+        "Stolen Garlic Chicken Livers",
+        "Quick & Simple Pesto (Classic Pesto Recipe) Sauce"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_008",
+      "turn": 3,
+      "user": "Fine, drop the protein requirement.",
+      "expected_action": "recommend",
+      "action": "clarify",
+      "recommendations": [],
+      "all_satisfied": false,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 0
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 1,
+      "user": "Give me a soup recipe without any onions.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Southern Chicken and Dumplings",
+        "6 Can Chicken Tortilla Soup",
+        "Yellow Curry Chicken (Thai Soup)"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 2,
+      "user": "Low in sodium, under 600 mg.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Denny's-Style French Toast",
+        "Kittencal's Best Blasted Rapid-Roast Whole Chicken",
+        "Oven Crisp Chicken Wings"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Denny's-Style French Toast",
+        "Kittencal's Best Blasted Rapid-Roast Whole Chicken",
+        "Oven Crisp Chicken Wings"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 3,
+      "user": "Can it be under 400 mg instead?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Denny's-Style French Toast",
+        "Kittencal's Best Blasted Rapid-Roast Whole Chicken",
+        "Oven Crisp Chicken Wings"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Denny's-Style French Toast",
+        "Kittencal's Best Blasted Rapid-Roast Whole Chicken",
+        "Oven Crisp Chicken Wings"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 4,
+      "user": "And no more than an hour of cooking.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Denny's-Style French Toast",
+        "Perfect Chocolate Brownies",
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Denny's-Style French Toast",
+        "Perfect Chocolate Brownies",
+        "Pan Release, Professional Pan Coating (Better Than Pam Spray!)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 1,
+      "user": "I'm hungry, what should I cook?",
+      "expected_action": "clarify",
+      "action": "clarify",
+      "recommendations": [],
+      "all_satisfied": false,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 0
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 2,
+      "user": "A main course, nothing fancy, under 45 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Tortellini Tomato Spinach Soup",
+        "Wet Burritos",
+        "Armenian Herb Marinade Grilled Chicken Breasts"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 3,
+      "user": "With beef.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Wet Burritos",
+        "N. Y. C. Corned Beef and Cabbage"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "N. Y. C. Corned Beef and Cabbage"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 4,
+      "user": "No tomatoes though.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Denny's-Style French Toast",
+        "Kittencal's Best Blasted Rapid-Roast Whole Chicken"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Denny's-Style French Toast",
+        "Kittencal's Best Blasted Rapid-Roast Whole Chicken"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 7
+    }
+  ]
+}

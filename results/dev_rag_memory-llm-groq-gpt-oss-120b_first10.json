@@ -1,0 +1,706 @@
+{
+  "config": "rag_memory",
+  "extractor": "llm-groq-gpt-oss-120b",
+  "n_scenarios": 10,
+  "n_turns": 39,
+  "action_accuracy": 0.8974,
+  "clarify_recall": 0.0,
+  "infeasible_recall": 0.0,
+  "recommend_recall": 1.0,
+  "silent_relaxation_rate": 0.0513,
+  "silent_relaxations": 2,
+  "constraint_satisfaction": 0.9487,
+  "turn_all_satisfied": 0.9487,
+  "unsupported_claim_rate": 0.0,
+  "n_claims": 351,
+  "state_exact_match": 1.0,
+  "tool_calls_per_turn": 1.05,
+  "tool_calls": {
+    "search_recipes": 41
+  },
+  "llm_usage": {
+    "calls": 39,
+    "api_calls": 0,
+    "cached_calls": 39,
+    "unmeasured_calls": 0,
+    "prompt_tokens": 66110,
+    "completion_tokens": 10428,
+    "total_tokens": 76538,
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "tokens_per_call": 1962.5
+  },
+  "per_turn": [
+    {
+      "scenario": "dev_001",
+      "turn": 1,
+      "user": "Suggest a vegetarian dinner.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Eggplant (Aubergine) Persillade (Julia Child's)",
+        "Gourmet Cruisers' Vegetarian Pizza",
+        "Squash and Chickpea Curry"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_001",
+      "turn": 2,
+      "user": "It should take under 25 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Thai Red Curry / Coconut Sauce (For Salmon)",
+        "Mediterranean Spinach Patties",
+        "Easiest Penne With Vodka"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_001",
+      "turn": 3,
+      "user": "And please avoid mushrooms.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Penne With Ginger Garlic & Vegetables",
+        "Baked Eggs With Salsa",
+        "Meaty Macaroni and Cheese"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_001",
+      "turn": 4,
+      "user": "Actually, up to 30 minutes is fine.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Turkish Cabbage Salad (Lahana Salata)",
+        "Flavoured Onion Rice with Broccoli",
+        "Chile Cornmeal Crusted Tofu"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_002",
+      "turn": 1,
+      "user": "I'm allergic to nuts. Can you suggest a dessert?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Coconut Millet Pudding",
+        "Raisin-Bread and Croissant Bread Pudding",
+        "Whipped Topping Substitute"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_002",
+      "turn": 2,
+      "user": "Something under 300 calories please.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Hungry-Girl Apple Cobbler (Low Fat; 2 Ww Points)",
+        "Fresh Strawberries With Lemon Curd",
+        "Quick and Easy Spice Cake"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_002",
+      "turn": 3,
+      "user": "Forget the dessert, I need a quick lunch instead, ready in 20 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Hot Chocolate and Oats Pick-Me-Up",
+        "Soupburger",
+        "Crackerjack Cookies"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_002",
+      "turn": 4,
+      "user": "Make sure it has at least 20 g of protein.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Salmon With Ginger Glaze",
+        "Ferris Wheel Chicken Salad",
+        "Gyro-Style Pork Sandwiches"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_003",
+      "turn": 1,
+      "user": "I'm vegan. What main dish could I make?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Vegan Egg Foo Yung (Tofu Yung)",
+        "Ballpark Hot Dogs (Vegan)",
+        "Quinoa Black Bean Salad"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_003",
+      "turn": 2,
+      "user": "It also has to be gluten-free.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Apple Cinnamon Quinoa \" Cereal\"",
+        "Gluten Free - Thin Pizza Crust",
+        "Leek and Quinoa Risotto"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_003",
+      "turn": 3,
+      "user": "And ready in 10 minutes, with at least 30 g of protein.",
+      "expected_action": "report_infeasible",
+      "action": "recommend",
+      "recommendations": [
+        "Asparagus-Mushroom Saute",
+        "Red Salmon Pie",
+        "Spaghetti Salad With Tomatoes, Feta and Pesto Sauce (Can Be Gf)"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Asparagus-Mushroom Saute",
+        "Red Salmon Pie",
+        "Spaghetti Salad With Tomatoes, Feta and Pesto Sauce (Can Be Gf)"
+      ],
+      "relaxed": true,
+      "unsupported_claims": [],
+      "n_tool_calls": 2
+    },
+    {
+      "scenario": "dev_003",
+      "turn": 4,
+      "user": "OK, then forget the protein requirement and allow 30 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Leek and Quinoa Risotto",
+        "Indian Chana Masala",
+        "Karela (Bitter melon or gourd)"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_004",
+      "turn": 1,
+      "user": "I'd like a chicken dinner.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Baked Chicken Nuggets",
+        "Supreme  Chicken Bites",
+        "Honey Rotisserie Chicken"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_004",
+      "turn": 2,
+      "user": "No dairy, please.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oyako-don (chicken and egg rice bowl)",
+        "Yakitori Chicken Kabobs",
+        "Stir-Fried Ginger Chicken"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_004",
+      "turn": 3,
+      "user": "I want something quick but also high in protein. What are my options?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Italian Zest Chicken (Zip and Steam)",
+        "Moo Shu Chicken Wraps",
+        "Stolen Garlic Chicken Livers"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_004",
+      "turn": 4,
+      "user": "Keep it under 600 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Italian Zest Chicken (Zip and Steam)",
+        "Moo Shu Chicken Wraps",
+        "Stolen Garlic Chicken Livers"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_005",
+      "turn": 1,
+      "user": "Suggest something healthy.",
+      "expected_action": "clarify",
+      "action": "recommend",
+      "recommendations": [
+        "Eggplant (Aubergine) Persillade (Julia Child's)",
+        "Squash and Chickpea Curry",
+        "R U Chicken"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_005",
+      "turn": 2,
+      "user": "I mean under 400 calories and less than 500 mg of sodium.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Pork Chops With Apricot Sauce",
+        "Hungry Girl Ww Guacamole - 1 Point!",
+        "Hungry-Girl Apple Cobbler (Low Fat; 2 Ww Points)"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_005",
+      "turn": 3,
+      "user": "It should contain salmon.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Grilled Salmon With Vegetables",
+        "Canadian Cedar Planked Salmon",
+        "Mushroom Stuffed Salmon Fillet"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_005",
+      "turn": 4,
+      "user": "Actually, make it shrimp instead of salmon.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Barbecued Shrimp With Mango Lime Mayonnaise",
+        "Shrimp Korma",
+        "Warm Quinoa Salad With Shrimp and Asparagus"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 1,
+      "user": "What can I make for breakfast with eggs?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Venezuelan Scrambled Eggs - Perico Venezolano",
+        "Refrigerator Bran Muffins",
+        "Baked Eggs with Green Chilies"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 2,
+      "user": "Nothing that takes more than 20 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Old-Fashioned Cake Doughnuts (Donuts)",
+        "Norwegian Pancakes",
+        "Easy \"light\" French Toast"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 3,
+      "user": "Hmm, make that 15 minutes max.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Scrambled Eggs (Oeufs Brouill\u00e9s)",
+        "Nif's 1 Ww Pt. Light, Low Fat Spinach and Feta Omelette (Omelet)",
+        "Open Omelette"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_006",
+      "turn": 4,
+      "user": "And I'd prefer something high in protein.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chorizo and Egg Breakfast Burritos",
+        "Mexican Omelette",
+        "Omelet With Smoked Bleu Cheese and Caramelized Bacon"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 1,
+      "user": "I'm pescatarian. Any ideas for dinner tonight?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Not My Mom's Fried Fish",
+        "Outrageously Easy and Healthy Bean, Corn and Sprouts Bowl for One (Vegan)",
+        "Cherry tomato and Feta cheese slice"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 2,
+      "user": "Something with salmon would be nice.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Salmon and Crab in Phyllo With White Wine Honey Mustard Sauce",
+        "Baked Horseradish Salmon With Chardonnay Chive Butter Sauce",
+        "Baked Tarragon Orange Salmon"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 3,
+      "user": "Under 500 calories per serving, please.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "New York's Best Crispy Salmon Cakes",
+        "Salmon",
+        "Grilled Cedar-Planked Salmon"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_007",
+      "turn": 4,
+      "user": "Actually, the calorie limit doesn't matter.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "South Beach Fish Kabobs",
+        "Cider grilled Salmon",
+        "Salmon"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_008",
+      "turn": 1,
+      "user": "I need a dessert that's vegan.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Vegan Cr\u00e8me Au Caf\u00e9 (Vegan Coffee Blancmange)",
+        "Sugar and Spice Almonds",
+        "Eggless Vegan Carrot Cake Cupcakes"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_008",
+      "turn": 2,
+      "user": "It should be ready in 10 minutes and have at least 15 g of protein.",
+      "expected_action": "report_infeasible",
+      "action": "recommend",
+      "recommendations": [
+        "Karpathian Cucumber Boats",
+        "Whipped Topping Substitute",
+        "Chocolate Marshmallow Frosting"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Karpathian Cucumber Boats",
+        "Whipped Topping Substitute",
+        "Chocolate Marshmallow Frosting"
+      ],
+      "relaxed": true,
+      "unsupported_claims": [],
+      "n_tool_calls": 2
+    },
+    {
+      "scenario": "dev_008",
+      "turn": 3,
+      "user": "Fine, drop the protein requirement.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Jelly Belly Banana Split (--Tasty Dish--)",
+        "Yum Yum Cereal Squares",
+        "Easy Bake Oven Chocolate Cake Mix"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 1,
+      "user": "Give me a soup recipe without any onions.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Mediterranean Chicken and Lemon Soup",
+        "Spinach-Leek Cream Soup",
+        "Cream of Chicken Soup"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 2,
+      "user": "Low in sodium, under 600 mg.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Mediterranean Chicken and Lemon Soup",
+        "You Will Get Better Soup",
+        "Carnival Cruise Strawberry Bisque"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 3,
+      "user": "Can it be under 400 mg instead?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Succotash Soup",
+        "Spinach-Leek Cream Soup",
+        "Fruit Gazpacho"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_009",
+      "turn": 4,
+      "user": "And no more than an hour of cooking.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Fruit Gazpacho",
+        "Strawberry White Wine Soup",
+        "Mediterranean Chicken and Lemon Soup"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 1,
+      "user": "I'm hungry, what should I cook?",
+      "expected_action": "clarify",
+      "action": "recommend",
+      "recommendations": [
+        "Thai-Style Chicken With Basil (Cook's Illustrated)",
+        "Hungry Girl Ww Guacamole - 1 Point!",
+        "Illegal Pot Pie"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 2,
+      "user": "A main course, nothing fancy, under 45 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Southern Smothered Pork Chops",
+        "Fancy Pants Burger",
+        "Crispy Oven-Fried Cod Fish"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 3,
+      "user": "With beef.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Skillet Steaks With Onion Gravy",
+        "Beef Stew with Orange and Rosemary",
+        "Beef Patties With Tomato Spice Butter"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    },
+    {
+      "scenario": "dev_010",
+      "turn": 4,
+      "user": "No tomatoes though.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Spicy Broiled Hamburger Patties",
+        "Low Fat Middle Eastern Beef Koftas",
+        "Low Carb Supreme Pizza Casserole"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1
+    }
+  ]
+}

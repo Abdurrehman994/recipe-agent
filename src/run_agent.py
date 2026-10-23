@@ -103,6 +103,7 @@ def run(agent: Agent, scenarios: list[dict], db: RecipeDB) -> tuple[dict, list[d
         "state_exact_match": rate("state_ok", "state_turns"),
         "tool_calls_per_turn": round(sum(tool_counts.values()) / n["turns"], 2) if n["turns"] else 0,
         "tool_calls": dict(sorted(tool_counts.items())),
+        "llm_usage": agent.extractor.usage_summary() if hasattr(agent.extractor, "usage_summary") else None,
         "per_turn": per_turn,
     }
     return metrics, records
@@ -116,11 +117,15 @@ def print_summary(m: dict) -> None:
           f"silent relaxations={m['silent_relaxations']} ({m['silent_relaxation_rate']})")
     print(f"  unsupported claims={m['unsupported_claim_rate']} of {m['n_claims']}  "
           f"state exact={m['state_exact_match']}  tools/turn={m['tool_calls_per_turn']} {m['tool_calls']}")
+    if m.get("llm_usage"):
+        u = m["llm_usage"]
+        print(f"  llm usage: {u['calls']} calls ({u['api_calls']} api, {u['cached_calls']} cached), "
+              f"{u['total_tokens']} tokens, {u['tokens_per_call']} per call")
 
 
 def build_agent(args, db: RecipeDB) -> Agent:
     from src.evaluate import get_extractor
-    extractor = get_extractor(args.extractor, args.provider, args.model, args.effort)
+    extractor = get_extractor(args.extractor, args.provider, args.model, args.effort, args.fresh)
     return Agent(db, extractor, mode=args.mode, memory=not args.no_memory,
                  validate=not args.no_validate, k=args.k)
 
@@ -136,13 +141,16 @@ def main():
     ap.add_argument("--model", default=None)
     ap.add_argument("--effort", default="medium")
     ap.add_argument("--k", type=int, default=3)
+    ap.add_argument("--fresh", action="store_true", help="llm only: ignore cached answers")
+    ap.add_argument("--scenarios", type=int, default=None, help="use only the first N scenarios")
     ap.add_argument("--errors", action="store_true", help="print turns with a wrong action or violation")
     args = ap.parse_args()
 
     db = RecipeDB.load()
     agent = build_agent(args, db)
-    metrics, records = run(agent, load_scenarios(args.split), db)
-    tag = agent.name + ("" if args.extractor == "rules" else f"-{agent.extractor.name}")
+    metrics, records = run(agent, load_scenarios(args.split)[: args.scenarios], db)
+    tag = agent.name + ("" if args.extractor == "rules" else f"-{agent.extractor.name}") \
+        + (f"_first{args.scenarios}" if args.scenarios else "")
     LOG_DIR.mkdir(exist_ok=True)
     RESULTS_DIR.mkdir(exist_ok=True)
     log_path = LOG_DIR / f"{args.split}_{tag}.jsonl"

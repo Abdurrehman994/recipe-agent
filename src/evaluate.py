@@ -113,13 +113,13 @@ def run(extractor, scenarios: list[dict], memory: bool = True) -> dict:
 
 
 def get_extractor(name: str, provider: str = "anthropic", model: str | None = None,
-                  effort: str = "medium"):
+                  effort: str = "medium", fresh: bool = False):
     if name == "rules":
         from src.extract_rules import RuleExtractor
         return RuleExtractor()
     if name == "llm":
         from src.extract_llm import LLMExtractor
-        return LLMExtractor(provider=provider, model=model, effort=effort)
+        return LLMExtractor(provider=provider, model=model, effort=effort, fresh=fresh)
     if name == "gold":  # upper bound / sanity check: replays the annotations
         return GoldExtractor()
     raise ValueError(f"unknown extractor {name}")
@@ -157,19 +157,29 @@ def main():
     ap.add_argument("--provider", default="anthropic", help="llm only: anthropic | groq")
     ap.add_argument("--model", default=None, help="llm only: override the provider's default model")
     ap.add_argument("--effort", default="medium", help="llm only: reasoning effort")
+    ap.add_argument("--fresh", action="store_true", help="llm only: ignore cached answers")
+    ap.add_argument("--scenarios", type=int, default=None, help="use only the first N scenarios")
     ap.add_argument("--no-memory", action="store_true")
     ap.add_argument("--errors", action="store_true", help="print turns with mistakes")
     args = ap.parse_args()
 
-    extractor = get_extractor(args.extractor, args.provider, args.model, args.effort)
-    res = run(extractor, load_scenarios(args.split), memory=not args.no_memory)
+    extractor = get_extractor(args.extractor, args.provider, args.model, args.effort, args.fresh)
+    scenarios = load_scenarios(args.split)[: args.scenarios]
+    res = run(extractor, scenarios, memory=not args.no_memory)
     if hasattr(extractor, "dropped"):  # LLM outputs that failed schema validation
         res["dropped"] = extractor.dropped
+    if hasattr(extractor, "usage_summary"):
+        res["usage"] = extractor.usage_summary()
     RESULTS_DIR.mkdir(exist_ok=True)
-    suffix = "_nomem" if args.no_memory else ""
+    suffix = ("_nomem" if args.no_memory else "") + (f"_first{args.scenarios}" if args.scenarios else "")
     out = RESULTS_DIR / f"{args.split}_{extractor.name}{suffix}.json"
     out.write_text(json.dumps(res, indent=2), encoding="utf-8")
     print_summary(res)
+    if res.get("usage"):
+        u = res["usage"]
+        print(f"  llm usage: {u['calls']} calls ({u['api_calls']} api, {u['cached_calls']} cached), "
+              f"{u['total_tokens']} tokens, {u['tokens_per_call']} per call "
+              f"(prompt {u['prompt_tokens']}, completion {u['completion_tokens']})")
     if res.get("dropped"):
         print(f"  dropped {len(res['dropped'])} invalid LLM items (see 'dropped' in the results file)")
     if args.errors:
