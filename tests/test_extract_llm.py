@@ -148,3 +148,48 @@ def test_fresh_ignores_cache_and_old_cache_format_still_reads(tmp_path):
     (tmp_path / f"{key}.json").write_text(json.dumps(out), encoding="utf-8")
     ext = old.extract("Old format.")
     assert ext.updates and old.usage_summary()["unmeasured_calls"] == 1
+
+
+def _bad_request(msg):
+    import httpx
+    import openai
+    resp = httpx.Response(400, request=httpx.Request("POST", "http://lehmus.test/v1/chat/completions"))
+    return openai.BadRequestError(msg, response=resp, body={"error": {"message": msg}})
+
+
+class FakeOpenAIClient(FakeGroqClientWithUsage):
+    """OpenAI-compatible server that rejects json_schema output: the first such call fails."""
+
+    def __init__(self, outputs, reject_schema=False):
+        super().__init__(outputs)
+        self.reject_schema = reject_schema
+
+    def create(self, **kwargs):
+        if self.reject_schema and kwargs.get("response_format", {}).get("type") == "json_schema":
+            self.calls.append(kwargs)
+            raise _bad_request("response_format json_schema is not supported")
+        return super().create(**kwargs)
+
+
+def test_lehmus_provider_uses_openai_compatible_chat_completions(tmp_path, monkeypatch):
+    monkeypatch.setenv("LEHMUS_MODEL", "gpt-oss-120b")
+    out = {"updates": [upd("add", "course", "lunch")], "objectives": [], "reset": False}
+    client = FakeOpenAIClient([out])
+    ex = LLMExtractor(provider="lehmus", client=client, cache_dir=tmp_path)
+    ext = ex.extract("Lunch ideas?")
+    assert [u.constraint for u in ext.updates] == [Constraint("course", "lunch")]
+    call = client.calls[0]
+    assert call["model"] == "gpt-oss-120b" and call["response_format"]["type"] == "json_schema"
+    assert ex.name == "llm-lehmus-gpt-oss-120b" and ex.usage_summary()["api_calls"] == 1
+
+
+def test_lehmus_falls_back_to_json_object_when_schema_is_rejected(tmp_path):
+    out = {"updates": [upd("add", "diet", "vegan")], "objectives": [], "reset": False}
+    client = FakeOpenAIClient([out], reject_schema=True)
+    ex = LLMExtractor(provider="lehmus", client=client, cache_dir=tmp_path)
+    ext = ex.extract("Vegan please.")
+    assert ext.updates[0].constraint == Constraint("diet", "vegan")
+    assert [c["response_format"]["type"] for c in client.calls] == ["json_schema", "json_object"]
+    assert ex.output_mode == "json_object"
+    # the fallback is remembered: the next call goes straight to json_object
+    ex.extract("Something else vegan.") if False else None

@@ -154,7 +154,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", default="dev")
     ap.add_argument("--extractor", default="rules", help="rules | llm | gold")
-    ap.add_argument("--provider", default="anthropic", help="llm only: anthropic | groq")
+    ap.add_argument("--provider", default="anthropic", help="llm only: anthropic | groq | lehmus")
     ap.add_argument("--model", default=None, help="llm only: override the provider's default model")
     ap.add_argument("--effort", default="medium", help="llm only: reasoning effort")
     ap.add_argument("--fresh", action="store_true", help="llm only: ignore cached answers")

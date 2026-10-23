@@ -11,6 +11,10 @@ and logged in `self.dropped` rather than crashing the evaluation.
 
 Providers
   anthropic  Claude via the `anthropic` SDK (default model claude-opus-5-5).
+  lehmus     Lehmus AI (University of Oulu), an OpenAI-compatible API, via the `openai` SDK.
+             Needs LEHMUS_BASE_URL, LEHMUS_API_KEY and optionally LEHMUS_MODEL in .env. If the
+             server rejects JSON-schema output, the extractor falls back to plain JSON mode
+             (the output is validated against the schema either way).
   groq       open-weight models on Groq's free tier via the `groq` SDK (default model
              openai/gpt-oss-120b, which supports JSON-schema output). The free tier allows
              30 requests/min and ~1,000/day per organisation (see
@@ -25,6 +29,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import time
 from pathlib import Path
 
@@ -35,7 +40,9 @@ from src.schema import (COURSES, DIETS, KINDS, NUMERIC_FIELDS, Constraint, Const
 from src.state import DialogueState
 from src.tools import stem
 
-DEFAULT_MODELS = {"anthropic": "claude-opus-5-5", "groq": "openai/gpt-oss-120b"}
+DEFAULT_MODELS = {"anthropic": "claude-opus-5-5", "groq": "openai/gpt-oss-120b",
+                  "lehmus": "openai/gpt-oss-120b"}  # lehmus: override with LEHMUS_MODEL
+CHAT_PROVIDERS = ("groq", "lehmus")  # OpenAI-style chat.completions API
 MODEL = DEFAULT_MODELS["anthropic"]
 GROQ_MIN_INTERVAL_S = 2.1  # 30 requests/min on the free tier
 PROMPT_VERSION = 2
@@ -189,7 +196,9 @@ class LLMExtractor:
         if provider not in DEFAULT_MODELS:
             raise ValueError(f"unknown provider {provider!r}; choose from {sorted(DEFAULT_MODELS)}")
         self.provider = provider
-        self.model = model or DEFAULT_MODELS[provider]
+        env_model = os.environ.get("LEHMUS_MODEL") if provider == "lehmus" else None
+        self.model = model or env_model or DEFAULT_MODELS[provider]
+        self.output_mode = "json_schema"  # may fall back to "json_object" (see _call_chat)
         self.effort = effort
         self.cache_dir = cache_dir
         self._client = client
@@ -228,6 +237,13 @@ class LLMExtractor:
             if self.provider == "groq":
                 import groq
                 self._client = groq.Groq(max_retries=5)  # retries 429s using retry-after
+            elif self.provider == "lehmus":
+                import openai
+                base_url, key = os.environ.get("LEHMUS_BASE_URL"), os.environ.get("LEHMUS_API_KEY")
+                if not base_url or not key:
+                    raise RuntimeError("set LEHMUS_BASE_URL and LEHMUS_API_KEY in .env "
+                                       "(portal: API URL and API Keys)")
+                self._client = openai.OpenAI(base_url=base_url, api_key=key, max_retries=5)
             else:
                 import anthropic
                 self._client = anthropic.Anthropic()
@@ -266,46 +282,66 @@ class LLMExtractor:
             if wait > 0:
                 time.sleep(wait)
             self._last_call = time.monotonic()
-        if self.provider == "groq":
-            return self._call_groq(user)
+        if self.provider in CHAT_PROVIDERS:
+            return self._call_chat(user)
         return self._call_anthropic(user)
 
-    def _call_groq(self, user: str) -> dict:
-        """One Groq call. The free tier is capped per day in tokens (200k for gpt-oss-120b);
-        when the API answers 429 after the SDK's own retries, wait the time it asks for and
-        try again, so a long evaluation run resumes by itself instead of crashing."""
+    def _call_chat(self, user: str) -> tuple[dict, dict | None]:
+        """One call to an OpenAI-style chat.completions API (Groq, Lehmus).
+
+        - 429 after the SDK's own retries (Groq's free tier is capped per day in tokens): wait
+          the time the server asks for and try again, so long runs resume instead of crashing.
+        - 400 on JSON-schema output (not every server supports it): switch this extractor to
+          plain JSON mode and retry; parse_output validates against the schema either way."""
         import re
-        import groq
         kwargs = {}
         if "gpt-oss" in self.model:  # only the gpt-oss models accept a reasoning effort
             kwargs["reasoning_effort"] = self.effort
         while True:
             try:
-                return self._groq_request(user, kwargs)
-            except groq.RateLimitError as e:
+                return self._chat_request(user, kwargs)
+            except Exception as e:  # SDK-specific classes: match by name to cover both SDKs
+                name = type(e).__name__
+                if name == "BadRequestError" and self.output_mode == "json_schema":
+                    print("  server rejected json_schema output; falling back to json_object", flush=True)
+                    self.output_mode = "json_object"
+                    continue
+                if name == "BadRequestError" and "reasoning_effort" in kwargs \
+                        and "reasoning" in str(e).lower():
+                    kwargs.pop("reasoning_effort")
+                    continue
+                if name != "RateLimitError":
+                    raise
                 m = re.search(r"try again in (?:(\d+)h)?(?:(\d+)m)?(?:([\d.]+)s)?", str(e))
                 wait = 60.0
                 if m and any(m.groups()):
                     h, mi, sec = (float(x) if x else 0.0 for x in m.groups())
                     wait = h * 3600 + mi * 60 + sec + 5
                 wait = min(max(wait, 10.0), 1800.0)
-                print(f"  groq rate limit: waiting {wait:.0f}s before retrying", flush=True)
+                print(f"  rate limit: waiting {wait:.0f}s before retrying", flush=True)
                 time.sleep(wait)
 
-    def _groq_request(self, user: str, kwargs: dict) -> tuple[dict, dict | None]:
+    def _chat_request(self, user: str, kwargs: dict) -> tuple[dict, dict | None]:
+        system = SYSTEM_PROMPT
+        if self.output_mode == "json_schema":
+            response_format = {"type": "json_schema",
+                               "json_schema": {"name": "turn_extraction", "schema": SCHEMA}}
+        else:
+            response_format = {"type": "json_object"}
+            system += ("\n\nReturn exactly one JSON object with the keys \"updates\", "
+                       "\"objectives\" and \"reset\" as specified above, and nothing else.")
         response = self.client.chat.completions.create(
             model=self.model,
-            messages=[{"role": "system", "content": SYSTEM_PROMPT},
+            messages=[{"role": "system", "content": system},
                       {"role": "user", "content": user}],
-            response_format={"type": "json_schema",
-                             "json_schema": {"name": "turn_extraction", "schema": SCHEMA}},
+            response_format=response_format,
             temperature=0,
             max_completion_tokens=4000,
             **kwargs,
         )
         choice = response.choices[0]
         if choice.finish_reason == "length":
-            raise RuntimeError("groq output truncated (max_completion_tokens)")
+            raise RuntimeError("output truncated (max_completion_tokens)")
         u = getattr(response, "usage", None)
         usage = None if u is None else {
             "prompt_tokens": getattr(u, "prompt_tokens", 0),
