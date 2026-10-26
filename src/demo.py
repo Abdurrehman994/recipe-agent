@@ -52,20 +52,40 @@ TOOL_HEADERS = ["#", "tool", "arguments", "result"]
 ACTION_LABEL = {"recommend": "Recommend", "clarify": "Clarify", "report_infeasible": "Infeasible"}
 
 CSS = """
-.rz-header{background:linear-gradient(135deg,#1f2a33 0%,#2b5d7a 100%);color:#f6f4ee;border-radius:12px;padding:22px 28px;margin-bottom:6px}
+@keyframes rzFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes rzPop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+@keyframes rzShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes rzPulse{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes rzGlow{0%{box-shadow:0 0 0 0 rgba(43,93,122,.45)}100%{box-shadow:0 0 0 14px rgba(43,93,122,0)}}
+.gradio-container{background:radial-gradient(1200px 500px at 10% -10%,#e6eef3 0%,transparent 60%),radial-gradient(900px 400px at 100% 0%,#f3ece2 0%,transparent 55%),#f7f6f2 !important}
+.rz-header{position:relative;overflow:hidden;background:linear-gradient(120deg,#1b2630,#2b5d7a,#1f3c4f,#2b5d7a);background-size:300% 300%;animation:rzShift 18s ease infinite;color:#f6f4ee;border-radius:16px;padding:24px 30px;margin-bottom:8px;box-shadow:0 12px 30px rgba(31,42,51,.18)}
+.rz-header:after{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(200,121,42,.35),transparent 65%)}
 .rz-header h1{margin:0 0 4px;font-size:26px;font-weight:600;color:#f6f4ee;letter-spacing:.2px}
 .rz-header p{margin:0;font-size:15px;color:#cfe0e6}
 .rz-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .rz-chip{font-size:12.5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:999px;color:#f6f4ee}
 .rz-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.rz-tile{background:var(--block-background-fill);border:1px solid var(--border-color-primary);border-radius:10px;padding:12px 14px}
+.rz-tile{background:#fff;border:1px solid #e3e6ea;border-radius:12px;padding:12px 14px;box-shadow:0 2px 10px rgba(31,42,51,.05);animation:rzFadeUp .4s ease both;transition:transform .15s ease,box-shadow .15s ease}
+.rz-tile:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(31,42,51,.10)}
+.rz-tile:nth-child(2){animation-delay:.06s}.rz-tile:nth-child(3){animation-delay:.12s}.rz-tile:nth-child(4){animation-delay:.18s}
 .rz-tile .k{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--body-text-color-subdued)}
 .rz-tile .v{font-size:22px;font-weight:600;margin-top:2px;line-height:1.2}
-.rz-badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:14px;font-weight:600;color:#fff}
+.rz-badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:14px;font-weight:600;color:#fff;animation:rzPop .45s cubic-bezier(.2,.8,.2,1) both,rzGlow .9s ease-out .1s}
+.rz-thinking{display:inline-flex;gap:5px;align-items:center;color:var(--body-text-color-subdued)}
+.rz-thinking i{width:7px;height:7px;border-radius:50%;background:#2b5d7a;display:inline-block;animation:rzPulse 1s ease-in-out infinite}
+.rz-thinking i:nth-child(2){animation-delay:.2s}.rz-thinking i:nth-child(3){animation-delay:.4s}
 .rz-recommend{background:#2f7d4f}.rz-clarify{background:#b8860b}.rz-infeasible{background:#b3261e}.rz-none{background:#8a94a0}
-.rz-warn{background:#fdecea;border-left:4px solid #b3261e;padding:8px 12px;border-radius:6px;margin-top:6px;color:#1f2328}
+.rz-warn{background:#fdecea;border-left:4px solid #b3261e;padding:8px 12px;border-radius:8px;margin-top:6px;color:#1f2328;animation:rzFadeUp .35s ease both}
 .rz-muted{color:var(--body-text-color-subdued)}
-.rz-examples button{font-size:13px}
+.rz-panel{border-radius:14px !important;box-shadow:0 2px 12px rgba(31,42,51,.06);animation:rzFadeUp .4s ease both}
+.rz-panel table tr{animation:rzFadeUp .3s ease both}
+.rz-decision{animation:rzFadeUp .35s ease both}
+.rz-examples button{font-size:13px;border-radius:999px !important;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+.rz-examples button:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(43,93,122,.18)}
+.message-row,.bubble-wrap .message{animation:rzFadeUp .35s ease both}
+button.primary{background:linear-gradient(135deg,#2b5d7a,#1f3c4f) !important;border:none !important;transition:transform .15s ease,box-shadow .15s ease}
+button.primary:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(43,93,122,.3)}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
 footer{display:none !important}
 """
 
@@ -194,15 +214,30 @@ def chat_message(rec: dict) -> str:
 N_OUT = 7  # chat, tiles, state, state_note, decision, tools, claims (+ the cleared textbox)
 
 
+THINKING = ('<span class="rz-thinking"><i></i><i></i><i></i> extracting constraints, searching, '
+            'validating</span>')
+
+
 def respond(text: str, history: list[dict]):
+    """Generator: first the user turn with a thinking indicator, then the full result."""
     text = (text or "").strip()
     if not text:
-        return (history, *([gr.update()] * (N_OUT - 1)), "")
+        yield (history, *([gr.update()] * (N_OUT - 1)), "")
+        return
+    history = (history or []) + [{"role": "user", "content": text}]
+    yield (history + [{"role": "assistant", "content": THINKING}],
+           *([gr.update()] * (N_OUT - 1)), "")
     rec = SESSION.turn(text)
-    history = (history or []) + [{"role": "user", "content": text},
-                                 {"role": "assistant", "content": chat_message(rec)}]
-    return (history, tiles_html(rec), state_rows(rec), state_note(rec), decision_html(rec),
-            tool_rows(rec), claims_md(rec), "")
+    history = history + [{"role": "assistant", "content": chat_message(rec)}]
+    yield (history, tiles_html(rec), state_rows(rec), state_note(rec), decision_html(rec),
+           tool_rows(rec), claims_md(rec), "")
+
+
+def make_sender(text: str):
+    """Click handler sending a fixed example turn (a real generator function for Gradio)."""
+    def send(history: list[dict]):
+        yield from respond(text, history)
+    return send
 
 
 def new_dialogue(config: str):
@@ -226,14 +261,15 @@ def load_scenario(choice: str):
 def next_turn(history: list[dict]):
     sc = SESSION.scenario
     if not sc or SESSION.pos >= len(sc):
-        return (history, *([gr.update()] * (N_OUT - 1)), "",
-                "Scenario finished. Load another or type your own turns.")
+        yield (history, *([gr.update()] * (N_OUT - 1)), "",
+               "Scenario finished. Load another or type your own turns.")
+        return
     t = sc[SESSION.pos]
     SESSION.pos += 1
-    out = respond(t["user"], history)
     note = (f"Turn {SESSION.pos}/{len(sc)} sent. Annotated expected action: "
             f"**{ACTION_LABEL[t['expected_action']]}**.")
-    return (*out, note)
+    for out in respond(t["user"], history):
+        yield (*out, note)
 
 
 # ------------------------------------------------------------------ page
@@ -261,19 +297,19 @@ def build() -> gr.Blocks:
                     example_btns = [gr.Button(t, size="sm", variant="secondary") for t in EXAMPLE_TURNS]
             with gr.Column(scale=9):
                 tiles = gr.HTML(tiles_html(None))
-                with gr.Group():
+                with gr.Group(elem_classes=["rz-panel"]):
                     state = gr.Dataframe(headers=STATE_HEADERS, value=[], label="Dialogue state (memory)",
                                          interactive=False, wrap=True,
                                          column_widths=["18%", "32%", "14%", "16%", "20%"])
                     state_md = gr.Markdown("No active constraints.", elem_classes=["rz-muted"])
-                with gr.Group():
+                with gr.Group(elem_classes=["rz-panel"]):
                     gr.Markdown("**Decision**")
-                    decision = gr.HTML("<span class='rz-muted'>—</span>")
-                with gr.Group():
+                    decision = gr.HTML("<span class='rz-muted'>—</span>", elem_classes=["rz-decision"])
+                with gr.Group(elem_classes=["rz-panel"]):
                     tools = gr.Dataframe(headers=TOOL_HEADERS, value=[], label="Tool calls this turn",
                                          interactive=False, wrap=True, max_height=260,
                                          column_widths=["6%", "22%", "36%", "36%"])
-                with gr.Group():
+                with gr.Group(elem_classes=["rz-panel"]):
                     gr.Markdown("**Grounding check**")
                     claims = gr.Markdown("Every factual statement in an answer is re-checked against the "
                                          "recipe database.", elem_classes=["rz-muted"])
@@ -290,8 +326,8 @@ def build() -> gr.Blocks:
 
         outputs = [chat, tiles, state, state_md, decision, tools, claims, box]
         box.submit(respond, [box, chat], outputs)
-        for btn in example_btns:
-            btn.click(lambda h, t=btn.value: respond(t, h), [chat], outputs)
+        for btn, text in zip(example_btns, EXAMPLE_TURNS):
+            btn.click(make_sender(text), [chat], outputs)
         reset_btn.click(new_dialogue, [config], outputs)
         config.change(new_dialogue, [config], outputs)
         config.change(describe_config, [config], [config_md])
