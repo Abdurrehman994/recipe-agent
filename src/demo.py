@@ -190,8 +190,7 @@ def main():
     args = ap.parse_args()
     from src.evaluate import get_extractor
     SESSION = Session(RecipeDB.load(), get_extractor(args.extractor, args.provider, args.model, args.effort))
-    build().launch(server_name="127.0.0.1", server_port=args.port, inbrowser=not args.no_browser,
-                   show_api=False)
+    build().launch(server_name="127.0.0.1", server_port=args.port, inbrowser=not args.no_browser)
 
 
 if __name__ == "__main__":
