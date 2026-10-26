@@ -48,7 +48,15 @@ python -m src.run_agent --split dev --mode agent --no-memory | --no-validate   #
 cached in `.cache/llm/` keyed by provider, model, prompt version and input, so re-runs are
 free; `--fresh` bypasses the cache to measure real usage.
 
-Try the agent interactively:
+Try the agent in the browser (chat plus live dialogue state, decision, tool calls and grounding
+check; switch between the five system configurations; replay dev scenarios turn by turn):
+
+```
+python -m src.demo                                    # http://127.0.0.1:7860, rule-based extractor
+python -m src.demo --extractor llm --provider lehmus
+```
+
+Or from Python:
 
 ```python
 from src.agent import Agent
