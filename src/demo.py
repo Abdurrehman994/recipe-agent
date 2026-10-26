@@ -13,6 +13,7 @@ new dialogue. Development scenarios can be loaded and sent turn by turn. One dia
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import threading
 
@@ -29,11 +30,47 @@ CONFIGS = {
     "Agent without memory (ablation)": dict(mode="agent", memory=False, validate=True),
     "Agent without validation (ablation)": dict(mode="agent", memory=True, validate=False),
 }
+CONFIG_BLURB = {
+    "Full agent": "Extracts constraints, keeps them in the dialogue state, filters retrieval by them, "
+                  "validates every candidate with deterministic tools, reports infeasibility with a "
+                  "diagnosis and never relaxes a constraint.",
+    "RAG baseline (transcript retrieval, no state)": "Keyword retrieval over the raw transcript. No "
+                  "structured state, no filtering, no validation: it always recommends.",
+    "RAG + structured memory (no validation)": "The dialogue state filters retrieval, but nothing is "
+                  "validated; when nothing matches it silently falls back to unfiltered retrieval.",
+    "Agent without memory (ablation)": "Full agent, but the state is rebuilt from the current turn only: "
+                  "earlier requirements are forgotten.",
+    "Agent without validation (ablation)": "Full agent, but constraints reach retrieval only as search "
+                  "keywords; no hard filter and no validation, so infeasibility is never detected.",
+}
+EXAMPLE_TURNS = ["Suggest a vegetarian dinner.", "Under 25 minutes.", "Avoid mushrooms.",
+                 "Actually, 40 minutes is fine.", "I'm allergic to nuts.",
+                 "Forget that, show me a dessert.", "Which is the quickest and which has the most protein?",
+                 "A vegan gluten-free dessert under 5 minutes with 40 g of protein.", "Something healthy."]
 STATE_HEADERS = ["kind", "target", "value", "from turn", "persistent"]
 TOOL_HEADERS = ["#", "tool", "arguments", "result"]
+ACTION_LABEL = {"recommend": "Recommend", "clarify": "Clarify", "report_infeasible": "Infeasible"}
+
+CSS = """
+.rz-header{background:linear-gradient(135deg,#1f2a33 0%,#2b5d7a 100%);color:#f6f4ee;border-radius:12px;padding:22px 28px;margin-bottom:6px}
+.rz-header h1{margin:0 0 4px;font-size:26px;font-weight:600;color:#f6f4ee;letter-spacing:.2px}
+.rz-header p{margin:0;font-size:15px;color:#cfe0e6}
+.rz-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.rz-chip{font-size:12.5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:999px;color:#f6f4ee}
+.rz-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rz-tile{background:var(--block-background-fill);border:1px solid var(--border-color-primary);border-radius:10px;padding:12px 14px}
+.rz-tile .k{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--body-text-color-subdued)}
+.rz-tile .v{font-size:22px;font-weight:600;margin-top:2px;line-height:1.2}
+.rz-badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:14px;font-weight:600;color:#fff}
+.rz-recommend{background:#2f7d4f}.rz-clarify{background:#b8860b}.rz-infeasible{background:#b3261e}.rz-none{background:#8a94a0}
+.rz-warn{background:#fdecea;border-left:4px solid #b3261e;padding:8px 12px;border-radius:6px;margin-top:6px;color:#1f2328}
+.rz-muted{color:var(--body-text-color-subdued)}
+.rz-examples button{font-size:13px}
+footer{display:none !important}
+"""
 
 
-def _short(v, n: int = 140) -> str:
+def _short(v, n: int = 150) -> str:
     s = json.dumps(v, ensure_ascii=False)
     return s if len(s) <= n else s[: n - 1] + "…"
 
@@ -46,10 +83,12 @@ class Session:
         self.lock = threading.Lock()
         self.scenarios = {sc["id"]: sc["turns"] for sc in load_scenarios("dev")}
         self.scenario, self.pos = None, 0
-        self.new_dialogue("Full agent")
+        self.config = "Full agent"
+        self.new_dialogue(self.config)
 
     def new_dialogue(self, config: str) -> None:
         with self.lock:
+            self.config = config
             self.agent = Agent(self.db, self.extractor, **CONFIGS[config])
             self.pos = 0
 
@@ -64,28 +103,72 @@ SESSION: Session | None = None
 
 
 # ------------------------------------------------------------------ view helpers
+def header_html() -> str:
+    ex = getattr(SESSION.extractor, "name", "rules")
+    return (f'<div class="rz-header"><h1>Conversational Recipe Agent</h1>'
+            f'<p>Memory, deterministic tools and grounded explanations · NLP Project 25 · University of Oulu</p>'
+            f'<div class="rz-chips"><span class="rz-chip">Extractor: {html.escape(ex)}</span>'
+            f'<span class="rz-chip">{len(SESSION.db.ids):,} recipes (HUMMUS)</span>'
+            f'<span class="rz-chip">{len(SESSION.scenarios)} scripted dev scenarios</span></div></div>')
+
+
+def tiles_html(rec: dict | None) -> str:
+    if rec is None:
+        return ('<div class="rz-tiles">' + "".join(
+            f'<div class="rz-tile"><div class="k">{k}</div><div class="v rz-muted">—</div></div>'
+            for k in ("Turn", "Action", "Tool calls", "Claims checked")) + "</div>")
+    action = rec["action"]
+    badge = f'<span class="rz-badge rz-{action.split("_")[-1]}">{ACTION_LABEL[action]}</span>'
+    n, bad = len(rec["claims"]), len(rec["unsupported"])
+    claims = f"{n}" + (f' <span style="color:#b3261e;font-size:14px">{bad} unsupported</span>' if bad else
+                       (' <span style="color:#2f7d4f;font-size:14px">all supported</span>' if n else ""))
+    return (f'<div class="rz-tiles">'
+            f'<div class="rz-tile"><div class="k">Turn</div><div class="v">{rec["turn"]}</div></div>'
+            f'<div class="rz-tile"><div class="k">Action</div><div class="v">{badge}</div></div>'
+            f'<div class="rz-tile"><div class="k">Tool calls</div><div class="v">{len(rec["tool_calls"])}</div></div>'
+            f'<div class="rz-tile"><div class="k">Claims checked</div><div class="v">{claims}</div></div></div>')
+
+
 def state_rows(rec: dict) -> list[list]:
     return [[a["kind"], a["target"], "" if a.get("value") is None else f"{a['value']:g}",
              a["source_turn"], "yes" if a["persistent"] else ""] for a in rec["state"]]
 
 
-def decision_md(rec: dict) -> str:
-    action = rec["action"].replace("_", " ")
-    lines = [f"**Turn {rec['turn']}: {action}**"]
+def state_note(rec: dict) -> str:
+    parts = []
     if rec.get("objectives"):
-        lines.append("Objectives: " + ", ".join(
+        parts.append("**Objectives:** " + ", ".join(
             f"{'lowest' if o['direction'] == 'min' else 'highest'} {o['target']}" for o in rec["objectives"]))
     if rec.get("topic"):
-        lines.append("Retrieval topic: " + ", ".join(rec["topic"]))
+        parts.append("**Retrieval topic:** " + ", ".join(rec["topic"]))
+    if not rec["state"]:
+        parts.append("No active constraints." if SESSION.agent.mode != "rag"
+                     else "This configuration keeps no structured state.")
+    return "  \n".join(parts)
+
+
+def decision_html(rec: dict) -> str:
+    out = []
     if rec.get("relaxed"):
-        lines.append("**Warning:** fell back to unfiltered retrieval, a silent relaxation of the user's constraints.")
+        out.append('<div class="rz-warn"><b>Silent relaxation.</b> Nothing matched the constraints, so this '
+                   'configuration fell back to unfiltered retrieval and recommended anyway.</div>')
     if rec["recommendations"]:
-        lines.append("Recommended: " + "; ".join(
-            r["title"] + (" (verified)" if r["verified"] else "") for r in rec["recommendations"]))
+        items = "".join(f"<li>{html.escape(r['title'])}"
+                        + (' <span style="color:#2f7d4f">· verified</span>' if r["verified"]
+                           else ' <span class="rz-muted">· not validated</span>') + "</li>"
+                        for r in rec["recommendations"])
+        out.append(f"<b>Recommended</b><ul style='margin:4px 0 0 18px'>{items}</ul>")
     if rec.get("rejected"):
-        lines.append("Rejected after validation: " + "; ".join(
-            f"{r['title']} ({', '.join(r['failed'])})" for r in rec["rejected"]))
-    return "\n\n".join(lines)
+        items = "".join(f"<li>{html.escape(r['title'])} <span class='rz-muted'>failed: "
+                        f"{html.escape(', '.join(r['failed']))}</span></li>" for r in rec["rejected"])
+        out.append(f"<b>Rejected after validation</b><ul style='margin:4px 0 0 18px'>{items}</ul>")
+    if rec["action"] == "clarify":
+        out.append("Nothing in the dialogue can be turned into a constraint yet, so the agent asks "
+                   "instead of guessing. No tool was called.")
+    if rec["action"] == "report_infeasible":
+        out.append("No recipe satisfies every active constraint. The diagnosis names the most "
+                   "restrictive one; the state keeps all of them.")
+    return "<div>" + "<br>".join(out) + "</div>" if out else "<span class='rz-muted'>—</span>"
 
 
 def tool_rows(rec: dict) -> list[list]:
@@ -97,82 +180,121 @@ def claims_md(rec: dict) -> str:
     n, bad = len(rec["claims"]), rec["unsupported"]
     if not n:
         return "No factual claims in this turn."
-    verdict = "all supported by the database" if not bad else f"**{len(bad)} unsupported**"
-    text = f"{n} factual claims in the answer re-checked: {verdict}."
-    if bad:
-        text += "\n\n```json\n" + json.dumps(bad, indent=1, ensure_ascii=False) + "\n```"
-    return text
+    if not bad:
+        return f"**{n} factual claims** in the answer were re-checked against the database: all supported."
+    return (f"**{n} factual claims** re-checked: **{len(bad)} unsupported**\n\n```json\n"
+            + json.dumps(bad, indent=1, ensure_ascii=False) + "\n```")
+
+
+def chat_message(rec: dict) -> str:
+    return f"**{ACTION_LABEL[rec['action']]}** · turn {rec['turn']}\n\n{rec['message']}"
 
 
 # ------------------------------------------------------------------ event handlers
+N_OUT = 7  # chat, tiles, state, state_note, decision, tools, claims (+ the cleared textbox)
+
+
 def respond(text: str, history: list[dict]):
     text = (text or "").strip()
     if not text:
-        return history, gr.update(), gr.update(), gr.update(), gr.update(), ""
+        return (history, *([gr.update()] * (N_OUT - 1)), "")
     rec = SESSION.turn(text)
-    tag = {"recommend": "RECOMMEND", "clarify": "CLARIFY", "report_infeasible": "INFEASIBLE"}[rec["action"]]
     history = (history or []) + [{"role": "user", "content": text},
-                                 {"role": "assistant", "content": f"[{tag}] {rec['message']}"}]
-    return (history, state_rows(rec), decision_md(rec), tool_rows(rec), claims_md(rec), "")
+                                 {"role": "assistant", "content": chat_message(rec)}]
+    return (history, tiles_html(rec), state_rows(rec), state_note(rec), decision_html(rec),
+            tool_rows(rec), claims_md(rec), "")
 
 
 def new_dialogue(config: str):
     SESSION.new_dialogue(config)
-    return [], [], f"New dialogue with **{config}**. Extractor: {SESSION.agent.extractor.name}.", [], "", ""
+    return ([], tiles_html(None), [], "No active constraints.", "<span class='rz-muted'>—</span>",
+            [], "Every factual statement in an answer is re-checked against the recipe database.", "")
+
+
+def describe_config(config: str) -> str:
+    return f"**{config}.** {CONFIG_BLURB[config]}"
 
 
 def load_scenario(choice: str):
     SESSION.scenario = SESSION.scenarios.get(choice)
     SESSION.pos = 0
     if not SESSION.scenario:
-        return "No scenario loaded."
-    return f"Loaded {choice}: {len(SESSION.scenario)} scripted turns. Press *Send next turn*."
+        return "Pick a scenario to replay it turn by turn."
+    return f"**{choice}** loaded: {len(SESSION.scenario)} scripted turns. Press *Send next turn*."
 
 
 def next_turn(history: list[dict]):
     sc = SESSION.scenario
     if not sc or SESSION.pos >= len(sc):
-        return (history, gr.update(), gr.update(), gr.update(), gr.update(), "",
+        return (history, *([gr.update()] * (N_OUT - 1)), "",
                 "Scenario finished. Load another or type your own turns.")
     t = sc[SESSION.pos]
     SESSION.pos += 1
     out = respond(t["user"], history)
     note = (f"Turn {SESSION.pos}/{len(sc)} sent. Annotated expected action: "
-            f"**{t['expected_action'].replace('_', ' ')}**.")
+            f"**{ACTION_LABEL[t['expected_action']]}**.")
     return (*out, note)
 
 
 # ------------------------------------------------------------------ page
 def build() -> gr.Blocks:
-    with gr.Blocks(title="Recipe agent demo") as page:
-        gr.Markdown("## Conversational recipe agent: memory, tools and grounded answers")
+    with gr.Blocks(title="Recipe agent demo", fill_width=True) as page:
+        gr.HTML(header_html())
+        with gr.Row(equal_height=True):
+            config = gr.Dropdown(list(CONFIGS), value="Full agent", label="System configuration", scale=5)
+            reset_btn = gr.Button("New dialogue", variant="secondary", scale=1)
+            scenario = gr.Dropdown(["—"] + list(SESSION.scenarios), value="—",
+                                   label="Replay a scripted dev scenario", scale=4)
+            next_btn = gr.Button("Send next turn", variant="primary", scale=1)
         with gr.Row():
-            config = gr.Dropdown(list(CONFIGS), value="Full agent", label="System configuration",
-                                 scale=3)
-            reset_btn = gr.Button("New dialogue", scale=1)
-            gr.Markdown(f"Extractor: **{SESSION.agent.extractor.name}**")
+            config_md = gr.Markdown(describe_config("Full agent"), elem_classes=["rz-muted"])
+            note = gr.Markdown("Pick a scenario to replay it turn by turn.", elem_classes=["rz-muted"])
+
         with gr.Row():
             with gr.Column(scale=11):
-                chat = gr.Chatbot(label="Conversation", height=520)
+                chat = gr.Chatbot(label="Conversation", height=560, layout="bubble",
+                                  placeholder="Start a dialogue below, or replay a scripted scenario.")
                 box = gr.Textbox(placeholder="Type a turn, e.g. Suggest a vegetarian dinner.",
-                                 label="Your turn", autofocus=True)
-                with gr.Row():
-                    scenario = gr.Dropdown(["—"] + list(SESSION.scenarios), value="—",
-                                           label="Scripted development scenario", scale=3)
-                    next_btn = gr.Button("Send next turn", scale=1)
-                note = gr.Markdown("")
+                                 label="Your turn", autofocus=True, submit_btn="Send")
+                gr.Markdown("Example turns (click to send):", elem_classes=["rz-muted"])
+                with gr.Row(elem_classes=["rz-examples"]):
+                    example_btns = [gr.Button(t, size="sm", variant="secondary") for t in EXAMPLE_TURNS]
             with gr.Column(scale=9):
-                state = gr.Dataframe(headers=STATE_HEADERS, value=[], label="Dialogue state (memory)",
-                                     interactive=False, wrap=True)
-                decision = gr.Markdown("No turn yet.", label="Decision")
-                tools = gr.Dataframe(headers=TOOL_HEADERS, value=[], label="Tool calls this turn",
-                                     interactive=False, wrap=True)
-                claims = gr.Markdown("", label="Grounding check")
+                tiles = gr.HTML(tiles_html(None))
+                with gr.Group():
+                    state = gr.Dataframe(headers=STATE_HEADERS, value=[], label="Dialogue state (memory)",
+                                         interactive=False, wrap=True,
+                                         column_widths=["18%", "32%", "14%", "16%", "20%"])
+                    state_md = gr.Markdown("No active constraints.", elem_classes=["rz-muted"])
+                with gr.Group():
+                    gr.Markdown("**Decision**")
+                    decision = gr.HTML("<span class='rz-muted'>—</span>")
+                with gr.Group():
+                    tools = gr.Dataframe(headers=TOOL_HEADERS, value=[], label="Tool calls this turn",
+                                         interactive=False, wrap=True, max_height=260,
+                                         column_widths=["6%", "22%", "36%", "36%"])
+                with gr.Group():
+                    gr.Markdown("**Grounding check**")
+                    claims = gr.Markdown("Every factual statement in an answer is re-checked against the "
+                                         "recipe database.", elem_classes=["rz-muted"])
+                with gr.Accordion("How to read this page", open=False):
+                    gr.Markdown(
+                        "- **Dialogue state**: the constraints currently in force, the turn that set "
+                        "each one, and whether it is a standing preference (persistent).\n"
+                        "- **Action**: Recommend, Clarify (nothing to constrain yet) or Infeasible "
+                        "(nothing matches; the agent names the blocking requirement and drops nothing).\n"
+                        "- **Tool calls**: search, details, validation and diagnosis are deterministic code; "
+                        "the model only converts text into constraints.\n"
+                        "- **Grounding check**: every number and every “meets requirement” statement in the "
+                        "answer is re-verified against the database.")
 
-        outputs = [chat, state, decision, tools, claims, box]
+        outputs = [chat, tiles, state, state_md, decision, tools, claims, box]
         box.submit(respond, [box, chat], outputs)
+        for btn in example_btns:
+            btn.click(lambda h, t=btn.value: respond(t, h), [chat], outputs)
         reset_btn.click(new_dialogue, [config], outputs)
         config.change(new_dialogue, [config], outputs)
+        config.change(describe_config, [config], [config_md])
         scenario.change(load_scenario, [scenario], [note])
         next_btn.click(next_turn, [chat], outputs + [note])
     return page
@@ -190,7 +312,10 @@ def main():
     args = ap.parse_args()
     from src.evaluate import get_extractor
     SESSION = Session(RecipeDB.load(), get_extractor(args.extractor, args.provider, args.model, args.effort))
-    build().launch(server_name="127.0.0.1", server_port=args.port, inbrowser=not args.no_browser)
+    theme = gr.themes.Default(primary_hue="blue", neutral_hue="slate",
+                              font=[gr.themes.GoogleFont("IBM Plex Sans"), "Segoe UI", "sans-serif"])
+    build().launch(server_name="127.0.0.1", server_port=args.port, inbrowser=not args.no_browser,
+                   theme=theme, css=CSS)
 
 
 if __name__ == "__main__":
