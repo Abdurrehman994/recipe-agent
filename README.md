@@ -75,6 +75,26 @@ for turn in ["Suggest a vegetarian dinner.", "Under 25 minutes.", "Avoid mushroo
     print(agent.turn(turn)["message"])
 ```
 
+## Optional extensions
+
+```
+python -m src.run_agent --split test --mode agent --ranking preference          # preference-based ranking
+python -m src.run_agent --split dev --mode agent --extractor llm --provider lehmus --explain llm --review
+python -m src.evaluate --split long --extractor rules                            # 8-12-turn dialogues, accuracy by turn
+```
+
+- **Preference-based ranking** (`--ranking preference`): inside the set of recipes that satisfy
+  every constraint, rank by community rating plus a portion-sanity prior instead of popularity.
+  Constraint satisfaction is unchanged; the recommendations get shorter preparation times and
+  normal-sized servings (see `recommendation_quality` in the results).
+- **Reviewer agent** (`--explain llm`, `--review`): the language model writes the explanation from
+  the tool evidence, and a deterministic reviewer (`src/explain.py`) re-checks every number and
+  every "meets all requirements" statement in the text against the tools. With `--review`, an
+  unsupported claim makes the agent fall back to the templated answer. The results record how
+  many claims were checked, how many were unsupported and how many turns were corrected.
+- **Longer conversations** (`scenarios/long`, 10 dialogues of 8 to 12 turns): `evaluate.py`
+  reports dialogue-state accuracy by turn position (`by_turn`).
+
 ## Layout
 
 | Path | What |
@@ -86,10 +106,11 @@ for turn in ["Suggest a vegetarian dinner.", "Under 25 minutes.", "Avoid mushroo
 | `src/state.py` | Dialogue state: persistent vs temporary, replacement rules, provenance |
 | `src/tools.py` | `search_recipes`, `get_recipe_details`, `validate_constraints`, `diagnose_constraints` |
 | `src/agent.py` | Decision policy, baselines and ablation switches, grounded explanations, claim verifier |
+| `src/explain.py` | Extension: model-written explanations and the reviewer that checks them against tool output |
 | `src/evaluate.py` | Extraction and state metrics, memory ablation |
 | `src/run_agent.py` | System-level metrics and conversation logs |
 | `src/scenarios.py`, `src/author.py` | Scenario loading, validation, and the compact authoring format |
-| `scenarios/` | 30 dev + 70 held-out annotated dialogues; `README.md` has the annotation rules |
+| `scenarios/` | 30 dev, 70 held-out, 60 second held-out (test2), 10 long dialogues; `README.md` has the annotation rules |
 | `docs/` | Data notes, pilot summary, evaluation report |
 | `results/`, `logs/` | Metrics and per-turn logs for every run in the report |
 | `tests/` | Unit tests for every module |

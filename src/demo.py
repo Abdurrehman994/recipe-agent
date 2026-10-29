@@ -106,10 +106,11 @@ class Session:
         self.config = "Full agent"
         self.new_dialogue(self.config)
 
-    def new_dialogue(self, config: str) -> None:
+    def new_dialogue(self, config: str, preference: bool = False) -> None:
         with self.lock:
-            self.config = config
-            self.agent = Agent(self.db, self.extractor, **CONFIGS[config])
+            self.config, self.preference = config, preference
+            self.agent = Agent(self.db, self.extractor, **CONFIGS[config],
+                               ranking="preference" if preference else "popularity")
             self.pos = 0
 
     def turn(self, text: str) -> dict:
@@ -240,8 +241,8 @@ def make_sender(text: str):
     return send
 
 
-def new_dialogue(config: str):
-    SESSION.new_dialogue(config)
+def new_dialogue(config: str, preference: bool = False):
+    SESSION.new_dialogue(config, preference)
     return ([], tiles_html(None), [], "No active constraints.", "<span class='rz-muted'>—</span>",
             [], "Every factual statement in an answer is re-checked against the recipe database.", "")
 
@@ -278,6 +279,7 @@ def build() -> gr.Blocks:
         gr.HTML(header_html())
         with gr.Row(equal_height=True):
             config = gr.Dropdown(list(CONFIGS), value="Full agent", label="System configuration", scale=5)
+            pref = gr.Checkbox(value=False, label="Preference-based ranking (extension)", scale=2)
             reset_btn = gr.Button("New dialogue", variant="secondary", scale=1)
             scenario = gr.Dropdown(["—"] + list(SESSION.scenarios), value="—",
                                    label="Replay a scripted dev scenario", scale=4)
@@ -328,8 +330,9 @@ def build() -> gr.Blocks:
         box.submit(respond, [box, chat], outputs)
         for btn, text in zip(example_btns, EXAMPLE_TURNS):
             btn.click(make_sender(text), [chat], outputs)
-        reset_btn.click(new_dialogue, [config], outputs)
-        config.change(new_dialogue, [config], outputs)
+        reset_btn.click(new_dialogue, [config, pref], outputs)
+        config.change(new_dialogue, [config, pref], outputs)
+        pref.change(new_dialogue, [config, pref], outputs)
         config.change(describe_config, [config], [config_md])
         scenario.change(load_scenario, [scenario], [note])
         next_btn.click(next_turn, [chat], outputs + [note])
