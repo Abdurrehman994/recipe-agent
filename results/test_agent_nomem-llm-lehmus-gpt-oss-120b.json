@@ -23,8 +23,8 @@
   },
   "llm_usage": {
     "calls": 267,
-    "api_calls": 117,
-    "cached_calls": 150,
+    "api_calls": 0,
+    "cached_calls": 267,
     "unmeasured_calls": 0,
     "prompt_tokens": 368948,
     "completion_tokens": 91926,

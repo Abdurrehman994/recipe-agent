@@ -12,7 +12,7 @@
   "constraint_satisfaction": 0.9898,
   "turn_all_satisfied": 0.9873,
   "unsupported_claim_rate": 0.0,
-  "n_claims": 3900,
+  "n_claims": 3920,
   "state_exact_match": 0.9251,
   "tool_calls_per_turn": 6.3,
   "tool_calls": {
