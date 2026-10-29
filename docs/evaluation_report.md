@@ -229,7 +229,104 @@ also a ready-made reviewer for any future model-written explanation.
   flag between Groq and Lehmus on development data. All model outputs are cached with the
   results so the reported numbers are reproducible from the cache.
 
-## 5. Reproduction
+## 5. Optional extensions
+
+All three optional extensions from the specification were implemented after the main
+evaluation, as additions that leave the core system and its numbers unchanged.
+
+### 5.1 Reviewer agent: model-written explanations checked against tool output
+
+In the main system the explanation is assembled from tool output, which makes "unsupported
+claims" zero by construction. The extension lets the language model write the explanation
+instead, from the same evidence as structured data (`explain="llm"`, prompt in
+`src/explain.py`), and adds a **reviewer** that re-checks the text: every quantity with a unit
+("25 min", "420 kcal", "31 g protein", "9 recipes") is attributed to the recipe named just before
+it and compared with the recipe's real value (tolerating rounding), the user's own requirement
+values, or the infeasibility diagnosis; every "meets all your requirements" statement is
+re-checked with the constraint checker. With `review=True`, an unsupported claim makes the agent
+fall back to the templated answer. The reviewer is deterministic code and costs no model calls.
+
+| Split (full agent, LLM extractor) | Turns with a model-written explanation | Claims checked | Unsupported | Turns corrected |
+|---|---|---|---|---|
+| dev (30 scenarios) | 104 | 630 | 0 | 0 |
+| held-out (70 scenarios) | 258 | 1,575 | 0 | 0 |
+
+Two findings. First, given the evidence as structured data, gpt-oss-120b did not invent or
+alter a single number: all 2,205 quantities and "meets all requirements" statements it wrote
+across both splits matched the tool output. The model-written answers are also more natural
+than the templates, for example "For the lowest-fat goal the salad is best with 0.2 g fat, while
+the highest-protein goal is met by Spinach Pie with 94.7 g protein." Second, the reviewer itself
+needed two rounds of correction before it was trustworthy. Its first pass flagged 13 claims in
+5 development turns and 4 claims in 2 held-out turns, every one a false alarm: the model's
+typography (narrow no-break spaces inside numbers, curly quotes and non-breaking hyphens inside
+recipe titles, markdown emphasis, JSON-escaped quotes echoed from the evidence) broke the title
+matching, so numbers were attributed to the wrong recipe; a number inside a recipe title ("Fish
+Tacos, 20 Minutes Max") was read as a claim; and a sentence that referred back to an earlier
+recipe ("the salad is best with 0.2 g fat") was attributed to the recipe named last. After
+normalising typography, ignoring numbers inside titles, and accepting a value that belongs to
+another listed recipe (recorded as such, so the attribution stays auditable), the reviewer agreed
+with a manual reading of every flagged case. The lesson is the same as for the main system: a
+checker must be validated against the data it checks, and every flag it raised had to be read by
+a person before the zero could be believed.
+
+Cost: one extra model call per recommend or infeasible turn, about 1,500 tokens each with
+reasoning effort low; 258 calls and 0.4 M tokens for the held-out split. The deterministic
+reviewer adds no model calls. Model outputs are cached, so re-scoring after a reviewer change
+costs nothing.
+
+### 5.2 Preference-based ranking
+
+Within the set of recipes that satisfy every active constraint, the main system ranks by
+objectives, then relevance, then popularity (rating × log ratings). That is correct but
+indifferent to portion size and preparation time, so a "vegetarian dinner" could be answered
+with a 1,727 kcal pizza dough. The extension (`ranking="preference"`, `preference_score` in
+`src/tools.py`) replaces popularity with a transparent score: community rating damped for few
+ratings (weight 0.5), a portion-sanity prior centred on 450 kcal per serving (0.3), and a
+mild penalty for preparation times above an hour (0.2). Explicit objectives still come first.
+
+| Held-out, full agent | Constraint satisfaction | Silent relaxations | Mean rating | Mean kcal | Mean minutes | Share of recommendations in 100–800 kcal |
+|---|---|---|---|---|---|---|
+| Rules extractor, popularity | 0.893 | 29 | 4.73 | 395 | 47.6 | 0.80 |
+| Rules extractor, preference | 0.896 | 29 | 4.73 | 401 | 34.2 | 0.95 |
+| LLM extractor, popularity | 0.990 | 3 | 4.72 | 390 | 49.8 | 0.81 |
+| LLM extractor, preference | 0.987 | 3 | 4.73 | 402 | 36.7 | 0.95 |
+
+Constraint satisfaction and relaxations are unchanged within noise, as they must be: only the
+order inside the feasible set changes. The recommendations become faster (34 to 37 vs 48 to 50
+minutes on average) and far more often normally portioned (95 % vs 80 % between 100 and 800
+kcal) at the same mean rating. There is no gold standard for "preferred", so this is a proxy evaluation; the
+demo page has a toggle for a qualitative comparison.
+
+### 5.3 Longer conversations
+
+Ten additional scripted dialogues of 8 to 12 turns (101 turns, `scenarios/long`), annotated and
+validated like the others and used only for evaluation, test whether memory degrades as
+dialogues grow. They combine every phenomenon: lasting preferences, several replacements and
+removals, infeasible requests with relaxation, trade-offs, and up to two resets per dialogue.
+
+| Extractor | Extraction F1 | State exact | State exact by turn position (turns 1–10) |
+|---|---|---|---|
+| Rules | 0.961 | 0.753 | 0.90 · 0.90 · 0.90 · 0.90 · 0.80 · 0.70 · 0.60 · 0.50 · 0.60 · 0.57 |
+| LLM | 0.996 | 0.970 | 1.00 · 1.00 · 1.00 · 1.00 · 1.00 · 1.00 · 1.00 · 1.00 · 0.90 · 0.86 |
+| Rules, no memory | 0.948 | 0.109 | |
+| LLM, no memory | 0.979 | 0.119 | |
+
+| Long set, LLM extractor | Constraint satisfaction | Silent relaxations | Infeasible recall |
+|---|---|---|---|
+| RAG baseline | 0.181 | 93 | 0.00 |
+| RAG + memory | 0.949 | 5 | 0.00 |
+| Full agent | 1.000 | 0 | 1.00 |
+| Agent, no memory | 0.237 | 69 | 0.00 |
+| Agent, no validation | 0.214 | 90 | 0.00 |
+
+The rule-based reader degrades steadily with dialogue length: one missed update early in a
+dialogue stays in the state, so by turn 8 only half the states are exact. The model-based reader
+holds a perfect state through eight turns and slips only in the last turns of the longest
+dialogues. Without memory, state accuracy on long dialogues collapses to about 0.11 for both
+readers, and the agent's constraint satisfaction with it (0.24). The full agent with the LLM
+reader satisfies every constraint on all 101 turns.
+
+## 6. Reproduction
 
 ```
 python -m src.data_prep                                   # recipes.jsonl from the HUMMUS csv
@@ -239,6 +336,9 @@ python -m src.evaluate --split test --extractor rules     # extraction + state m
 python -m src.evaluate --split test --extractor llm --provider lehmus
 python -m src.run_agent --split test --mode agent [--extractor llm --provider lehmus]
 python -m src.run_agent --split test --mode rag | rag_memory | agent --no-memory | agent --no-validate
+python -m src.run_agent --split test --mode agent --ranking preference                      # extension 5.2
+python -m src.run_agent --split test --mode agent --extractor llm --provider lehmus --explain llm --review   # 5.1
+python -m src.evaluate --split long --extractor llm --provider lehmus                        # extension 5.3
 ```
 
 Results are in `results/<split>_<config>[-<extractor>].json`, per-turn conversation logs in

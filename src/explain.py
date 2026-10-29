@@ -114,7 +114,7 @@ _TYPOGRAPHY = str.maketrans({" ": " ", " ": " ", " ": " ", "‑": "-", "‐
 def _normalize(text: str) -> str:
     """Models write '20 min', 'main‑dish' and curly quotes; titles in the data use plain
     characters. Compare both in the same plain form. Markdown emphasis is dropped too."""
-    return text.translate(_TYPOGRAPHY).replace("**", "").replace("__", "")
+    return text.translate(_TYPOGRAPHY).replace("**", "").replace("__", "").replace("\\", "")
 
 
 def _close(claimed: float, actual: float) -> bool:
@@ -188,12 +188,15 @@ def review(text: str, evidence: dict, db: RecipeDB) -> dict:
                     claim["supported"], claim["basis"] = True, "user requirement"
                 if not claim["supported"] and any(_close(claimed, float(v)) for v in diag_values):
                     claim["supported"], claim["basis"] = True, "diagnosis"
-                if not claim["supported"] and r is None:
-                    # no recipe named just before: accept if it is some listed recipe's value
+                if not claim["supported"]:
+                    # no recipe named just before, or the sentence refers back to another one
+                    # ("the salad is best with 0.2 g fat"): accept a value that belongs to some
+                    # listed recipe, and record which one so the attribution stays auditable
                     for cand in recipes:
                         if field in cand and _close(claimed, float(cand[field])):
                             claim["recipe"], claim["actual"] = cand["title"], cand[field]
-                            claim["supported"], claim["basis"] = True, "a listed recipe"
+                            claim["supported"] = True
+                            claim["basis"] = "a listed recipe" if r is None else "another listed recipe"
                             break
             claims.append(claim)
 

@@ -138,3 +138,20 @@ def test_reviewer_normalises_model_typography_and_skips_numbers_inside_titles(db
     rep2 = review("Try Fish Tacos, 20 Minutes Max (55 min, 300 kcal, 20 g protein).",
                   {"recipes": [fake], "requirements": []}, db)
     assert rep2["unsupported"] == [] and rep2["n_checked"] == 3
+
+
+def test_reviewer_handles_escaped_quotes_and_back_references(db):
+    cs = [Constraint("course", "salads")]
+    res = search_recipes(db, constraints=cs, k=2)["results"]
+    a, b = (db.recipes[r["recipe_id"]] for r in res)
+    ev = build_evidence("recommend", cs, [], [a, b])
+    # a title echoed with JSON-escaped quotes, and a value that refers back to the first recipe
+    escaped_b = b["title"].replace('"', '\\"')
+    text = (f"{a['title']} takes {a['duration_min']:g} min. The other option is {escaped_b} "
+            f"({b['duration_min']:g} min). For the lowest-fat goal the first one is best with {a['fat_g']:g} g fat.")
+    rep = review(text, ev, db)
+    assert rep["unsupported"] == [], rep["unsupported"]
+    assert any(c["basis"] == "another listed recipe" for c in rep["claims"])
+    # a number that belongs to no listed recipe is still caught
+    bad = review(f"{a['title']} has {a['fat_g'] + 33.3:g} g fat.", ev, db)
+    assert len(bad["unsupported"]) == 1
