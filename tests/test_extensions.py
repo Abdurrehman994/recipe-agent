@@ -120,3 +120,21 @@ def test_agent_with_preference_ranking_still_validates(db, rules):
     t = agent.turn("Suggest a vegetarian dinner.")
     assert t["action"] == "recommend" and all(r["verified"] for r in t["recommendations"])
     assert any(c["tool"] == "search_recipes" and c["args"].get("rank") == "preference" for c in t["tool_calls"])
+
+
+def test_reviewer_normalises_model_typography_and_skips_numbers_inside_titles(db):
+    cs = [Constraint("course", "soups-stews")]
+    res = search_recipes(db, constraints=cs, k=2)["results"]
+    a, b = (db.recipes[r["recipe_id"]] for r in res)
+    ev = build_evidence("recommend", cs, [], [a, b])
+    # curly apostrophes/quotes, narrow no-break spaces, non-breaking hyphens and markdown bold
+    fancy_b = b["title"].replace("'", "’").replace('"', "“")
+    text = (f"**{a['title']}** takes **{a['duration_min']:g} min** and has {a['calories_kcal']:g} kcal. "
+            f"The other soups‑stews option is {fancy_b} ({b['duration_min']:g} min, {b['protein_g']:g} g protein).")
+    rep = review(text, ev, db)
+    assert rep["unsupported"] == [], rep["unsupported"]
+    fake = {"recipe_id": a["recipe_id"], "title": "Fish Tacos, 20 Minutes Max", "duration_min": 55.0,
+            "calories_kcal": 300.0, "protein_g": 20.0}
+    rep2 = review("Try Fish Tacos, 20 Minutes Max (55 min, 300 kcal, 20 g protein).",
+                  {"recipes": [fake], "requirements": []}, db)
+    assert rep2["unsupported"] == [] and rep2["n_checked"] == 3

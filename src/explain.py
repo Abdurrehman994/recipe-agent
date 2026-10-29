@@ -107,6 +107,14 @@ _UNIT_PATTERNS = [
 _MEETS = re.compile(r"\b(meets?|satisf(?:y|ies)|fits?|match(?:es)?)\b[^.;]{0,40}\b(all|every|each)\b[^.;]{0,30}"
                     r"\b(requirements?|constraints?|criteria|wishes|needs)", re.I)
 _NAME_WINDOW = 260  # characters: a number is attributed to the nearest recipe named within this span
+_TYPOGRAPHY = str.maketrans({" ": " ", " ": " ", " ": " ", "‑": "-", "‐": "-",
+                             "–": "-", "’": "'", "‘": "'", "“": '"', "”": '"'})
+
+
+def _normalize(text: str) -> str:
+    """Models write '20 min', 'main‑dish' and curly quotes; titles in the data use plain
+    characters. Compare both in the same plain form. Markdown emphasis is dropped too."""
+    return text.translate(_TYPOGRAPHY).replace("**", "").replace("__", "")
 
 
 def _close(claimed: float, actual: float) -> bool:
@@ -118,8 +126,8 @@ def _title_mentions(text: str, recipes: list[dict]) -> list[tuple[int, int, dict
     low = text.lower()
     found = []
     for r in recipes:
-        variants = {r["title"].lower()}
-        short = r["title"].split(" (")[0].lower()
+        variants = {_normalize(r["title"]).lower()}
+        short = _normalize(r["title"]).split(" (")[0].lower()
         if len(short) >= 6:
             variants.add(short)
         for v in variants:
@@ -137,8 +145,10 @@ def _title_mentions(text: str, recipes: list[dict]) -> list[tuple[int, int, dict
 def review(text: str, evidence: dict, db: RecipeDB) -> dict:
     """Check every quantity and 'meets all requirements' statement in `text` against the evidence.
     Returns {"claims": [...], "unsupported": [...], "n_checked": int, "no_recipe_named": bool}."""
+    text = _normalize(text)
     recipes = evidence.get("recipes", [])
     mentions = _title_mentions(text, recipes)
+    inside_title = [(s, e) for s, e, _ in mentions]
     req_values = {(r["target"], float(r["value"])) for r in evidence.get("requirements", [])
                   if r.get("value") is not None}
     diag = evidence.get("diagnosis") or {}
@@ -159,6 +169,8 @@ def review(text: str, evidence: dict, db: RecipeDB) -> dict:
         for m in re.finditer(pat, text, flags=re.I):
             if any(m.start() < e and m.end() > s for s, e in taken):
                 continue  # already claimed by a more specific pattern
+            if any(s <= m.start() and m.end() <= e for s, e in inside_title):
+                continue  # a number that is part of a recipe title ("..., 20 Minutes Max")
             taken.add((m.start(), m.end()))
             claimed = float(m.group(1).replace(",", "."))
             claim = {"text": m.group(0), "field": field, "claimed": claimed, "recipe": None,
