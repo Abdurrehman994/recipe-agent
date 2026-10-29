@@ -43,6 +43,15 @@ python -m src.run_agent --split dev --mode rag | rag_memory
 python -m src.run_agent --split dev --mode agent --no-memory | --no-validate   # ablations
 ```
 
+`--split` is `dev`, `test` (70 held-out scenarios) or `test2` (a second, independently written
+held-out set of 60 scenarios; see [scenarios/README.md](scenarios/README.md)). For example, the
+rule-based results on the second held-out set:
+
+```
+python -m src.evaluate --split test2 --extractor rules [--no-memory]
+python -m src.run_agent --split test2 --mode rag | rag_memory | agent [--no-memory | --no-validate]
+```
+
 `run_agent` writes a per-turn conversation log to `logs/` and metrics to `results/`;
 `--errors` prints the turns with a wrong action or a violated constraint. LLM responses are
 cached in `.cache/llm/` keyed by provider, model, prompt version and input, so re-runs are

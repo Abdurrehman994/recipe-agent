@@ -2,6 +2,9 @@
 
 - `dev/`: 30 scenarios for building and tuning (prompts, parser rules, policy).
 - `test/`: 70 held-out scenarios. Do not look at system outputs on these until the final runs.
+- `test2/`: a second held-out set of 60 scenarios (`test2_011`–`test2_070`), written by
+  Md. Nur-E Ferdaus independently of the system builder (originally `test_011`–`test_070` on
+  branch `person-b/scenarios`, commit `48dde23`). Used only for evaluation, never for tuning.
 
 Each scenario has 3–5 scripted user turns. Turns are fixed: the next user turn is the same
 whatever the agent says, so runs are reproducible. Check a split with:
