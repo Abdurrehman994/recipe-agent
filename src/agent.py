@@ -1,4 +1,4 @@
-"""Agent decision policy (spec item 6) with grounded, templated explanations (spec item 7).
+"""Agent decision policy (spec item 6) with grounded explanations (spec item 7).
 
     agent = Agent(RecipeDB.load(), RuleExtractor())
     record = agent.turn("Suggest a vegetarian dinner.")     # -> log record (dict)
@@ -26,9 +26,23 @@ System configurations (the ablation study, spec item 8):
     validate=False   constraints reach retrieval only as soft query words, with no hard filter
                      and no validate_constraints check; infeasibility cannot be detected
                      (validation ablation).
+
+Optional extensions:
+  explain="llm"      the explanation text is written by the language model from the tool
+                     evidence (src/explain.py); the templated text is kept in
+                     log["template_message"]. A deterministic reviewer checks every number and
+                     "meets all requirements" statement in the text against the tool outputs
+                     (log["review"]).
+  review=True        when the reviewer finds an unsupported claim, the templated answer is used
+                     instead (log["review"]["corrected"] = True).
+  ranking="preference"  within the recipes that satisfy every constraint, rank by the preference
+                     score (rating + portion-sanity prior) instead of popularity.
 """
 from __future__ import annotations
 
+import json
+
+from src.explain import EXPLAIN_SYSTEM, build_evidence, review
 from src.extract_rules import RuleExtractor
 from src.schema import NUMERIC_FIELDS, Constraint, Objective
 from src.state import DialogueState
@@ -78,20 +92,35 @@ def _value(recipe: dict, field: str):
 
 class Agent:
     def __init__(self, db: RecipeDB, extractor=None, mode: str = "agent", memory: bool = True,
-                 validate: bool = True, k: int = 3):
+                 validate: bool = True, k: int = 3, explain: str = "template", review: bool = False,
+                 ranking: str = "popularity", llm=None):
         if mode not in MODES:
             raise ValueError(f"unknown mode {mode!r}; choose from {MODES}")
+        if explain not in ("template", "llm"):
+            raise ValueError("explain must be 'template' or 'llm'")
+        if ranking not in ("popularity", "preference"):
+            raise ValueError("ranking must be 'popularity' or 'preference'")
         self.db = db
         self.extractor = extractor or RuleExtractor()
         self.mode, self.memory, self.validate, self.k = mode, memory, validate, k
+        self.explain, self.review, self.ranking = explain, review, ranking
+        self.llm = llm if llm is not None else (self.extractor if hasattr(self.extractor, "complete") else None)
+        if explain == "llm" and self.llm is None:
+            raise ValueError("explain='llm' needs an LLM (an LLMExtractor as `llm` or as the extractor)")
         self.reset_dialogue()
 
     @property
     def name(self) -> str:
         """Configuration name used in log and result file names."""
-        if self.mode != "agent":
-            return self.mode
-        return "agent" + ("" if self.memory else "_nomem") + ("" if self.validate else "_noval")
+        base = self.mode if self.mode != "agent" else \
+            "agent" + ("" if self.memory else "_nomem") + ("" if self.validate else "_noval")
+        if self.ranking == "preference":
+            base += "_pref"
+        if self.explain == "llm":
+            base += "_llmexp" + ("_rev" if self.review else "")
+        elif self.review:
+            base += "_rev"
+        return base
 
     def reset_dialogue(self) -> None:
         self.state = DialogueState()
@@ -104,6 +133,8 @@ class Agent:
         fn = {"search_recipes": search_recipes, "get_recipe_details": get_recipe_details,
               "validate_constraints": validate_constraints,
               "diagnose_constraints": diagnose_constraints}[name]
+        if name == "search_recipes":
+            kwargs.setdefault("rank", self.ranking)
         result = fn(self.db, **kwargs)
         args = {k: ([c.to_dict() for c in v] if k in ("constraints", "objectives") else v)
                 for k, v in kwargs.items()}
@@ -208,7 +239,27 @@ class Agent:
         if not verified:
             return self._report_infeasible(log, constraints)
         return self._recommend(log, [d for d, _ in verified], constraints, objectives,
-                               verified=True, validations=[v for _, v in verified])
+                               verified=True, validations=[v for _, v in verified],
+                               total_matches=res["total_matches"])
+
+    # ------------------------------------------------------------------ explanation extension
+    def _finish(self, log: dict, evidence: dict) -> dict:
+        """Keep the templated text; optionally replace it with a model-written, reviewed one."""
+        log["template_message"] = log["message"]
+        if self.explain == "llm":
+            text = self.llm.complete(EXPLAIN_SYSTEM, json.dumps(evidence, ensure_ascii=False))
+            log["llm_message"] = text
+            rep = review(text, evidence, self.db)
+            rep["corrected"] = False
+            bad = bool(rep["unsupported"]) or rep["no_recipe_named"] or not text.strip()
+            if self.review and bad:
+                rep["corrected"] = True  # fall back to the templated, claim-backed answer
+            else:
+                log["message"] = text or log["template_message"]
+            log["review"] = rep
+        elif self.review:
+            log["review"] = {**review(log["message"], evidence, self.db), "corrected": False}
+        return log
 
     # ------------------------------------------------------------------ actions
     def _clarify(self, log: dict, objectives: list[Objective]) -> dict:
@@ -240,10 +291,13 @@ class Agent:
                          {"type": "matches_if_dropped", "constraint": blocking["constraint"],
                           "others": [c.to_dict() for c in constraints
                                      if c.to_dict() != blocking["constraint"]], "value": n}]
-        return log
+        evidence = build_evidence("report_infeasible", constraints, self.state.objectives,
+                                  diagnosis=diag, blocking=blocking)
+        return self._finish(log, evidence)
 
     def _recommend(self, log: dict, recipes: list[dict], constraints: list[Constraint],
-                   objectives: list[Objective], verified: bool, validations=None) -> dict:
+                   objectives: list[Objective], verified: bool, validations=None,
+                   total_matches=None) -> dict:
         log["action"] = "recommend"
         log["recommendations"] = [{"recipe_id": r["recipe_id"], "title": r["title"],
                                    "verified": verified} for r in recipes]
@@ -254,11 +308,13 @@ class Agent:
             for f in FACT_FIELDS:
                 log["claims"].append({"type": "value", "recipe_id": r["recipe_id"], "field": f,
                                       "value": _value(r, f)})
+        evidence = build_evidence("recommend", constraints, objectives, recipes, validations,
+                                  tradeoff=log.get("tradeoff"), total_matches=total_matches)
         if not verified:  # baselines / topic-only search: facts quoted, nothing claimed
             lines = [f"{r['title']} ({_facts(r)})" for r in recipes]
             topic = f" for {' '.join(log.get('topic') or [])}" if log.get("topic") and not constraints else ""
             log["message"] = f"Here are some options{topic}: " + "; ".join(lines) + "."
-            return log
+            return self._finish(log, evidence)
 
         met = "; ".join(c.describe() for c in constraints)
         for v in validations:
@@ -285,12 +341,12 @@ class Agent:
             log["message"] = ("These objectives pull in different directions, so here is the "
                               "trade-off: " + "; ".join(parts) + f". Both meet all your "
                               f"requirements ({met}).")
-            return log
+            return self._finish(log, evidence)
         if len(objectives) >= 2 and len(recipes) == 1:
             r = recipes[0]
             log["message"] = (f"{r['title']} ({_facts(r)}) is the best option on every count: "
                               f"it meets all your requirements ({met}).")
-            return log
+            return self._finish(log, evidence)
 
         ranked = ""
         if objectives:
@@ -298,13 +354,13 @@ class Agent:
                 f"{'lowest' if o.direction == 'min' else 'highest'} {_field_name(o.target)}"
                 for o in objectives) + "."
         first, rest = recipes[0], recipes[1:]
-        evidence = "; ".join(ch["evidence"] for ch in validations[0]["checks"])
+        evidence_text = "; ".join(ch["evidence"] for ch in validations[0]["checks"])
         msg = (f"I recommend {first['title']} ({_facts(first)}). It meets all your requirements "
-               f"({met}): {evidence}.")
+               f"({met}): {evidence_text}.")
         if rest:
             msg += " Also verified: " + "; ".join(f"{r['title']} ({_facts(r)})" for r in rest) + "."
         log["message"] = msg + ranked
-        return log
+        return self._finish(log, evidence)
 
 
 # ---------------------------------------------------------------------- claim checking

@@ -22,6 +22,13 @@
     "validate_constraints": 685
   },
   "llm_usage": null,
+  "recommendation_quality": {
+    "mean_rating": 4.726,
+    "mean_calories_kcal": 395.1,
+    "mean_duration_min": 47.6,
+    "share_100_to_800_kcal": 0.7971
+  },
+  "review": null,
   "per_turn": [
     {
       "scenario": "test_001",
@@ -38,7 +45,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_001",
@@ -59,7 +68,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_001",
@@ -80,7 +91,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_001",
@@ -93,7 +106,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_001",
@@ -106,7 +121,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_002",
@@ -123,7 +140,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_002",
@@ -140,7 +159,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_002",
@@ -157,7 +178,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_002",
@@ -173,7 +196,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 5
+      "n_tool_calls": 5,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_003",
@@ -190,7 +215,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_003",
@@ -203,7 +230,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_003",
@@ -220,7 +249,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_004",
@@ -233,7 +264,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_004",
@@ -250,7 +283,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_004",
@@ -267,7 +302,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_004",
@@ -284,7 +321,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_005",
@@ -301,7 +340,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_005",
@@ -318,7 +359,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_005",
@@ -335,7 +378,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_006",
@@ -352,7 +397,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_006",
@@ -369,7 +416,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_006",
@@ -386,7 +435,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_006",
@@ -403,7 +454,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_007",
@@ -420,7 +473,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_007",
@@ -437,7 +492,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_007",
@@ -454,7 +511,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_007",
@@ -471,7 +530,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_008",
@@ -488,7 +549,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_008",
@@ -501,7 +564,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_008",
@@ -518,7 +583,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_008",
@@ -535,7 +602,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_009",
@@ -552,7 +621,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_009",
@@ -569,7 +640,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_009",
@@ -589,7 +662,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_009",
@@ -609,7 +684,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_009",
@@ -628,7 +705,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_010",
@@ -645,7 +724,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_010",
@@ -662,7 +743,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_010",
@@ -679,7 +762,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_010",
@@ -696,7 +781,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_011",
@@ -713,7 +800,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_011",
@@ -730,7 +819,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_011",
@@ -747,7 +838,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_011",
@@ -764,7 +857,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_012",
@@ -777,7 +872,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_012",
@@ -794,7 +891,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_012",
@@ -811,7 +910,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_013",
@@ -832,7 +933,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_013",
@@ -849,7 +952,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 3
+      "n_tool_calls": 3,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_013",
@@ -869,7 +974,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_014",
@@ -886,7 +993,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_014",
@@ -903,7 +1012,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_014",
@@ -920,7 +1031,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_014",
@@ -937,7 +1050,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_015",
@@ -954,7 +1069,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_015",
@@ -970,7 +1087,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_015",
@@ -986,7 +1105,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_016",
@@ -1003,7 +1124,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_016",
@@ -1020,7 +1143,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_016",
@@ -1037,7 +1162,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_016",
@@ -1054,7 +1181,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_017",
@@ -1071,7 +1200,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_017",
@@ -1088,7 +1219,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_017",
@@ -1105,7 +1238,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_017",
@@ -1122,7 +1257,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_018",
@@ -1139,7 +1276,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_018",
@@ -1152,7 +1291,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_018",
@@ -1169,7 +1310,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_019",
@@ -1182,7 +1325,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_019",
@@ -1199,7 +1344,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_019",
@@ -1216,7 +1363,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_019",
@@ -1233,7 +1382,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_020",
@@ -1250,7 +1401,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_020",
@@ -1267,7 +1420,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_020",
@@ -1284,7 +1439,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_020",
@@ -1301,7 +1458,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_021",
@@ -1318,7 +1477,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_021",
@@ -1335,7 +1496,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_021",
@@ -1348,7 +1511,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_021",
@@ -1365,7 +1530,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_022",
@@ -1382,7 +1549,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_022",
@@ -1399,7 +1568,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_022",
@@ -1416,7 +1587,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_022",
@@ -1433,7 +1606,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_023",
@@ -1446,7 +1621,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_023",
@@ -1465,7 +1642,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_023",
@@ -1481,7 +1660,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_024",
@@ -1498,7 +1679,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_024",
@@ -1515,7 +1698,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_024",
@@ -1535,7 +1720,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_024",
@@ -1556,7 +1743,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_025",
@@ -1573,7 +1762,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_025",
@@ -1586,7 +1777,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_025",
@@ -1603,7 +1796,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_025",
@@ -1620,7 +1815,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_026",
@@ -1633,7 +1830,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_026",
@@ -1650,7 +1849,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_026",
@@ -1671,7 +1872,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_026",
@@ -1692,7 +1895,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_027",
@@ -1713,7 +1918,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_027",
@@ -1734,7 +1941,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_027",
@@ -1755,7 +1964,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_027",
@@ -1776,7 +1987,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_028",
@@ -1793,7 +2006,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_028",
@@ -1810,7 +2025,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_028",
@@ -1827,7 +2044,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_028",
@@ -1844,7 +2063,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_028",
@@ -1864,7 +2085,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_029",
@@ -1881,7 +2104,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_029",
@@ -1894,7 +2119,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_029",
@@ -1911,7 +2138,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_030",
@@ -1928,7 +2157,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_030",
@@ -1945,7 +2176,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_030",
@@ -1962,7 +2195,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_031",
@@ -1979,7 +2214,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_031",
@@ -1996,7 +2233,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_031",
@@ -2013,7 +2252,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_031",
@@ -2030,7 +2271,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_032",
@@ -2043,7 +2286,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_032",
@@ -2056,7 +2301,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_032",
@@ -2073,7 +2320,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_033",
@@ -2090,7 +2339,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_033",
@@ -2107,7 +2358,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_033",
@@ -2124,7 +2377,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_033",
@@ -2141,7 +2396,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_034",
@@ -2158,7 +2415,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_034",
@@ -2175,7 +2434,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_034",
@@ -2192,7 +2453,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_034",
@@ -2209,7 +2472,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_035",
@@ -2226,7 +2491,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_035",
@@ -2243,7 +2510,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_035",
@@ -2256,7 +2525,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_035",
@@ -2273,7 +2544,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_036",
@@ -2290,7 +2563,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_036",
@@ -2307,7 +2582,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_036",
@@ -2324,7 +2601,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_036",
@@ -2341,7 +2620,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_037",
@@ -2358,7 +2639,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_037",
@@ -2375,7 +2658,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_037",
@@ -2392,7 +2677,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_037",
@@ -2409,7 +2696,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_038",
@@ -2426,7 +2715,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_038",
@@ -2443,7 +2734,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_038",
@@ -2460,7 +2753,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_039",
@@ -2477,7 +2772,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_039",
@@ -2494,7 +2791,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_039",
@@ -2507,7 +2806,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_039",
@@ -2523,7 +2824,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 5
+      "n_tool_calls": 5,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_040",
@@ -2536,7 +2839,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_040",
@@ -2553,7 +2858,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_040",
@@ -2570,7 +2877,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_040",
@@ -2587,7 +2896,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_041",
@@ -2604,7 +2915,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_041",
@@ -2621,7 +2934,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_041",
@@ -2638,7 +2953,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_041",
@@ -2655,7 +2972,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_042",
@@ -2672,7 +2991,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_042",
@@ -2689,7 +3010,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_042",
@@ -2706,7 +3029,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_042",
@@ -2723,7 +3048,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_043",
@@ -2736,7 +3063,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_043",
@@ -2749,7 +3078,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_043",
@@ -2762,7 +3093,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_044",
@@ -2783,7 +3116,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_044",
@@ -2804,7 +3139,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_044",
@@ -2825,7 +3162,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_045",
@@ -2842,7 +3181,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_045",
@@ -2859,7 +3200,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_045",
@@ -2872,7 +3215,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_045",
@@ -2889,7 +3234,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_046",
@@ -2906,7 +3253,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_046",
@@ -2923,7 +3272,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_046",
@@ -2940,7 +3291,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_046",
@@ -2957,7 +3310,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_047",
@@ -2970,7 +3325,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_047",
@@ -2987,7 +3344,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_047",
@@ -3004,7 +3363,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_048",
@@ -3021,7 +3382,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_048",
@@ -3038,7 +3401,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_048",
@@ -3055,7 +3420,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_048",
@@ -3072,7 +3439,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_048",
@@ -3089,7 +3458,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_049",
@@ -3106,7 +3477,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_049",
@@ -3123,7 +3496,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_049",
@@ -3136,7 +3511,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_049",
@@ -3153,7 +3530,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_050",
@@ -3170,7 +3549,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_050",
@@ -3187,7 +3568,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_050",
@@ -3203,7 +3586,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_051",
@@ -3220,7 +3605,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_051",
@@ -3237,7 +3624,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_051",
@@ -3254,7 +3643,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_051",
@@ -3271,7 +3662,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_052",
@@ -3288,7 +3681,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_052",
@@ -3305,7 +3700,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_052",
@@ -3322,7 +3719,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_052",
@@ -3339,7 +3738,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_053",
@@ -3360,7 +3761,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_053",
@@ -3381,7 +3784,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_053",
@@ -3402,7 +3807,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_053",
@@ -3423,7 +3830,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_054",
@@ -3436,7 +3845,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_054",
@@ -3453,7 +3864,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_054",
@@ -3470,7 +3883,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_055",
@@ -3487,7 +3902,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_055",
@@ -3504,7 +3921,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_055",
@@ -3521,7 +3940,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_055",
@@ -3538,7 +3959,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_056",
@@ -3555,7 +3978,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_056",
@@ -3571,7 +3996,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 5
+      "n_tool_calls": 5,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_056",
@@ -3584,7 +4011,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_056",
@@ -3601,7 +4030,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_057",
@@ -3618,7 +4049,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_057",
@@ -3635,7 +4068,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_057",
@@ -3652,7 +4087,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_057",
@@ -3669,7 +4106,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_058",
@@ -3686,7 +4125,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_058",
@@ -3699,7 +4140,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_058",
@@ -3714,7 +4157,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 3
+      "n_tool_calls": 3,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_058",
@@ -3729,7 +4174,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 3
+      "n_tool_calls": 3,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_059",
@@ -3746,7 +4193,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_059",
@@ -3767,7 +4216,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_059",
@@ -3787,7 +4238,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_059",
@@ -3808,7 +4261,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_060",
@@ -3821,7 +4276,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_060",
@@ -3838,7 +4295,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_060",
@@ -3855,7 +4314,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_060",
@@ -3872,7 +4333,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_061",
@@ -3889,7 +4352,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_061",
@@ -3906,7 +4371,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_061",
@@ -3923,7 +4390,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_061",
@@ -3940,7 +4409,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_061",
@@ -3957,7 +4428,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_062",
@@ -3974,7 +4447,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_062",
@@ -3987,7 +4462,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_062",
@@ -4000,7 +4477,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_063",
@@ -4017,7 +4496,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_063",
@@ -4034,7 +4515,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_063",
@@ -4051,7 +4534,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_063",
@@ -4068,7 +4553,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_064",
@@ -4081,7 +4568,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_064",
@@ -4098,7 +4587,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_064",
@@ -4117,7 +4608,9 @@
       ],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_065",
@@ -4134,7 +4627,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_065",
@@ -4151,7 +4646,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_065",
@@ -4164,7 +4661,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_065",
@@ -4181,7 +4680,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_066",
@@ -4198,7 +4699,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_066",
@@ -4215,7 +4718,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_066",
@@ -4232,7 +4737,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_066",
@@ -4249,7 +4756,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_067",
@@ -4266,7 +4775,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_067",
@@ -4283,7 +4794,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_067",
@@ -4300,7 +4813,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_067",
@@ -4317,7 +4832,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_068",
@@ -4334,7 +4851,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_068",
@@ -4347,7 +4866,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 2
+      "n_tool_calls": 2,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_068",
@@ -4363,7 +4884,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 5
+      "n_tool_calls": 5,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_069",
@@ -4380,7 +4903,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_069",
@@ -4397,7 +4922,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_069",
@@ -4414,7 +4941,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_069",
@@ -4427,7 +4956,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 0
+      "n_tool_calls": 0,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_070",
@@ -4444,7 +4975,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_070",
@@ -4461,7 +4994,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_070",
@@ -4478,7 +5013,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_070",
@@ -4495,7 +5032,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     },
     {
       "scenario": "test_070",
@@ -4512,7 +5051,9 @@
       "violations": [],
       "relaxed": false,
       "unsupported_claims": [],
-      "n_tool_calls": 7
+      "n_tool_calls": 7,
+      "review_unsupported": [],
+      "review_corrected": false
     }
   ]
 }

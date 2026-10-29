@@ -1,0 +1,533 @@
+{
+  "id": "long_007",
+  "split": "long",
+  "phenomena": [
+    "persistent_numeric",
+    "clarify",
+    "add",
+    "remove_diet",
+    "objective"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I keep sodium under 600 mg per serving.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "sodium_mg",
+              "value": 600.0
+            },
+            "persistent": true
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 600.0,
+          "source_turn": 1,
+          "persistent": true
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "What should I cook?",
+      "gold": {
+        "updates": [],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "clarify",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 600.0,
+          "source_turn": 1,
+          "persistent": true
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "A vegetarian main dish.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "vegetarian"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 600.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "vegetarian",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "With spinach.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "spinach"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 600.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "vegetarian",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Under 40 minutes.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 40.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 600.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "vegetarian",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 4,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 40.0,
+          "source_turn": 5,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "At least 10 g of protein.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "min",
+              "target": "protein_g",
+              "value": 10.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 600.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "vegetarian",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 4,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 40.0,
+          "source_turn": 5,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 10.0,
+          "source_turn": 6,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Dairy-free too.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "dairy_free"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 600.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "vegetarian",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 4,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 40.0,
+          "source_turn": 5,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 10.0,
+          "source_turn": 6,
+          "persistent": false
+        },
+        {
+          "kind": "diet",
+          "target": "dairy_free",
+          "source_turn": 7,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "It doesn't have to be dairy-free.",
+      "gold": {
+        "updates": [
+          {
+            "op": "remove",
+            "constraint": {
+              "kind": "diet",
+              "target": "dairy_free"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 600.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "vegetarian",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 4,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 40.0,
+          "source_turn": 5,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 10.0,
+          "source_turn": 6,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Under 350 calories.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 350.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 600.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "vegetarian",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 4,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 40.0,
+          "source_turn": 5,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 10.0,
+          "source_turn": 6,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 350.0,
+          "source_turn": 9,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Which is quickest?",
+      "gold": {
+        "updates": [],
+        "objectives": [
+          {
+            "target": "duration_min",
+            "direction": "min"
+          }
+        ],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "max",
+          "target": "sodium_mg",
+          "value": 600.0,
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "vegetarian",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "spinach",
+          "source_turn": 4,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 40.0,
+          "source_turn": 5,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "protein_g",
+          "value": 10.0,
+          "source_turn": 6,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 350.0,
+          "source_turn": 9,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        }
+      ]
+    }
+  ]
+}

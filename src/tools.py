@@ -190,9 +190,25 @@ def summarize(recipe: dict) -> dict:
 
 
 # ---------------------------------------------------------------- tools
+REFERENCE_KCAL = 450.0  # a typical single-serving main course; the preference prior is centred here
+
+
+def preference_score(r: dict) -> float:
+    """Optional extension (preference-based ranking): 0..1, higher is better.
+    Community rating, damped for few ratings, plus a portion-sanity prior that favours servings
+    near a normal size and preparation times that are not extreme. Only the ORDER within the set of
+    recipes that already satisfy every constraint is affected."""
+    rating = (r["average_rating"] / 5.0) * min(1.0, math.log1p(r["number_of_ratings"]) / math.log1p(50))
+    kcal = max(float(r["calories_kcal"]), 1.0)
+    portion = 1.0 - min(1.0, abs(math.log(kcal / REFERENCE_KCAL)) / math.log(3.0))
+    time_ok = 1.0 - min(1.0, max(0.0, float(r["duration_min"]) - 60.0) / 240.0)
+    return 0.5 * rating + 0.3 * portion + 0.2 * time_ok
+
+
 def search_recipes(db: RecipeDB, query: str = "", constraints=(), objectives=(), k: int = 5,
-                   exclude_ids=()) -> dict:
-    """Hard-filter by constraints, then rank by objectives (if any), BM25 relevance, rating."""
+                   exclude_ids=(), rank: str = "popularity") -> dict:
+    """Hard-filter by constraints, then rank by objectives (if any), BM25 relevance, and either
+    popularity (default) or the preference score (rank="preference")."""
     constraints = [as_constraint(c) for c in constraints]
     objectives = [as_objective(o) for o in objectives]
     excluded = {int(i) for i in exclude_ids}
@@ -203,10 +219,12 @@ def search_recipes(db: RecipeDB, query: str = "", constraints=(), objectives=(),
     def popularity(r):
         return r["average_rating"] * math.log1p(r["number_of_ratings"])
 
+    tiebreak = preference_score if rank == "preference" else popularity
+
     def key(rid):
         r = db.recipes[rid]
         obj = tuple(r[o.target] if o.direction == "min" else -r[o.target] for o in objectives)
-        return (*obj, -rel.get(rid, 0.0), -popularity(r))
+        return (*obj, -rel.get(rid, 0.0), -tiebreak(r))
 
     if query.strip() and not objectives:  # with a query and no objective, drop irrelevant hits
         relevant = [rid for rid in pool if rel.get(rid, 0) > 0]

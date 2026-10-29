@@ -101,7 +101,17 @@ def run(extractor, scenarios: list[dict], memory: bool = True) -> dict:
                 "state_spurious": sorted(map(str, ps - gs)),
                 "objectives_gold": sorted(gold_obj), "objectives_pred": sorted(pred_obj),
             })
+    by_turn = {}
+    for t in per_turn:  # state accuracy by position in the dialogue (longer-conversation extension)
+        b = by_turn.setdefault(t["turn"], {"n": 0, "state_exact": 0, "extraction_clean": 0})
+        b["n"] += 1
+        b["state_exact"] += t["state_exact"]
+        b["extraction_clean"] += not t["extraction_missed"] and not t["extraction_spurious"]
+    by_turn = {k: {"n": v["n"], "state_exact": round(v["state_exact"] / v["n"], 3),
+                   "extraction_clean": round(v["extraction_clean"] / v["n"], 3)}
+               for k, v in sorted(by_turn.items())}
     return {
+        "by_turn": by_turn,
         "extractor": getattr(extractor, "name", type(extractor).__name__), "memory": memory,
         "n_scenarios": len(scenarios), "n_turns": turns,
         "extraction": {**prf(**ex),
@@ -148,6 +158,9 @@ def print_summary(res: dict):
           f"persistence acc={e['persistence_accuracy']}")
     print(f"  state       exact={s['exact_match']:.3f}  P={s['precision']:.3f}  R={s['recall']:.3f}  "
           f"F1={s['f1']:.3f}  provenance acc={s['provenance_accuracy']}")
+    if res.get("by_turn") and max(res["by_turn"]) > 5:
+        print("  state exact by turn: " + "  ".join(
+            f"t{k}={v['state_exact']:.2f}(n={v['n']})" for k, v in res["by_turn"].items()))
 
 
 def main():

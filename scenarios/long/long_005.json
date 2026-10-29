@@ -1,0 +1,442 @@
+{
+  "id": "long_005",
+  "split": "long",
+  "phenomena": [
+    "tradeoff",
+    "tradeoff",
+    "replace_course",
+    "exclude",
+    "reset"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "Something with shrimp.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "shrimp"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "shrimp",
+          "source_turn": 1,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "For dinner.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "shrimp",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Under 500 calories.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 500.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "shrimp",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Which is the fastest and which has the most protein?",
+      "gold": {
+        "updates": [],
+        "objectives": [
+          {
+            "target": "duration_min",
+            "direction": "min"
+          },
+          {
+            "target": "protein_g",
+            "direction": "max"
+          }
+        ],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "shrimp",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        }
+      ]
+    },
+    {
+      "user": "Make it an appetizer instead.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "appetizers"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "shrimp",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "appetizers",
+          "source_turn": 5,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        }
+      ]
+    },
+    {
+      "user": "No cream.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "exclude",
+              "target": "cream"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "shrimp",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "appetizers",
+          "source_turn": 5,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "cream",
+          "source_turn": 6,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        }
+      ]
+    },
+    {
+      "user": "Under 20 minutes.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 20.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "shrimp",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "appetizers",
+          "source_turn": 5,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "cream",
+          "source_turn": 6,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 20.0,
+          "source_turn": 7,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        }
+      ]
+    },
+    {
+      "user": "Which is lowest in fat and which is lowest in sodium?",
+      "gold": {
+        "updates": [],
+        "objectives": [
+          {
+            "target": "fat_g",
+            "direction": "min"
+          },
+          {
+            "target": "sodium_mg",
+            "direction": "min"
+          }
+        ],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "shrimp",
+          "source_turn": 1,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 500.0,
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "appetizers",
+          "source_turn": 5,
+          "persistent": false
+        },
+        {
+          "kind": "exclude",
+          "target": "cream",
+          "source_turn": 6,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 20.0,
+          "source_turn": 7,
+          "persistent": false
+        }
+      ],
+      "active_objectives": [
+        {
+          "target": "duration_min",
+          "direction": "min"
+        },
+        {
+          "target": "protein_g",
+          "direction": "max"
+        },
+        {
+          "target": "fat_g",
+          "direction": "min"
+        },
+        {
+          "target": "sodium_mg",
+          "direction": "min"
+        }
+      ]
+    },
+    {
+      "user": "Forget the appetizer, back to a shrimp dinner.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "shrimp"
+            },
+            "persistent": false
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": true
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "include",
+          "target": "shrimp",
+          "source_turn": 9,
+          "persistent": false
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 9,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

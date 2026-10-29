@@ -1,0 +1,248 @@
+# Longer-conversation extension: 10 scripted dialogues of 8-12 turns. Convert with:
+#   python -m src.author scenarios/drafts/long.txt
+# Same annotation rules as scenarios/README.md. Used only for evaluation (not for tuning).
+
+## long_001 | persistent, add, replace, remove, tradeoff, reset
+> I'm vegetarian.
++ diet vegetarian P
+> What could I make for dinner?
++ course main-dish
+> Under 40 minutes.
++ max duration_min 40
+> With pasta.
++ include pasta
+> No mushrooms.
++ exclude mushroom
+> Under 600 calories.
++ max calories_kcal 600
+> Actually, 30 minutes max.
++ max duration_min 30
+> Mushrooms are fine after all.
+- exclude mushroom
+> Which is the quickest and which has the most protein?
+obj min duration_min
+obj max protein_g
+> Forget that, a dessert instead.
+reset
++ course desserts
+
+## long_002 | persistent, clarify, infeasible, relax, remove, replace, reset
+> I'm allergic to nuts.
++ diet nut_free P
+> Not sure what to cook, any ideas?
+= clarify
+> A chicken dinner.
++ include chicken
++ course main-dish
+> Ready in 20 minutes.
++ max duration_min 20
+> At least 35 g of protein.
++ min protein_g 35
+> And under 180 calories.
++ max calories_kcal 180
+= report_infeasible
+> Okay, 450 calories then.
++ max calories_kcal 450
+> No garlic.
++ exclude garlic
+> Garlic is okay actually.
+- exclude garlic
+> Make it 30 minutes.
++ max duration_min 30
+> Never mind, show me a soup instead.
+reset
++ course soups-stews
+
+## long_003 | numeric, replace, remove, add
+> Breakfast ideas?
++ course breakfast
+> Under 400 calories.
++ max calories_kcal 400
+> With eggs.
++ include egg
+> Under 15 minutes.
++ max duration_min 15
+> Let's say 25 minutes.
++ max duration_min 25
+> And at least 15 g of protein.
++ min protein_g 15
+> Drop the calorie limit.
+- max calories_kcal
+> Under 500 mg of sodium.
++ max sodium_mg 500
+> Make that 800 mg.
++ max sodium_mg 800
+
+## long_004 | persistent, reset, reset, include, numeric
+> I'm vegan and gluten intolerant.
++ diet vegan P
++ diet gluten_free P
+> A main dish.
++ course main-dish
+> With rice.
++ include rice
+> Under 45 minutes.
++ max duration_min 45
+> Forget that, a salad.
+reset
++ course salads
+> With tomatoes.
++ include tomato
+> Under 20 minutes.
++ max duration_min 20
+> Something different: a soup.
+reset
++ course soups-stews
+> At least 5 g of fiber.
++ min fiber_g 5
+> Under 300 calories.
++ max calories_kcal 300
+
+## long_005 | tradeoff, tradeoff, replace_course, exclude, reset
+> Something with shrimp.
++ include shrimp
+> For dinner.
++ course main-dish
+> Under 500 calories.
++ max calories_kcal 500
+> Which is the fastest and which has the most protein?
+obj min duration_min
+obj max protein_g
+> Make it an appetizer instead.
++ course appetizers
+> No cream.
++ exclude cream
+> Under 20 minutes.
++ max duration_min 20
+> Which is lowest in fat and which is lowest in sodium?
+obj min fat_g
+obj min sodium_mg
+> Forget the appetizer, back to a shrimp dinner.
+reset
++ include shrimp
++ course main-dish
+
+## long_006 | persistent, infeasible, relax, remove, replace_course, numeric
+> I never eat pork.
++ exclude pork P
+> Lunch ideas with beef.
++ course lunch
++ include beef
+> Under 30 minutes.
++ max duration_min 30
+> Under 400 calories.
++ max calories_kcal 400
+> At least 30 g of protein.
++ min protein_g 30
+= report_infeasible
+> Okay, 20 g is enough.
++ min protein_g 20
+> Also no onions.
++ exclude onion
+> Onions are fine.
+- exclude onion
+> Make it dinner instead of lunch.
++ course main-dish
+> Under 20 minutes.
++ max duration_min 20
+
+## long_007 | persistent_numeric, clarify, add, remove_diet, objective
+> I keep sodium under 600 mg per serving.
++ max sodium_mg 600 P
+> What should I cook?
+= clarify
+> A vegetarian main dish.
++ diet vegetarian
++ course main-dish
+> With spinach.
++ include spinach
+> Under 40 minutes.
++ max duration_min 40
+> At least 10 g of protein.
++ min protein_g 10
+> Dairy-free too.
++ diet dairy_free
+> It doesn't have to be dairy-free.
+- diet dairy_free
+> Under 350 calories.
++ max calories_kcal 350
+> Which is quickest?
+obj min duration_min
+
+## long_008 | numeric, replace, remove, diet
+> A chocolate dessert.
++ course desserts
++ include chocolate
+> Under 400 calories.
++ max calories_kcal 400
+> Nut-free please.
++ diet nut_free
+> Under 30 minutes.
++ max duration_min 30
+> Hmm, 300 calories max.
++ max calories_kcal 300
+> Under 20 g of sugar.
++ max sugar_g 20
+> Forget the sugar limit.
+- max sugar_g
+> Egg-free as well.
++ diet egg_free
+> Make that 45 minutes.
++ max duration_min 45
+
+## long_009 | persistent, reset, reset, include, exclude, numeric
+> I'm pescatarian.
++ diet pescatarian P
+> A salmon dinner.
++ include salmon
++ course main-dish
+> Under 40 minutes.
++ max duration_min 40
+> Under 500 calories.
++ max calories_kcal 500
+> Scratch that, breakfast ideas.
+reset
++ course breakfast
+> With eggs.
++ include egg
+> Under 15 minutes.
++ max duration_min 15
+> No cheese.
++ exclude cheese
+> Change of plans: a soup.
+reset
++ course soups-stews
+> With tomatoes.
++ include tomato
+> Under 300 calories.
++ max calories_kcal 300
+
+## long_010 | add, replace, remove, persistent_mid_dialogue, tradeoff, reset
+> Dinner with potatoes.
++ course main-dish
++ include potato
+> Under 50 minutes.
++ max duration_min 50
+> No onions.
++ exclude onion
+> Let's say 35 minutes.
++ max duration_min 35
+> Onions are fine.
+- exclude onion
+> Under 600 calories.
++ max calories_kcal 600
+> I should say I'm gluten intolerant.
++ diet gluten_free P
+> At least 20 g of protein.
++ min protein_g 20
+> Under 900 mg sodium.
++ max sodium_mg 900
+> Which is quickest and which has the most fiber?
+obj min duration_min
+obj max fiber_g
+> Forget that, a quick gluten-free snack.
+reset
++ course snacks
+obj min duration_min
+> Under 200 calories.
++ max calories_kcal 200

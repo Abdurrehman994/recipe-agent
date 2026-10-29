@@ -281,6 +281,67 @@ class LLMExtractor:
             path.write_text(json.dumps({"data": data, "usage": usage}), encoding="utf-8")
         return data
 
+    # ------------------------------------------------------------------ free text
+    def complete(self, system: str, user: str, max_tokens: int = 1200) -> str:
+        """Plain-text completion with the same provider, cache and usage accounting.
+        Used for model-written explanations (src/explain.py). Returns "" on failure."""
+        key = hashlib.sha256(json.dumps(
+            ["text", self.provider, self.model, system, user]).encode()).hexdigest()[:24]
+        path = self.cache_dir / f"{key}.json" if self.cache_dir else None
+        if path and path.exists() and not self.fresh:
+            entry = json.loads(path.read_text(encoding="utf-8"))
+            self._account(entry.get("usage"), cached=True)
+            return entry["data"]
+        if self.min_interval_s:
+            wait = self._last_call + self.min_interval_s - time.monotonic()
+            if wait > 0:
+                time.sleep(wait)
+            self._last_call = time.monotonic()
+        text, usage = self._complete_once(system, user, max_tokens)
+        self._account(usage, cached=False)
+        if path:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps({"data": text, "usage": usage}), encoding="utf-8")
+        return text
+
+    def _complete_once(self, system: str, user: str, max_tokens: int) -> tuple[str, dict | None]:
+        import re
+        for attempt in range(8):
+            try:
+                if self.provider in CHAT_PROVIDERS:
+                    kwargs = {"reasoning_effort": "low"} if "gpt-oss" in self.model else {}
+                    response = self.client.chat.completions.create(
+                        model=self.model, temperature=0, max_completion_tokens=max_tokens + 4000,
+                        messages=[{"role": "system", "content": system},
+                                  {"role": "user", "content": user}], **kwargs)
+                    choice = response.choices[0]
+                    u = getattr(response, "usage", None)
+                    usage = None if u is None else {
+                        "prompt_tokens": getattr(u, "prompt_tokens", 0),
+                        "completion_tokens": getattr(u, "completion_tokens", 0),
+                        "total_tokens": getattr(u, "total_tokens", 0)}
+                    return (choice.message.content or "").strip(), usage
+                response = self.client.messages.create(
+                    model=self.model, max_tokens=max_tokens, system=system,
+                    messages=[{"role": "user", "content": user}])
+                text = "".join(getattr(b, "text", "") for b in response.content)
+                u = getattr(response, "usage", None)
+                usage = None if u is None else {
+                    "prompt_tokens": getattr(u, "input_tokens", 0),
+                    "completion_tokens": getattr(u, "output_tokens", 0),
+                    "total_tokens": getattr(u, "input_tokens", 0) + getattr(u, "output_tokens", 0)}
+                return text.strip(), usage
+            except Exception as e:
+                if type(e).__name__ != "RateLimitError":
+                    raise
+                m = re.search(r"try again in (?:(\d+)h)?(?:(\d+)m)?(?:([\d.]+)s)?", str(e))
+                wait = 60.0
+                if m and any(m.groups()):
+                    h, mi, sec = (float(x) if x else 0.0 for x in m.groups())
+                    wait = h * 3600 + mi * 60 + sec + 5
+                time.sleep(min(max(wait, 10.0), 1800.0))
+        return "", None
+
     def _call(self, user: str) -> tuple[dict, dict | None]:
         """Returns (model output, usage) where usage has prompt/completion/total_tokens."""
         if self.min_interval_s:  # pace requests for rate-limited free tiers

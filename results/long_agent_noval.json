@@ -1,0 +1,2279 @@
+{
+  "config": "agent_noval",
+  "extractor": "rules",
+  "n_scenarios": 10,
+  "n_turns": 101,
+  "action_accuracy": 0.9604,
+  "clarify_recall": 0.0,
+  "infeasible_recall": 0.0,
+  "recommend_recall": 1.0,
+  "silent_relaxation_rate": 0.8911,
+  "silent_relaxations": 90,
+  "constraint_satisfaction": 0.2112,
+  "turn_all_satisfied": 0.1089,
+  "unsupported_claim_rate": 0.0,
+  "n_claims": 909,
+  "state_exact_match": 0.7525,
+  "tool_calls_per_turn": 1.0,
+  "tool_calls": {
+    "search_recipes": 101
+  },
+  "llm_usage": null,
+  "recommendation_quality": {
+    "mean_rating": 4.623,
+    "mean_calories_kcal": 362.5,
+    "mean_duration_min": 48.2,
+    "share_100_to_800_kcal": 0.8152
+  },
+  "review": null,
+  "per_turn": [
+    {
+      "scenario": "long_001",
+      "turn": 1,
+      "user": "I'm vegetarian.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Vegetarian, Spinach, Shiitake & Tofu Soup",
+        "Terrific Taco Salad (Diabetic,  Vegetarian  Friendly)",
+        "Vegetarian Chicken Sandwich Spread"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_001",
+      "turn": 2,
+      "user": "What could I make for dinner?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Laura\u2019s General Tso's Seitan",
+        "The Best French Onion Soup!!",
+        "Mama's Good for What Ails You Drink"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "The Best French Onion Soup!!",
+        "Mama's Good for What Ails You Drink"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_001",
+      "turn": 3,
+      "user": "Under 40 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "French Peasant Supper"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "French Peasant Supper"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_001",
+      "turn": 4,
+      "user": "With pasta.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Creamy Chicken and Pasta Casserole",
+        "Skillet Piggies (Cabbage Rolls)"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Creamy Chicken and Pasta Casserole",
+        "Skillet Piggies (Cabbage Rolls)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_001",
+      "turn": 5,
+      "user": "No mushrooms.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Herbed Pasta With Shiitake Mushrooms",
+        "Portabella Mushroom With Spinach and Feta Lasagna (Vegetarian)",
+        "Creamy Chicken and Pasta Casserole"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Herbed Pasta With Shiitake Mushrooms",
+        "Portabella Mushroom With Spinach and Feta Lasagna (Vegetarian)",
+        "Creamy Chicken and Pasta Casserole"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_001",
+      "turn": 6,
+      "user": "Under 600 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Herbed Pasta With Shiitake Mushrooms"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Herbed Pasta With Shiitake Mushrooms"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_001",
+      "turn": 7,
+      "user": "Actually, 30 minutes max.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chicken Tortilla Soup - Max and Erma's Copycat",
+        "Fish Tacos and Cilantro Coleslaw, 20 Minutes Max",
+        "Herbed Pasta With Shiitake Mushrooms"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Chicken Tortilla Soup - Max and Erma's Copycat",
+        "Fish Tacos and Cilantro Coleslaw, 20 Minutes Max",
+        "Herbed Pasta With Shiitake Mushrooms"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_001",
+      "turn": 8,
+      "user": "Mushrooms are fine after all.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Herbed Pasta With Shiitake Mushrooms",
+        "Creamy Chicken and Pasta Casserole",
+        "Oatmeal Blueberry Pancakes"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Herbed Pasta With Shiitake Mushrooms",
+        "Creamy Chicken and Pasta Casserole",
+        "Oatmeal Blueberry Pancakes"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_001",
+      "turn": 9,
+      "user": "Which is the quickest and which has the most protein?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_001",
+      "turn": 10,
+      "user": "Forget that, a dessert instead.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Tamina - Algerian Toasted Semolina & Honey Sweet",
+        "Low Fat Tortilla Casserole (Vegetarian)",
+        "Cornflour Butter Cake"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Low Fat Tortilla Casserole (Vegetarian)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_002",
+      "turn": 1,
+      "user": "I'm allergic to nuts.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Coconut Millet Pudding",
+        "Greek  Farmers Green Salad",
+        "Garlic Rice with Pine Nuts"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Greek  Farmers Green Salad",
+        "Garlic Rice with Pine Nuts"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_002",
+      "turn": 2,
+      "user": "Not sure what to cook, any ideas?",
+      "expected_action": "clarify",
+      "action": "recommend",
+      "recommendations": [
+        "Pork Chalupas",
+        "Goat Cheese + Pasta + Asparagus = Yum!",
+        "Baked Italian Herb Chicken"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_002",
+      "turn": 3,
+      "user": "A chicken dinner.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Garlic Rice with Pine Nuts",
+        "Vegetarian Chicken Sandwich Spread",
+        "Egyptian Toasted Pine Nut Couscous With Garlic Shrimp"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Garlic Rice with Pine Nuts",
+        "Vegetarian Chicken Sandwich Spread",
+        "Egyptian Toasted Pine Nut Couscous With Garlic Shrimp"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_002",
+      "turn": 4,
+      "user": "Ready in 20 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Cheesy Chicken & Rice Bake",
+        "Chennai Chicken Curry",
+        "White Chocolate Pecan Scones"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Cheesy Chicken & Rice Bake",
+        "Chennai Chicken Curry",
+        "White Chocolate Pecan Scones"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_002",
+      "turn": 5,
+      "user": "At least 35 g of protein.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Pomegranate Persimmon Salad With Warm Goat Cheese",
+        "Nigella's Za'atar Chicken",
+        "Vegetarian Chicken Sandwich Spread"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Pomegranate Persimmon Salad With Warm Goat Cheese",
+        "Nigella's Za'atar Chicken",
+        "Vegetarian Chicken Sandwich Spread"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_002",
+      "turn": 6,
+      "user": "And under 180 calories.",
+      "expected_action": "report_infeasible",
+      "action": "recommend",
+      "recommendations": [
+        "Chennai Chicken Curry",
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Spiced Grilled Chicken"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Chennai Chicken Curry",
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Spiced Grilled Chicken"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_002",
+      "turn": 7,
+      "user": "Okay, 450 calories then.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Hungry-Girl Apple Cobbler (Low Fat; 2 Ww Points)",
+        "Creamy Chicken and Pasta Casserole",
+        "Enchiladas Perfectos Del Pollo (Perfect Chicken Enchiladas)"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Hungry-Girl Apple Cobbler (Low Fat; 2 Ww Points)",
+        "Creamy Chicken and Pasta Casserole",
+        "Enchiladas Perfectos Del Pollo (Perfect Chicken Enchiladas)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_002",
+      "turn": 8,
+      "user": "No garlic.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Weight Watchers Parmesan Crusted Chicken Schnitzels",
+        "Hummus with Pureed Sesame Seeds (No Pre-made Tahini Here!)",
+        "Vegetarian Chicken Sandwich Spread"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Weight Watchers Parmesan Crusted Chicken Schnitzels",
+        "Hummus with Pureed Sesame Seeds (No Pre-made Tahini Here!)",
+        "Vegetarian Chicken Sandwich Spread"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_002",
+      "turn": 9,
+      "user": "Garlic is okay actually.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Hungry-Girl Apple Cobbler (Low Fat; 2 Ww Points)",
+        "Weight Watchers Parmesan Crusted Chicken Schnitzels",
+        "Herbed Chicken Tenders"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Hungry-Girl Apple Cobbler (Low Fat; 2 Ww Points)",
+        "Weight Watchers Parmesan Crusted Chicken Schnitzels"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_002",
+      "turn": 10,
+      "user": "Make it 30 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Vegetarian Chicken Sandwich Spread",
+        "Weight Watchers Parmesan Crusted Chicken Schnitzels",
+        "Osso Bucco-Style Chicken"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Vegetarian Chicken Sandwich Spread",
+        "Weight Watchers Parmesan Crusted Chicken Schnitzels",
+        "Osso Bucco-Style Chicken"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_002",
+      "turn": 11,
+      "user": "Never mind, show me a soup instead.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chicken & White Bean Soup With Spinach & Parmesan",
+        "Delicious and Easy Venison Stew in the Crock Pot",
+        "Hasa Al Hummus -- Moroccan Chickpea Soup"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_003",
+      "turn": 1,
+      "user": "Breakfast ideas?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Only the Best Fruit Dip Ever!",
+        "Overnight Cheese and Egg Casserole",
+        "Old-Fashioned Cake Doughnuts (Donuts)"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_003",
+      "turn": 2,
+      "user": "Under 400 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oatmeal Blueberry Pancakes",
+        "Garden Vegetable Omelette Braid(Pampered Chef Copycat)",
+        "Austrian Avalanch"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Austrian Avalanch"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_003",
+      "turn": 3,
+      "user": "With eggs.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oatmeal Blueberry Pancakes",
+        "Turkish Poached Eggs With Yogurt and Spicy Sage Butter",
+        "Breakfast Flowers"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_003",
+      "turn": 4,
+      "user": "Under 15 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Garden Vegetable Omelette Braid(Pampered Chef Copycat)"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Garden Vegetable Omelette Braid(Pampered Chef Copycat)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_003",
+      "turn": 5,
+      "user": "Let's say 25 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Simple Pancake Recipe",
+        "Cheesy Chicken & Rice Bake",
+        "Oatmeal Blueberry Pancakes"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Cheesy Chicken & Rice Bake"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_003",
+      "turn": 6,
+      "user": "And at least 15 g of protein.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oatmeal Blueberry Pancakes",
+        "Karpathian Cucumber Boats",
+        "Ham and Cheese Breakfast  Bake"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Oatmeal Blueberry Pancakes",
+        "Karpathian Cucumber Boats",
+        "Ham and Cheese Breakfast  Bake"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_003",
+      "turn": 7,
+      "user": "Drop the calorie limit.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Peanut Butter Protein Pancake With Blueberry Vanilla Topping",
+        "Cornmeal Breakfast Combo",
+        "Mom's Meatballs"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Cornmeal Breakfast Combo",
+        "Mom's Meatballs"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_003",
+      "turn": 8,
+      "user": "Under 500 mg of sodium.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Osso Bucco-Style Chicken",
+        "Chennai Chicken Curry",
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Osso Bucco-Style Chicken",
+        "Chennai Chicken Curry",
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_003",
+      "turn": 9,
+      "user": "Make that 800 mg.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Osso Bucco-Style Chicken",
+        "Cornmeal Breakfast Combo",
+        "Pork Chops With Apricot Sauce"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Osso Bucco-Style Chicken",
+        "Cornmeal Breakfast Combo",
+        "Pork Chops With Apricot Sauce"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_004",
+      "turn": 1,
+      "user": "I'm vegan and gluten intolerant.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Ballpark Hot Dogs (Vegan)",
+        "Black Bean College Veggie Burgers",
+        "Greek  Farmers Green Salad"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Ballpark Hot Dogs (Vegan)",
+        "Black Bean College Veggie Burgers"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_004",
+      "turn": 2,
+      "user": "A main dish.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Ballpark Hot Dogs (Vegan)",
+        "Vegan Tourtiere",
+        "Chickpea Broccoli Casserole"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Ballpark Hot Dogs (Vegan)",
+        "Chickpea Broccoli Casserole"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_004",
+      "turn": 3,
+      "user": "With rice.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Easy Fried Rice With Veggies",
+        "South of the Border Couscous Salad (Vegan)",
+        "Crock Pot Black Beans and Rice Soup"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Easy Fried Rice With Veggies",
+        "South of the Border Couscous Salad (Vegan)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_004",
+      "turn": 4,
+      "user": "Under 45 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Cheesy Chicken & Rice Bake"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Cheesy Chicken & Rice Bake"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_004",
+      "turn": 5,
+      "user": "Forget that, a salad.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Avocado and Pineapple Salad - Ensalada De Aguacate Y Pina",
+        "South of the Border Couscous Salad (Vegan)",
+        "Apple Salad With Pomegranate Molasses"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "South of the Border Couscous Salad (Vegan)",
+        "Apple Salad With Pomegranate Molasses"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_004",
+      "turn": 6,
+      "user": "With tomatoes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "South of the Border Couscous Salad (Vegan)",
+        "Chilean Salad",
+        "Avocado Summer Salad"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "South of the Border Couscous Salad (Vegan)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_004",
+      "turn": 7,
+      "user": "Under 20 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chennai Chicken Curry",
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Avocado Summer Salad"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Chennai Chicken Curry",
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_004",
+      "turn": 8,
+      "user": "Something different: a soup.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Crock Pot Black Beans and Rice Soup",
+        "Vegetarian, Spinach, Shiitake & Tofu Soup",
+        "Tomato-Cabbage Soup with Lima Beans"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_004",
+      "turn": 9,
+      "user": "At least 5 g of fiber.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Vegan Blended Veggie \"get-Better\" Soup",
+        "Split Pea and Barley Soup",
+        "Vegetarian, Spinach, Shiitake & Tofu Soup"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Split Pea and Barley Soup",
+        "Vegetarian, Spinach, Shiitake & Tofu Soup"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_004",
+      "turn": 10,
+      "user": "Under 300 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Hungry-Girl Apple Cobbler (Low Fat; 2 Ww Points)",
+        "Vegetarian, Spinach, Shiitake & Tofu Soup",
+        "Split Pea and Barley Soup"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Hungry-Girl Apple Cobbler (Low Fat; 2 Ww Points)",
+        "Vegetarian, Spinach, Shiitake & Tofu Soup",
+        "Split Pea and Barley Soup"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_005",
+      "turn": 1,
+      "user": "Something with shrimp.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Mediterranean Shrimp With Garlic Chips",
+        "Dirty Rice With Shrimp",
+        "Parmesan Shrimp With Basil Dressing"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_005",
+      "turn": 2,
+      "user": "For dinner.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Egyptian Toasted Pine Nut Couscous With Garlic Shrimp",
+        "Creamy Dreamy Shrimp Saute",
+        "Leeky Linguine With Shrimp"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_005",
+      "turn": 3,
+      "user": "Under 500 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Shrimp Etouffe",
+        "Spicy Spanish Garlic Shrimp",
+        "Cajun Shrimp Penne Pasta"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Shrimp Etouffe",
+        "Cajun Shrimp Penne Pasta"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_005",
+      "turn": 4,
+      "user": "Which is the fastest and which has the most protein?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_005",
+      "turn": 5,
+      "user": "Make it an appetizer instead.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_005",
+      "turn": 6,
+      "user": "No cream.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_005",
+      "turn": 7,
+      "user": "Under 20 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_005",
+      "turn": 8,
+      "user": "Which is lowest in fat and which is lowest in sodium?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_005",
+      "turn": 9,
+      "user": "Forget the appetizer, back to a shrimp dinner.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Oaxacan Turkey Burgers With Chipotle Salsa",
+        "Blue Cheese Walnut Dip",
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_006",
+      "turn": 1,
+      "user": "I never eat pork.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Pork Chop Sandwich",
+        "Chop Suey Retro 60's Style",
+        "Easy Oven Baked Ribs"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Pork Chop Sandwich",
+        "Chop Suey Retro 60's Style",
+        "Easy Oven Baked Ribs"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_006",
+      "turn": 2,
+      "user": "Lunch ideas with beef.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Octoberfest Kielbasa and Potato Pizza With Muenster Cheese #5FIX",
+        "Pow-wow Potluck",
+        "Smoked Cheddar/Jalapeno Ranch Meatloaf"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Octoberfest Kielbasa and Potato Pizza With Muenster Cheese #5FIX",
+        "Pow-wow Potluck",
+        "Smoked Cheddar/Jalapeno Ranch Meatloaf"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_006",
+      "turn": 3,
+      "user": "Under 30 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Pork Tenderloin with Mustard-Peppercorn Crust"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Pork Tenderloin with Mustard-Peppercorn Crust"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_006",
+      "turn": 4,
+      "user": "Under 400 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Char Siew Puffs (Char Siew Sow) - Dim Sum"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Char Siew Puffs (Char Siew Sow) - Dim Sum"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_006",
+      "turn": 5,
+      "user": "At least 30 g of protein.",
+      "expected_action": "report_infeasible",
+      "action": "recommend",
+      "recommendations": [
+        "Oven-Baked Sweet BBQ Chops",
+        "Kelly's Apple Pork Chops With Stuffing",
+        "Herb Seared Pork Tenderloin"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Oven-Baked Sweet BBQ Chops",
+        "Kelly's Apple Pork Chops With Stuffing",
+        "Herb Seared Pork Tenderloin"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_006",
+      "turn": 6,
+      "user": "Okay, 20 g is enough.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Skillet Piggies (Cabbage Rolls)",
+        "Sausage Tortellini Alfredo",
+        "Hungry-Girl Apple Cobbler (Low Fat; 2 Ww Points)"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Skillet Piggies (Cabbage Rolls)",
+        "Sausage Tortellini Alfredo",
+        "Hungry-Girl Apple Cobbler (Low Fat; 2 Ww Points)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_006",
+      "turn": 7,
+      "user": "Also no onions.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Low Fat Middle Eastern Beef Koftas",
+        "Oven-Baked Sweet BBQ Chops",
+        "Sweet & Smoky BBQ Beef for Sandwiches"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Low Fat Middle Eastern Beef Koftas",
+        "Oven-Baked Sweet BBQ Chops",
+        "Sweet & Smoky BBQ Beef for Sandwiches"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_006",
+      "turn": 8,
+      "user": "Onions are fine.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Oatmeal Blueberry Pancakes",
+        "Weight Watchers Parmesan Crusted Chicken Schnitzels",
+        "Asian-Style Lettuce Wraps"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Oatmeal Blueberry Pancakes",
+        "Weight Watchers Parmesan Crusted Chicken Schnitzels",
+        "Asian-Style Lettuce Wraps"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_006",
+      "turn": 9,
+      "user": "Make it dinner instead of lunch.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Char Siew Puffs (Char Siew Sow) - Dim Sum",
+        "French Peasant Supper",
+        "Honey Pork"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Char Siew Puffs (Char Siew Sow) - Dim Sum",
+        "French Peasant Supper",
+        "Honey Pork"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_006",
+      "turn": 10,
+      "user": "Under 20 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Grilled Pork Tenderloin With Italian Rub",
+        "Chennai Chicken Curry"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Grilled Pork Tenderloin With Italian Rub",
+        "Chennai Chicken Curry"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_007",
+      "turn": 1,
+      "user": "I keep sodium under 600 mg per serving.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Osso Bucco-Style Chicken",
+        "Pork Chops With Apricot Sauce",
+        "Parmesan-Herb Baked Flounder"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Parmesan-Herb Baked Flounder"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_007",
+      "turn": 2,
+      "user": "What should I cook?",
+      "expected_action": "clarify",
+      "action": "recommend",
+      "recommendations": [
+        "Osso Bucco-Style Chicken",
+        "Thai-Style Chicken With Basil (Cook's Illustrated)",
+        "Pork Chops With Apricot Sauce"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Thai-Style Chicken With Basil (Cook's Illustrated)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_007",
+      "turn": 3,
+      "user": "A vegetarian main dish.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Osso Bucco-Style Chicken",
+        "Pork Chops With Apricot Sauce",
+        "Low Fat, Low Cal, Vegan Pad Thai"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Osso Bucco-Style Chicken",
+        "Pork Chops With Apricot Sauce",
+        "Low Fat, Low Cal, Vegan Pad Thai"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_007",
+      "turn": 4,
+      "user": "With spinach.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Osso Bucco-Style Chicken",
+        "Pork Chops With Apricot Sauce",
+        "Saute Spinach with Garlic"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Osso Bucco-Style Chicken",
+        "Pork Chops With Apricot Sauce",
+        "Saute Spinach with Garlic"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_007",
+      "turn": 5,
+      "user": "Under 40 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Osso Bucco-Style Chicken",
+        "Chennai Chicken Curry"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Osso Bucco-Style Chicken",
+        "Chennai Chicken Curry"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_007",
+      "turn": 6,
+      "user": "At least 10 g of protein.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Osso Bucco-Style Chicken",
+        "Butter Braised Spinach",
+        "Pomegranate Persimmon Salad With Warm Goat Cheese"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Osso Bucco-Style Chicken",
+        "Butter Braised Spinach",
+        "Pomegranate Persimmon Salad With Warm Goat Cheese"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_007",
+      "turn": 7,
+      "user": "Dairy-free too.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Butter Braised Spinach",
+        "Osso Bucco-Style Chicken",
+        "Spinach Supreme Casserole"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Butter Braised Spinach",
+        "Osso Bucco-Style Chicken",
+        "Spinach Supreme Casserole"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_007",
+      "turn": 8,
+      "user": "It doesn't have to be dairy-free.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Fasta Pasta Gorgonzola With Spinach, Red Peppers and Pine Nuts",
+        "Butter Braised Spinach",
+        "Saute Spinach with Garlic"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Fasta Pasta Gorgonzola With Spinach, Red Peppers and Pine Nuts",
+        "Butter Braised Spinach",
+        "Saute Spinach with Garlic"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_007",
+      "turn": 9,
+      "user": "Under 350 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Osso Bucco-Style Chicken",
+        "Parmesan-Herb Baked Flounder",
+        "Saute Spinach with Garlic"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Osso Bucco-Style Chicken",
+        "Parmesan-Herb Baked Flounder",
+        "Saute Spinach with Garlic"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_007",
+      "turn": 10,
+      "user": "Which is quickest?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Blue Cheese Walnut Dip",
+        "Aussie Cold & Flu Remedy",
+        "Jelly Belly Banana Split (--Tasty Dish--)"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Blue Cheese Walnut Dip",
+        "Aussie Cold & Flu Remedy",
+        "Jelly Belly Banana Split (--Tasty Dish--)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_008",
+      "turn": 1,
+      "user": "A chocolate dessert.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chocolate Chocolate M&m Cookies",
+        "Crock Pot Self-Frosting Chocolate Cake",
+        "Brownies, Double Chocolate"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_008",
+      "turn": 2,
+      "user": "Under 400 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chocolate Chocolate M&m Cookies",
+        "Crock Pot Self-Frosting Chocolate Cake",
+        "Brownies, Double Chocolate"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_008",
+      "turn": 3,
+      "user": "Nut-free please.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chocolate Chip Macaroons",
+        "Low Carb Chocolate Truffles",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Low Carb Chocolate Truffles",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_008",
+      "turn": 4,
+      "user": "Under 30 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chocolate Chip Macaroons",
+        "Low Carb Chocolate Truffles",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Chocolate Chip Macaroons",
+        "Low Carb Chocolate Truffles",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_008",
+      "turn": 5,
+      "user": "Hmm, 300 calories max.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chocolate Chip Macaroons",
+        "Low Carb Chocolate Truffles",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Chocolate Chip Macaroons",
+        "Low Carb Chocolate Truffles",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_008",
+      "turn": 6,
+      "user": "Under 20 g of sugar.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chocolate Chip Macaroons",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies",
+        "Low Carb Chocolate Truffles"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Chocolate Chip Macaroons",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies",
+        "Low Carb Chocolate Truffles"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_008",
+      "turn": 7,
+      "user": "Forget the sugar limit.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chocolate Chip Macaroons",
+        "Low Carb Chocolate Truffles",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Chocolate Chip Macaroons",
+        "Low Carb Chocolate Truffles",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_008",
+      "turn": 8,
+      "user": "Egg-free as well.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chocolate Chip Macaroons",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies",
+        "Ghirardelli Chocolate Nut Biscotti"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Chocolate Chip Macaroons",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies",
+        "Ghirardelli Chocolate Nut Biscotti"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_008",
+      "turn": 9,
+      "user": "Make that 45 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Chocolate Chip Macaroons",
+        "White Chocolate Pecan Scones",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Chocolate Chip Macaroons",
+        "White Chocolate Pecan Scones",
+        "White Chocolate Chunk Macadamia Nut Brownie Cookies"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_009",
+      "turn": 1,
+      "user": "I'm pescatarian.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Jo Mama's World Famous Spaghetti",
+        "Chicken Tortilla Soup II"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Yes, Virginia There is a Great Meatloaf",
+        "Jo Mama's World Famous Spaghetti",
+        "Chicken Tortilla Soup II"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_009",
+      "turn": 2,
+      "user": "A salmon dinner.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Grilled Salmon with Mustard-Molasses Glaze",
+        "Baked Tarragon Orange Salmon",
+        "I Love Salmon Loaf"
+      ],
+      "all_satisfied": true,
+      "violations": [],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_009",
+      "turn": 3,
+      "user": "Under 40 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Salmon for Everyone!",
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Salmon for Everyone!",
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_009",
+      "turn": 4,
+      "user": "Under 500 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Salmon for Everyone!",
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Salmon for Everyone!",
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_009",
+      "turn": 5,
+      "user": "Scratch that, breakfast ideas.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Foiled Miso Salmon",
+        "Dishwasher Salmon",
+        "Thai Red Curry / Coconut Sauce (For Salmon)"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Foiled Miso Salmon",
+        "Dishwasher Salmon",
+        "Thai Red Curry / Coconut Sauce (For Salmon)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_009",
+      "turn": 6,
+      "user": "With eggs.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Poached Eggs and Smoked Salmon with Tarragon Bearnaise",
+        "Lite Salmon & Pasta Casserole",
+        "Foiled Miso Salmon"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Lite Salmon & Pasta Casserole",
+        "Foiled Miso Salmon"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_009",
+      "turn": 7,
+      "user": "Under 15 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Poached Eggs and Smoked Salmon with Tarragon Bearnaise",
+        "Lite Salmon & Pasta Casserole",
+        "Salmon for Everyone!"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Poached Eggs and Smoked Salmon with Tarragon Bearnaise",
+        "Lite Salmon & Pasta Casserole",
+        "Salmon for Everyone!"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_009",
+      "turn": 8,
+      "user": "No cheese.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Lite Salmon & Pasta Casserole",
+        "Poached Eggs and Smoked Salmon with Tarragon Bearnaise",
+        "Red Salmon Pie"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Lite Salmon & Pasta Casserole",
+        "Poached Eggs and Smoked Salmon with Tarragon Bearnaise",
+        "Red Salmon Pie"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_009",
+      "turn": 9,
+      "user": "Change of plans: a soup.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Leftover Roast Beef  Stew",
+        "Chicken Lentil Soup With Kale",
+        "Pumpkin Wild Rice Soup"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Leftover Roast Beef  Stew",
+        "Chicken Lentil Soup With Kale",
+        "Pumpkin Wild Rice Soup"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_009",
+      "turn": 10,
+      "user": "With tomatoes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Tomato-Cabbage Soup with Lima Beans",
+        "Old Man Rafferty's Tomato Basil Soup",
+        "Chickpea and Tomato Soup"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Chickpea and Tomato Soup"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_009",
+      "turn": 11,
+      "user": "Under 300 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Broccoli Cheese Soup - Ww",
+        "Stacy's Favorite Vegetable Beef Soup",
+        "Healthy Hamburger and Green Bean Soup"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Broccoli Cheese Soup - Ww",
+        "Stacy's Favorite Vegetable Beef Soup",
+        "Healthy Hamburger and Green Bean Soup"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 1,
+      "user": "Dinner with potatoes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Greek Roast Leg of Lamb with Potatoes",
+        "Irish Cod Pie Topped With Mashed Potatoes",
+        "Onion Mushroom Potato Kugel"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Onion Mushroom Potato Kugel"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 2,
+      "user": "Under 50 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Rosemary Roast Chicken With Smothered Potatoes"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Rosemary Roast Chicken With Smothered Potatoes"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 3,
+      "user": "No onions.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Spanish Potato Salad ( No Mayonnaise)",
+        "Slow Cooker Potatoes",
+        "Crock Pot No-Fuss Potato Soup"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Spanish Potato Salad ( No Mayonnaise)",
+        "Slow Cooker Potatoes",
+        "Crock Pot No-Fuss Potato Soup"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 4,
+      "user": "Let's say 35 minutes.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Cheesy Chicken & Rice Bake",
+        "Jansson's Temptation",
+        "Crockpot Ham and Potatoes"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Cheesy Chicken & Rice Bake",
+        "Jansson's Temptation",
+        "Crockpot Ham and Potatoes"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 5,
+      "user": "Onions are fine.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "The Best-Ever Potato Soup",
+        "Potatoes Fondantes",
+        "Vegetable Tiella"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "The Best-Ever Potato Soup",
+        "Potatoes Fondantes",
+        "Vegetable Tiella"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 6,
+      "user": "Under 600 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Sweet Potato and Canadian Bacon Hash"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Creamy Pasta With Asparagus, Parmesan, and Crispy Prosciutto",
+        "Chennai Chicken Curry",
+        "Sweet Potato and Canadian Bacon Hash"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 7,
+      "user": "I should say I'm gluten intolerant.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Cheesy Chicken & Rice Bake",
+        "Sweet Potato and Canadian Bacon Hash",
+        "Jansson's Temptation"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Cheesy Chicken & Rice Bake",
+        "Sweet Potato and Canadian Bacon Hash",
+        "Jansson's Temptation"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 8,
+      "user": "At least 20 g of protein.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Potato Salad by Syd",
+        "Sweet Potato Thai Curry",
+        "Gratin of Oranges"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Potato Salad by Syd",
+        "Sweet Potato Thai Curry",
+        "Gratin of Oranges"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 9,
+      "user": "Under 900 mg sodium.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Osso Bucco-Style Chicken",
+        "Sweet Potato and Canadian Bacon Hash",
+        "Parmesan-Herb Baked Flounder"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Osso Bucco-Style Chicken",
+        "Sweet Potato and Canadian Bacon Hash",
+        "Parmesan-Herb Baked Flounder"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 10,
+      "user": "Which is quickest and which has the most fiber?",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Dad's Irish Coffee",
+        "Watermelonberry Juice Pick Me Up",
+        "Jelly Belly Banana Split (--Tasty Dish--)"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Dad's Irish Coffee",
+        "Watermelonberry Juice Pick Me Up",
+        "Jelly Belly Banana Split (--Tasty Dish--)"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 11,
+      "user": "Forget that, a quick gluten-free snack.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese",
+        "Watermelonberry Juice Pick Me Up",
+        "Oaxacan Turkey Burgers With Chipotle Salsa"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Watermelonberry Juice Pick Me Up",
+        "Oaxacan Turkey Burgers With Chipotle Salsa"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    },
+    {
+      "scenario": "long_010",
+      "turn": 12,
+      "user": "Under 200 calories.",
+      "expected_action": "recommend",
+      "action": "recommend",
+      "recommendations": [
+        "Scrumptious Chocolate Peanut Butter Cottage Cheese",
+        "Watermelonberry Juice Pick Me Up",
+        "Aussie Cold & Flu Remedy"
+      ],
+      "all_satisfied": false,
+      "violations": [
+        "Watermelonberry Juice Pick Me Up",
+        "Aussie Cold & Flu Remedy"
+      ],
+      "relaxed": false,
+      "unsupported_claims": [],
+      "n_tool_calls": 1,
+      "review_unsupported": [],
+      "review_corrected": false
+    }
+  ]
+}

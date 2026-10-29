@@ -1,0 +1,469 @@
+{
+  "id": "long_004",
+  "split": "long",
+  "phenomena": [
+    "persistent",
+    "reset",
+    "reset",
+    "include",
+    "numeric"
+  ],
+  "notes": "",
+  "turns": [
+    {
+      "user": "I'm vegan and gluten intolerant.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "vegan"
+            },
+            "persistent": true
+          },
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "diet",
+              "target": "gluten_free"
+            },
+            "persistent": true
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": true
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "A main dish.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "main-dish"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "With rice.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "rice"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "rice",
+          "source_turn": 3,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Under 45 minutes.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 45.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "main-dish",
+          "source_turn": 2,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "rice",
+          "source_turn": 3,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 45.0,
+          "source_turn": 4,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Forget that, a salad.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "salads"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": true
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "salads",
+          "source_turn": 5,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "With tomatoes.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "include",
+              "target": "tomato"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "salads",
+          "source_turn": 5,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "tomato",
+          "source_turn": 6,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Under 20 minutes.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "duration_min",
+              "value": 20.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "salads",
+          "source_turn": 5,
+          "persistent": false
+        },
+        {
+          "kind": "include",
+          "target": "tomato",
+          "source_turn": 6,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "duration_min",
+          "value": 20.0,
+          "source_turn": 7,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Something different: a soup.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "course",
+              "target": "soups-stews"
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": true
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "soups-stews",
+          "source_turn": 8,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "At least 5 g of fiber.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "min",
+              "target": "fiber_g",
+              "value": 5.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "soups-stews",
+          "source_turn": 8,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "fiber_g",
+          "value": 5.0,
+          "source_turn": 9,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    },
+    {
+      "user": "Under 300 calories.",
+      "gold": {
+        "updates": [
+          {
+            "op": "add",
+            "constraint": {
+              "kind": "max",
+              "target": "calories_kcal",
+              "value": 300.0
+            },
+            "persistent": false
+          }
+        ],
+        "objectives": [],
+        "reset": false
+      },
+      "expected_action": "recommend",
+      "active": [
+        {
+          "kind": "diet",
+          "target": "vegan",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "diet",
+          "target": "gluten_free",
+          "source_turn": 1,
+          "persistent": true
+        },
+        {
+          "kind": "course",
+          "target": "soups-stews",
+          "source_turn": 8,
+          "persistent": false
+        },
+        {
+          "kind": "min",
+          "target": "fiber_g",
+          "value": 5.0,
+          "source_turn": 9,
+          "persistent": false
+        },
+        {
+          "kind": "max",
+          "target": "calories_kcal",
+          "value": 300.0,
+          "source_turn": 10,
+          "persistent": false
+        }
+      ],
+      "active_objectives": []
+    }
+  ]
+}

@@ -67,6 +67,19 @@ def run(agent: Agent, scenarios: list[dict], db: RecipeDB) -> tuple[dict, list[d
                 n["silent_relax"] += (not feasible) or (bool(recs) and not all(sat))
             n["claims"] += len(rec["claims"])
             n["unsupported"] += len(unsupported)
+            for r in recs:  # recommendation quality (preference-ranking extension)
+                rr = db.recipes[r["recipe_id"]]
+                n["q_rating"] += rr["average_rating"]
+                n["q_kcal"] += rr["calories_kcal"]
+                n["q_minutes"] += rr["duration_min"]
+                n["q_sane"] += 100 <= rr["calories_kcal"] <= 800
+            if rec.get("review") is not None:  # reviewer extension
+                rv = rec["review"]
+                n["rev_turns"] += 1
+                n["rev_checked"] += rv["n_checked"]
+                n["rev_unsupported"] += len(rv["unsupported"])
+                n["rev_turns_flagged"] += bool(rv["unsupported"]) or rv.get("no_recipe_named", False)
+                n["rev_corrected"] += bool(rv.get("corrected"))
             if agent.mode != "rag":
                 n["state_turns"] += 1
                 gold_obj = {(o["target"], o["direction"]) for o in turn["active_objectives"]}
@@ -82,6 +95,8 @@ def run(agent: Agent, scenarios: list[dict], db: RecipeDB) -> tuple[dict, list[d
                 "violations": [r["title"] for r, ok in zip(recs, sat) if not ok],
                 "relaxed": rec["relaxed"], "unsupported_claims": unsupported,
                 "n_tool_calls": len(rec["tool_calls"]),
+                "review_unsupported": [c["text"] for c in (rec.get("review") or {}).get("unsupported", [])],
+                "review_corrected": bool((rec.get("review") or {}).get("corrected")),
             })
 
     def rate(a, b):
@@ -104,6 +119,21 @@ def run(agent: Agent, scenarios: list[dict], db: RecipeDB) -> tuple[dict, list[d
         "tool_calls_per_turn": round(sum(tool_counts.values()) / n["turns"], 2) if n["turns"] else 0,
         "tool_calls": dict(sorted(tool_counts.items())),
         "llm_usage": agent.extractor.usage_summary() if hasattr(agent.extractor, "usage_summary") else None,
+        "recommendation_quality": {
+            "mean_rating": round(n["q_rating"] / n["recs"], 3) if n["recs"] else None,
+            "mean_calories_kcal": round(n["q_kcal"] / n["recs"], 1) if n["recs"] else None,
+            "mean_duration_min": round(n["q_minutes"] / n["recs"], 1) if n["recs"] else None,
+            "share_100_to_800_kcal": rate("q_sane", "recs"),
+        },
+        "review": None if not n["rev_turns"] else {
+            "explanation": agent.explain, "fallback_on_unsupported": agent.review,
+            "turns_reviewed": n["rev_turns"], "claims_checked": n["rev_checked"],
+            "unsupported_claims": n["rev_unsupported"],
+            "unsupported_claim_rate": rate("rev_unsupported", "rev_checked"),
+            "turns_flagged": n["rev_turns_flagged"], "turns_corrected": n["rev_corrected"],
+            "explainer_usage": agent.llm.usage_summary() if agent.llm is not None
+            and agent.llm is not agent.extractor and hasattr(agent.llm, "usage_summary") else None,
+        },
         "per_turn": per_turn,
     }
     return metrics, records
@@ -121,13 +151,27 @@ def print_summary(m: dict) -> None:
         u = m["llm_usage"]
         print(f"  llm usage: {u['calls']} calls ({u['api_calls']} api, {u['cached_calls']} cached), "
               f"{u['total_tokens']} tokens, {u['tokens_per_call']} per call")
+    q = m.get("recommendation_quality") or {}
+    if q.get("mean_rating") is not None:
+        print(f"  recommendations: mean rating={q['mean_rating']}  mean kcal={q['mean_calories_kcal']}  "
+              f"mean min={q['mean_duration_min']}  share 100-800 kcal={q['share_100_to_800_kcal']}")
+    if m.get("review"):
+        r = m["review"]
+        print(f"  reviewer ({r['explanation']} explanations): {r['claims_checked']} claims checked, "
+              f"{r['unsupported_claims']} unsupported ({r['unsupported_claim_rate']}), "
+              f"{r['turns_flagged']} turns flagged, {r['turns_corrected']} corrected")
 
 
 def build_agent(args, db: RecipeDB) -> Agent:
     from src.evaluate import get_extractor
     extractor = get_extractor(args.extractor, args.provider, args.model, args.effort, args.fresh)
+    llm = None
+    if args.explain == "llm":
+        llm = extractor if hasattr(extractor, "complete") else \
+            get_extractor("llm", args.provider, args.model, args.effort, args.fresh)
     return Agent(db, extractor, mode=args.mode, memory=not args.no_memory,
-                 validate=not args.no_validate, k=args.k)
+                 validate=not args.no_validate, k=args.k, explain=args.explain,
+                 review=args.review, ranking=args.ranking, llm=llm)
 
 
 def main():
@@ -141,6 +185,12 @@ def main():
     ap.add_argument("--model", default=None)
     ap.add_argument("--effort", default="medium")
     ap.add_argument("--k", type=int, default=3)
+    ap.add_argument("--explain", default="template", choices=["template", "llm"],
+                    help="extension: model-written explanations (reviewed against tool output)")
+    ap.add_argument("--review", action="store_true",
+                    help="extension: fall back to the templated answer when the reviewer finds an unsupported claim")
+    ap.add_argument("--ranking", default="popularity", choices=["popularity", "preference"],
+                    help="extension: preference-based ranking inside the feasible set")
     ap.add_argument("--fresh", action="store_true", help="llm only: ignore cached answers")
     ap.add_argument("--scenarios", type=int, default=None, help="use only the first N scenarios")
     ap.add_argument("--errors", action="store_true", help="print turns with a wrong action or violation")
