@@ -227,7 +227,8 @@ class LLMExtractor:
 
     def usage_summary(self) -> dict:
         measured = self.usage["calls"] - self.usage["unmeasured_calls"]
-        return {**self.usage, "provider": self.provider, "model": self.model,
+        label = os.environ.get("LEHMUS_MODEL_LABEL") if self.provider == "lehmus" else None
+        return {**self.usage, "provider": self.provider, "model": label or self.model,
                 "tokens_per_call": round(self.usage["total_tokens"] / measured, 1) if measured else None}
 
     @property

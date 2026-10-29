@@ -3215,7 +3215,7 @@
     "completion_tokens": 84058,
     "total_tokens": 400431,
     "provider": "lehmus",
-    "model": "azsydsttjnlbfjbgqnwd",
+    "model": "gpt-oss-120b",
     "tokens_per_call": 1771.8
   }
 }
