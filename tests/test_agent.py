@@ -3,7 +3,7 @@ import pytest
 
 from src.agent import Agent, verify_claims
 from src.extract_rules import RuleExtractor
-from src.schema import Constraint
+from src.schema import Constraint, ConstraintUpdate, Objective, TurnExtraction
 from src.tools import RecipeDB, satisfies_all
 
 
@@ -63,6 +63,37 @@ def test_tradeoff_presents_one_option_per_objective(db, rules):
     assert len(t["recommendations"]) >= 1
     if len(t["recommendations"]) >= 2:
         assert "quickest option" in t["message"] and "highest protein option" in t["message"]
+    assert verify_claims(db, t["claims"]) == []
+
+
+class FixedExtractor:
+    """Returns pre-set extractions, so policy tests do not depend on parser coverage."""
+    name = "fixed"
+
+    def __init__(self, *extractions):
+        self.extractions = iter(extractions)
+
+    def extract(self, utterance, state=None):
+        return next(self.extractions)
+
+
+def test_tradeoff_states_the_compared_attribute(db):
+    shrimp_dinner = TurnExtraction([ConstraintUpdate("add", Constraint("include", "shrimp")),
+                                    ConstraintUpdate("add", Constraint("course", "main-dish")),
+                                    ConstraintUpdate("add", Constraint("max", "calories_kcal", 500))])
+    fastest_or_leanest = TurnExtraction(objectives=[Objective("duration_min", "min"),
+                                                    Objective("fat_g", "min")])
+    agent = Agent(db, FixedExtractor(shrimp_dinner, fastest_or_leanest))
+    *_, t = dialogue(agent, "Shrimp for dinner, under 500 calories.",
+                     "Which one is the fastest, and which one is lowest in fat?")
+    assert t["action"] == "recommend" and "tradeoff" in t
+    assert len(t["recommendations"]) == 2
+    assert "quickest option" in t["message"] and "lowest fat option" in t["message"]
+    for r in t["recommendations"]:  # every option shows its fat value, backed by a claim
+        fat = db.recipes[r["recipe_id"]]["fat_g"]
+        assert f"{fat:g} g fat" in t["message"]
+        assert {"type": "value", "recipe_id": r["recipe_id"], "field": "fat_g",
+                "value": fat} in t["claims"]
     assert verify_claims(db, t["claims"]) == []
 
 

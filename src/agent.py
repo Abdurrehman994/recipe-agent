@@ -61,11 +61,14 @@ def _field_name(field: str) -> str:
     return "time" if field == "duration_min" else field.rsplit("_", 1)[0].replace("_", " ")
 
 
-def _facts(recipe: dict) -> str:
-    """'25 min, 420 kcal, 31 g protein per serving' from a summary or details dict."""
+def _facts(recipe: dict, extra=()) -> str:
+    """'25 min, 420 kcal, 31 g protein per serving' from a summary or details dict.
+    `extra` adds other attributes, e.g. ("fat_g",) -> '..., 31 g protein, 4.2 g fat per serving'."""
     nutrition = recipe.get("nutrition_per_serving", recipe)
-    return (f"{recipe['duration_min']:g} min, {nutrition['calories_kcal']:g} kcal, "
-            f"{nutrition['protein_g']:g} g protein per serving")
+    parts = [f"{nutrition['calories_kcal']:g} kcal", f"{nutrition['protein_g']:g} g protein"]
+    parts += [f"{_value(recipe, f):g} {NUMERIC_FIELDS[f]} {_field_name(f)}"
+              for f in extra if f not in FACT_FIELDS]
+    return f"{recipe['duration_min']:g} min, " + ", ".join(parts) + " per serving"
 
 
 def _value(recipe: dict, field: str):
@@ -264,6 +267,12 @@ class Agent:
                                       "constraint": ch["constraint"], "satisfied": True})
         if len(objectives) >= 2 and len(recipes) >= 2 and "tradeoff" in log:
             by_id = {r["recipe_id"]: r for r in recipes}
+            # show every compared attribute for every option, so the trade-off is visible
+            compared = tuple(o.target for o in objectives if o.target not in FACT_FIELDS)
+            for r in recipes:
+                for f in compared:
+                    log["claims"].append({"type": "value", "recipe_id": r["recipe_id"],
+                                          "field": f, "value": _value(r, f)})
             parts = []
             for o_dict, rid in log["tradeoff"]:
                 if rid not in by_id:
@@ -272,7 +281,7 @@ class Agent:
                 label = ("quickest" if o_dict["target"] == "duration_min" else
                          f"{'lowest' if o_dict['direction'] == 'min' else 'highest'} "
                          f"{_field_name(o_dict['target'])}")
-                parts.append(f"the {label} option is {r['title']} ({_facts(r)})")
+                parts.append(f"the {label} option is {r['title']} ({_facts(r, compared)})")
             log["message"] = ("These objectives pull in different directions, so here is the "
                               "trade-off: " + "; ".join(parts) + f". Both meet all your "
                               f"requirements ({met}).")
