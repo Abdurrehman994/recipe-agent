@@ -1,0 +1,5 @@
+set,scenarios,user_turns,turns_per_scenario,recommend,clarify,report_infeasible,competing_objectives,resets,persistent_updates,removals
+Dev,30,108,3-4,97,4,7,3,5,11,9
+Held-out,70,267,3-5,236,12,19,11,11,24,21
+Held-out 2,60,226,3-5,200,8,18,9,9,22,20
+Long,10,101,9-12,97,2,2,4,8,8,7

@@ -1,0 +1,6 @@
+system,test_rules_satisfaction,test_rules_relaxations,test_llm_satisfaction,test_llm_relaxations,test2_rules_satisfaction,test2_rules_relaxations,test2_llm_satisfaction,test2_llm_relaxations
+RAG baseline,0.2484,237,0.2484,237,0.3038,196,0.3038,196
+RAG + memory,0.8335,50,0.9111,24,0.8295,44,0.893,24
+Full agent,0.8934,29,0.9898,3,0.9199,21,0.9875,3
+"Agent, no memory",0.4055,141,0.4344,137,0.3863,125,0.4025,125
+"Agent, no validation",0.2588,224,0.2571,227,0.2722,194,0.2831,193

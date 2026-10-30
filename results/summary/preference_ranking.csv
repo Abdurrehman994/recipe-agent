@@ -1,0 +1,5 @@
+extractor,ranking,satisfaction,relaxations,mean_rating,mean_kcal,mean_minutes,share_100_800_kcal
+Rules,popularity,0.8934,29,4.73,395,47.6,0.8
+Rules,preference,0.8964,29,4.73,401,34.2,0.95
+LLM,popularity,0.9898,3,4.72,390,49.8,0.81
+LLM,preference,0.9869,3,4.73,402,36.7,0.95

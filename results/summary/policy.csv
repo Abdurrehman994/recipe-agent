@@ -1,0 +1,5 @@
+set,extractor,action_acc,clarify_recall,infeasible_recall,relaxations_state_wrong,relaxations_state_correct,wrong_actions_state_wrong,wrong_actions_state_correct
+Held-out,Rules,0.9513,0.75,0.8947,29,0,11,2
+Held-out,LLM,0.9738,0.75,0.9474,3,0,5,2
+Held-out 2,Rules,0.9425,0.875,0.8889,21,0,12,1
+Held-out 2,LLM,0.9735,0.875,0.9444,3,0,5,1
