@@ -1,0 +1,7 @@
+tool,calls
+diagnose_constraints,21
+get_recipe_details,687
+search_recipes,288
+validate_constraints,687
+calls per turn,6.3
+candidates rejected by validation,0
