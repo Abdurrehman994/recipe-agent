@@ -1,4 +1,4 @@
-# Longer-conversation extension: 10 scripted dialogues of 8-12 turns. Convert with:
+# Longer-conversation extension: 10 scripted dialogues of 9-12 turns. Convert with:
 #   python -m src.author scenarios/drafts/long.txt
 # Same annotation rules as scenarios/README.md. Used only for evaluation (not for tuning).
 
